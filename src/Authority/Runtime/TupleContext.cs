@@ -12,18 +12,17 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Runtime
 {
+    /// <summary>
+    /// A tuple that has survived a beta node
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface TupleContext<out T> :
         SessionContext
         where T : class
     {
         /// <summary>
-        /// The fact contained in the context
+        /// The full tuple contained in the context
         /// </summary>
         ITuple<T> Tuple { get; }
-
-        /// <summary>
-        /// The fact for this tuple at the head
-        /// </summary>
-        T Fact { get; }
     }
 }

@@ -24,7 +24,7 @@ namespace Authority.Runtime
     public interface IFactSource<out T>
         where T : class
     {
-        Task ForEachAsync(SessionContext context, Func<FactContext<T>, Task> callback);
+        Task All(SessionContext context, Func<FactContext<T>, Task> callback);
 
         /// <summary>
         /// Connect a sink to the fact source, so that subsequent activations automatically pass

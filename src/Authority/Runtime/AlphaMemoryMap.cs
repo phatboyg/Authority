@@ -22,15 +22,14 @@ namespace Authority.Runtime
     public class AlphaMemoryMap : 
         IAlphaMemoryMap
     {
-        readonly ConcurrentDictionary<IAlphaNode, IAlphaMemory> _memories;
+        readonly ConcurrentDictionary<IAlphaMemoryNode, IAlphaMemory> _memories;
 
         public AlphaMemoryMap()
         {
-            _memories = new ConcurrentDictionary<IAlphaNode, IAlphaMemory>();
+            _memories = new ConcurrentDictionary<IAlphaMemoryNode, IAlphaMemory>();
         }
 
-        public Task Access<T>(IAlphaNode<T> node, NodeMemoryAccessor<IAlphaMemory<T>> accessor)
-            where T : class
+        Task IAlphaMemoryMap.Access<T>(IAlphaMemoryNode<T> node, NodeMemoryAccessor<IAlphaMemory<T>> accessor)
         {
             var memory = _memories.GetOrAdd(node, add => new AlphaMemory<T>());
 

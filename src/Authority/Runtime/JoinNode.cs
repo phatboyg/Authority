@@ -12,25 +12,14 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Runtime
 {
-    using System;
-
-
     public class JoinNode<TLeft, TRight> :
         BetaNode<TLeft, TRight>
         where TLeft : class
         where TRight : class
     {
-        readonly Func<TLeft, TRight, bool> _comparator;
-
-        public JoinNode(ITupleSource<TLeft> leftSource, IFactSource<TRight> rightSource, Func<TLeft, TRight, bool> comparator)
-            : base(leftSource, rightSource)
+        public JoinNode(ITupleSource<TLeft> leftSource, IFactSource<TRight> rightSource, IBetaCondition<TLeft, TRight> condition)
+            : base(leftSource, rightSource, condition)
         {
-            _comparator = comparator;
-        }
-
-        protected override bool Evaluate(SessionContext context, ITuple<TLeft> left, TRight right)
-        {
-            return _comparator(left.Right, right);
         }
     }
 }

@@ -15,9 +15,18 @@ namespace Authority.Runtime
     using System.Threading.Tasks;
 
 
+    /// <summary>
+    /// A place where tuples can be propogated forward
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface ITupleSink<in T>
         where T : class
     {
+        /// <summary>
+        /// Insert a tuple into the sink
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         Task Insert(TupleContext<T> context);
     }
 }

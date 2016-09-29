@@ -81,7 +81,7 @@ namespace Authority.Tests
 
             var session = await authority.CreateSession();
 
-            await session.Add(new Name("David", "Roth"));
+            await session.Insert(new Name("David", "Roth"));
         }
     }
 }

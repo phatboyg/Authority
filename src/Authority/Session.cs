@@ -41,7 +41,7 @@ namespace Authority
 
         public TimeSpan ElapsedTime => _stopwatch.Elapsed;
 
-        async Task<FactHandle<T>> ISession.Add<T>(T fact)
+        async Task<FactHandle<T>> ISession.Insert<T>(T fact)
         {
             FactHandle<T> factHandle = _factIndex.Add(fact);
 
@@ -52,7 +52,7 @@ namespace Authority
             return factHandle;
         }
 
-        Task<FactHandle> ISession.Add(object fact)
+        Task<FactHandle> ISession.Insert(object fact)
         {
             throw new NotImplementedException();
         }

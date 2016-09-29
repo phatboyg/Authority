@@ -21,16 +21,20 @@ namespace Authority.Tests.RuntimeTests
     {
         readonly SessionContext _context;
 
-        public TestTupleContext(SessionContext context, ITuple<T> tuple, T fact)
+        public TestTupleContext(SessionContext context, ITuple<T> tuple)
         {
             _context = context;
             Tuple = tuple;
-            Fact = fact;
+        }
+
+        public TestTupleContext(SessionContext context, T fact)
+        {
+            _context = context;
+            Tuple = new Tuple<T>(fact);
         }
 
         public IWorkingMemory WorkingMemory => _context.WorkingMemory;
 
         public ITuple<T> Tuple { get; }
-        public T Fact { get; }
     }
 }

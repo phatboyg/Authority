@@ -32,7 +32,7 @@ namespace Authority
         /// <typeparam name="T">The type of the fact</typeparam>
         /// <param name="fact">The fact</param>
         /// <returns>A fact handle, which can be used to remove the fact from the session</returns>
-        Task<FactHandle<T>> Add<T>(T fact)
+        Task<FactHandle<T>> Insert<T>(T fact)
             where T : class;
 
         /// <summary>
@@ -40,6 +40,6 @@ namespace Authority
         /// </summary>
         /// <param name="fact">The fact</param>
         /// <returns>A fact handle, which can be used to remove the fact from the session</returns>
-        Task<FactHandle> Add(object fact);
+        Task<FactHandle> Insert(object fact);
     }
 }

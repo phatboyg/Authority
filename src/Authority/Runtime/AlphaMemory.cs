@@ -13,6 +13,7 @@
 namespace Authority.Runtime
 {
     using System;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Util;
@@ -48,19 +49,24 @@ namespace Authority.Runtime
             return Task.Factory.StartNew(() => memoryAccess(this), CancellationToken.None, TaskCreationOptions.None, _scheduler);
         }
 
-        public void Add(TFact fact)
+        void IAlphaMemory<TFact>.Add(TFact fact)
         {
             _facts.Add(fact);
         }
 
-        public bool Contains(TFact fact)
+        bool IAlphaMemory<TFact>.Contains(TFact fact)
         {
             return _facts.Contains(fact);
         }
 
-        public void Remove(TFact fact)
+        void IAlphaMemory<TFact>.Remove(TFact fact)
         {
             _facts.Remove(fact);
+        }
+
+        Task IAlphaMemory<TFact>.ForEach(SessionContext context, Func<FactContext<TFact>, Task> callback)
+        {
+            return Task.WhenAll(_facts.Select(x => callback(new SessionFactContext<TFact>(context, x))));
         }
     }
 }

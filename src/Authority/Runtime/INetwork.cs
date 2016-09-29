@@ -13,7 +13,7 @@
 namespace Authority.Runtime
 {
     public interface INetwork :
-        IActivation,
+        IFactSink,
         IObserverConnector
     {
     }

@@ -34,7 +34,7 @@ namespace Authority.Runtime
             return _observers.Connect(observer);
         }
 
-        async Task IActivation.Insert<T>(FactContext<T> factContext)
+        async Task IFactSink.Insert<T>(FactContext<T> factContext)
         {
             var typeContext = factContext as FactContext<TFact>;
             if (typeContext == null)

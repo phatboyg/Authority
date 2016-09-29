@@ -24,7 +24,7 @@ namespace Authority.Runtime
     public interface ITupleSource<out T>
         where T : class
     {
-        Task ForEach(SessionContext context, Func<TupleContext<T>, Task> callback);
+        Task All(SessionContext context, Func<TupleContext<T>, Task> callback);
 
         /// <summary>
         /// Connect a sink to the fact source, so that subsequent activations automatically pass

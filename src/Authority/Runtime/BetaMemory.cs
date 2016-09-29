@@ -21,8 +21,8 @@ namespace Authority.Runtime
 
 
     public class BetaMemory<TRight> :
-        IBetaMemory,
-        IBetaMemory<TRight>
+        IBetaMemory<TRight>,
+        IBetaMemory
         where TRight : class
     {
         static readonly TRight NullFact = null;
@@ -37,21 +37,30 @@ namespace Authority.Runtime
             _scheduler = new LimitedConcurrencyLevelTaskScheduler(1);
         }
 
-        public void Add(ITuple<TRight> tuple)
+        Task INodeMemory.Access<T>(NodeMemoryAccessor<T> accessor)
+        {
+            var memoryAccess = accessor as NodeMemoryAccessor<IBetaMemory<TRight>>;
+            if (memoryAccess == null)
+                throw new ArgumentException($"The memory type is invalid: {typeof(IBetaMemory<TRight>)}", nameof(memoryAccess));
+
+            return Task.Factory.StartNew(() => memoryAccess(this), CancellationToken.None, TaskCreationOptions.None, _scheduler);
+        }
+
+        void IBetaMemory<TRight>.Add(ITuple<TRight> tuple)
         {
             _tuples.Add(tuple);
 
             AddMapping(tuple);
         }
 
-        public void Remove(ITuple<TRight> tuple)
+        void IBetaMemory<TRight>.Remove(ITuple<TRight> tuple)
         {
             _tuples.Remove(tuple);
 
             RemoveMapping(tuple);
         }
 
-        public bool TryGetTuple(ITuple<TRight> leftTuple, TRight rightFact, out ITuple tuple)
+        bool IBetaMemory<TRight>.TryGetTuple(ITuple<TRight> leftTuple, TRight rightFact, out ITuple tuple)
         {
             Dictionary<TRight, ITuple> subMap;
             if (_parentToChildMap.TryGetValue(leftTuple, out subMap))
@@ -67,25 +76,16 @@ namespace Authority.Runtime
             return false;
         }
 
-        public Task ForEach<T>(SessionContext context, Func<TupleContext<T>, Task> callback)
-            where T : class
+        Task IBetaMemory<TRight>.ForEach<T>(SessionContext context, Func<TupleContext<T>, Task> callback)
         {
             return Task.WhenAll(_tuples.Select(x => x.ForEach(context, callback)));
-        }
-
-        Task INodeMemory.Access<T>(NodeMemoryAccessor<T> accessor)
-        {
-            var memoryAccess = accessor as NodeMemoryAccessor<IBetaMemory<TRight>>;
-            if (memoryAccess == null)
-                throw new ArgumentException($"The memory type is invalid: {typeof(IBetaMemory<TRight>)}", nameof(memoryAccess));
-
-            return Task.Factory.StartNew(() => memoryAccess(this), CancellationToken.None, TaskCreationOptions.None, _scheduler);
         }
 
         void AddMapping(ITuple<TRight> tuple)
         {
             if (tuple.Left == null)
                 return;
+
             Dictionary<TRight, ITuple> subMap;
             if (!_parentToChildMap.TryGetValue(tuple.Left, out subMap))
             {
@@ -99,6 +99,7 @@ namespace Authority.Runtime
         {
             if (tuple.Left == null)
                 return;
+
             Dictionary<TRight, ITuple> subMap;
             if (_parentToChildMap.TryGetValue(tuple.Left, out subMap))
             {

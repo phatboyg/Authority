@@ -15,9 +15,25 @@ namespace Authority.Runtime
     using System.Threading.Tasks;
 
 
+    public interface IFactSink
+    {
+        Task Insert<T>(FactContext<T> context)
+            where T : class;
+    }
+
+
+    /// <summary>
+    /// A target for facts that are being propogated forward
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IFactSink<in T>
         where T : class
     {
+        /// <summary>
+        /// Insert a fact into the sink
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         Task Insert(FactContext<T> context);
     }
 }

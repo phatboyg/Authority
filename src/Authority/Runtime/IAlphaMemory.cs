@@ -12,13 +12,17 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Runtime
 {
+    using System;
+    using System.Threading.Tasks;
+
+
     public interface IAlphaMemory :
         INodeMemory
     {
     }
 
 
-    public interface IAlphaMemory<in T>
+    public interface IAlphaMemory<T>
         where T : class
     {
         void Add(T fact);
@@ -26,5 +30,7 @@ namespace Authority.Runtime
         bool Contains(T fact);
 
         void Remove(T fact);
+
+        Task ForEach(SessionContext context, Func<FactContext<T>, Task> callback);
     }
 }

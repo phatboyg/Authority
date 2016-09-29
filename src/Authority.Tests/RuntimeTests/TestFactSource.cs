@@ -38,7 +38,7 @@ namespace Authority.Tests.RuntimeTests
             return _sinks.Connect(sink);
         }
 
-        public Task ForEachAsync(SessionContext context, Func<FactContext<T>, Task> callback)
+        public Task All(SessionContext context, Func<FactContext<T>, Task> callback)
         {
             return Task.WhenAll(_facts.Select(x => callback(new TestFactContext(context, x))));
         }

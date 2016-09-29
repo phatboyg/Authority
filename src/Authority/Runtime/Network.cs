@@ -33,12 +33,12 @@ namespace Authority.Runtime
             _observers = new FactObservable();
         }
 
-        Task IActivation.Insert<T>(FactContext<T> context)
+        Task IFactSink.Insert<T>(FactContext<T> context)
         {
             if (!_typeNodes.ContainsKey(typeof(T)))
                 GetTypeNode<T>();
 
-            return Task.WhenAll(_typeNodes.Values.Select(x => x.Activation.Insert(context)));
+            return Task.WhenAll(_typeNodes.Values.Select(x => x.FactSink.Insert(context)));
         }
 
         ConnectHandle Authority_IObserverConnector.ConnectObserver<T>(IFactObserver<T> observer)
@@ -51,7 +51,7 @@ namespace Authority.Runtime
             return _observers.Connect(observer);
         }
 
-        protected TResult GetTypeNode<T, TResult>()
+        public TResult GetTypeNode<T, TResult>()
             where T : class
             where TResult : class
         {
@@ -68,7 +68,7 @@ namespace Authority.Runtime
         protected interface ITypeActivation :
             Authority_IObserverConnector
         {
-            IActivation Activation { get; }
+            IFactSink FactSink { get; }
 
             TResult As<TResult>()
                 where TResult : class;
@@ -88,7 +88,7 @@ namespace Authority.Runtime
                 _filter = new Lazy<ITypeNode<TFact>>(CreateTypeNode);
             }
 
-            public IActivation Activation => _filter.Value;
+            public IFactSink FactSink => _filter.Value;
 
             TResult ITypeActivation.As<TResult>()
             {

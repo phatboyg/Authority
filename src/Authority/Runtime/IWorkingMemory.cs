@@ -17,7 +17,7 @@ namespace Authority.Runtime
 
     public interface IWorkingMemory
     {
-        Task Access<T>(IAlphaNode<T> node, NodeMemoryAccessor<IAlphaMemory<T>> accessor)
+        Task Access<T>(IAlphaMemoryNode<T> node, NodeMemoryAccessor<IAlphaMemory<T>> accessor)
             where T : class;
 
         Task Access<TRight>(IBetaMemoryNode<TRight> node, NodeMemoryAccessor<IBetaMemory<TRight>> accessor)

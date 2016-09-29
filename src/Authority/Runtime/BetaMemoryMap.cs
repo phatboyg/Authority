@@ -29,8 +29,7 @@ namespace Authority.Runtime
             _memories = new ConcurrentDictionary<IBetaMemoryNode, IBetaMemory>();
         }
 
-        public Task Access<T>(IBetaMemoryNode<T> node, NodeMemoryAccessor<IBetaMemory<T>> accessor)
-            where T : class
+        Task IBetaMemoryMap.Access<T>(IBetaMemoryNode<T> node, NodeMemoryAccessor<IBetaMemory<T>> accessor)
         {
             var memory = _memories.GetOrAdd(node, add => new BetaMemory<T>());
 

@@ -13,7 +13,7 @@
 namespace Authority.Runtime
 {
     public interface ITypeNode<out TFact> :
-        IActivation,
+        IFactSink,
         IObserverConnector<TFact>
         where TFact : class
     {

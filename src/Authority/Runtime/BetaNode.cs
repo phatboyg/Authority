@@ -15,7 +15,6 @@ namespace Authority.Runtime
     using System;
     using System.Threading.Tasks;
     using GreenPipes;
-    using GreenPipes.Util;
 
 
     public class BetaNode<TLeft, TRight> :
@@ -23,6 +22,7 @@ namespace Authority.Runtime
         where TRight : class
         where TLeft : class
     {
+        readonly IBetaCondition<TLeft, TRight> _condition;
         readonly ITupleSource<TLeft> _leftSource;
         readonly Lazy<IBetaMemoryNode<TRight>> _memoryNode;
         readonly IFactSource<TRight> _rightSource;
@@ -30,10 +30,11 @@ namespace Authority.Runtime
         ConnectHandle _leftHandle;
         ConnectHandle _rightHandle;
 
-        public BetaNode(ITupleSource<TLeft> leftSource, IFactSource<TRight> rightSource)
+        public BetaNode(ITupleSource<TLeft> leftSource, IFactSource<TRight> rightSource, IBetaCondition<TLeft, TRight> condition)
         {
             _leftSource = leftSource;
             _rightSource = rightSource;
+            _condition = condition;
 
             _memoryNode = new Lazy<IBetaMemoryNode<TRight>>(() => new BetaMemoryNode<TRight>());
 
@@ -45,21 +46,27 @@ namespace Authority.Runtime
 
         public virtual Task Insert(FactContext<TRight> context)
         {
-            return _leftSource.ForEach(context, x => Evaluate(context, x.Tuple, context.Fact)
-                ? MemoryNode.Insert(context, x.Tuple, context.Fact)
-                : TaskUtil.Completed);
+            return _leftSource.All(context, async tupleContext =>
+            {
+                var match = await Evaluate(context, tupleContext.Tuple, context.Fact).ConfigureAwait(false);
+                if (match)
+                    await MemoryNode.Insert(context, tupleContext.Tuple, context.Fact).ConfigureAwait(false);
+            });
         }
 
-        Task ITupleSink<TLeft>.Insert(TupleContext<TLeft> context)
+        public virtual Task Insert(TupleContext<TLeft> context)
         {
-            return _rightSource.ForEachAsync(context, x => Evaluate(context, context.Tuple, x.Fact)
-                ? MemoryNode.Insert(context, context.Tuple, x.Fact)
-                : TaskUtil.Completed);
+            return _rightSource.All(context, async factContext =>
+            {
+                var match = await Evaluate(context, context.Tuple, factContext.Fact).ConfigureAwait(false);
+                if (match)
+                    await MemoryNode.Insert(context, context.Tuple, factContext.Fact).ConfigureAwait(false);
+            });
         }
 
-        public Task ForEach(SessionContext context, Func<TupleContext<TRight>, Task> callback)
+        public virtual Task All(SessionContext context, Func<TupleContext<TRight>, Task> callback)
         {
-            return MemoryNode.ForEach(context, callback);
+            return MemoryNode.All(context, callback);
         }
 
         public ConnectHandle Connect(ITupleSink<TRight> sink)
@@ -67,19 +74,30 @@ namespace Authority.Runtime
             return MemoryNode.Connect(sink);
         }
 
-//        protected IEnumerable<Fact> MatchingFacts(IExecutionContext context, Tuple tuple)
-//        {
-//            return RightSource.GetFacts(context).Where(fact => MatchesConditions(context, tuple, fact));
-//        }
-//
-//        protected IEnumerable<Tuple> MatchingTuples(IExecutionContext context, Fact<> fact)
-//        {
-//            return LeftSource.GetTuples(context).Where(tuple => MatchesConditions(context, tuple, fact));
-//        }
-
-        protected virtual bool Evaluate(SessionContext context, ITuple<TLeft> left, TRight right)
+        protected Task Matching(TupleContext<TLeft> context, Func<FactContext<TRight>, Task> callback)
         {
-            return true; //Conditions.All(joinCondition => joinCondition.IsSatisfiedBy(context, left, right));
+            return _rightSource.All(context, async factContext =>
+            {
+                var match = await Evaluate(context, context.Tuple, factContext.Fact).ConfigureAwait(false);
+                if (match)
+                    await callback(new SessionFactContext<TRight>(context, factContext.Fact)).ConfigureAwait(false);
+            });
+        }
+
+        protected Task Matching(FactContext<TRight> context, Func<TupleContext<TLeft>, Task> callback)
+        {
+            return _leftSource.All(context, async tupleContext =>
+            {
+                var match = await Evaluate(context, tupleContext.Tuple, context.Fact).ConfigureAwait(false);
+                if (match)
+                    await callback(new SessionTupleContext<TLeft>(context, tupleContext.Tuple)).ConfigureAwait(false);
+            });
+        }
+
+        protected virtual Task<bool> Evaluate(SessionContext context, ITuple<TLeft> left, TRight right)
+        {
+            return _condition.Evaluate(context, left, right);
+//            return true; //Conditions.All(joinCondition => joinCondition.IsSatisfiedBy(context, left, right));
         }
     }
 }

@@ -48,12 +48,11 @@ namespace Authority.Tests.RuntimeTests
             var testSink = new TestTupleSink<Address>();
 
             IBetaNode<Member, Address> betaNode = new JoinNode<Member, Address>(leftSource, rightSource,
-                (member, address) => member.MemberId == address.MemberId);
+                new BetaCondition<Member, Address>((m, a) => m.Right.MemberId == a.MemberId));
             betaNode.Connect(testSink);
 
             var sessionContext = new TestSession();
-            var tuple = new Tuple<Member>(new Member() { MemberId = 27, Name = "Frank" });
-            var tupleContext = new TestTupleContext<Member>(sessionContext, tuple, tuple.Right);
+            var tupleContext = new TestTupleContext<Member>(sessionContext, new Member {MemberId = 27, Name = "Frank"});
 
             await betaNode.Insert(tupleContext);
 
@@ -69,7 +68,8 @@ namespace Authority.Tests.RuntimeTests
 
             var testSink = new TestTupleSink<Address>();
 
-            IBetaNode<Member, Address> betaNode = new BetaNode<Member, Address>(leftSource, rightSource);
+            IBetaNode<Member, Address> betaNode = new JoinNode<Member, Address>(leftSource, rightSource,
+                new BetaCondition<Member, Address>((m, a) => true));
             betaNode.Connect(testSink);
 
             var sessionContext = new TestSession();
@@ -89,7 +89,8 @@ namespace Authority.Tests.RuntimeTests
 
             var testSink = new TestTupleSink<Address>();
 
-            IBetaNode<Member, Address> betaNode = new BetaNode<Member, Address>(leftSource, rightSource);
+            IBetaNode<Member, Address> betaNode = new JoinNode<Member, Address>(leftSource, rightSource,
+                new BetaCondition<Member, Address>((m, a) => true));
             betaNode.Connect(testSink);
 
             var sessionContext = new TestSession();
@@ -114,7 +115,7 @@ namespace Authority.Tests.RuntimeTests
             var testSink = new TestTupleSink<Address>();
 
             IBetaNode<Member, Address> betaNode = new JoinNode<Member, Address>(leftSource, rightSource,
-                (member, address) => member.MemberId == address.MemberId);
+                new BetaCondition<Member, Address>((m, a) => m.Right.MemberId == a.MemberId));
             betaNode.Connect(testSink);
 
             var sessionContext = new TestSession();
@@ -135,7 +136,7 @@ namespace Authority.Tests.RuntimeTests
             var testSink = new TestTupleSink<Address>();
 
             IBetaNode<Member, Address> betaNode = new JoinNode<Member, Address>(leftSource, rightSource,
-                (member, address) => member.MemberId == address.MemberId);
+                new BetaCondition<Member, Address>((m, a) => m.Right.MemberId == a.MemberId));
             betaNode.Connect(testSink);
 
             var sessionContext = new TestSession();
@@ -156,7 +157,7 @@ namespace Authority.Tests.RuntimeTests
             var testSink = new TestTupleSink<Address>();
 
             IBetaNode<Member, Address> betaNode = new JoinNode<Member, Address>(leftSource, rightSource,
-                (member, address) => member.MemberId == address.MemberId);
+                new BetaCondition<Member, Address>((m, a) => m.Right.MemberId == a.MemberId));
             betaNode.Connect(testSink);
 
             var sessionContext = new TestSession();

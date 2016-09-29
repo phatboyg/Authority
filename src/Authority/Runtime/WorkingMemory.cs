@@ -27,7 +27,7 @@ namespace Authority.Runtime
             _betaMemories = new BetaMemoryMap();
         }
 
-        Task IWorkingMemory.Access<T>(IAlphaNode<T> node, NodeMemoryAccessor<IAlphaMemory<T>> accessor)
+        Task IWorkingMemory.Access<T>(IAlphaMemoryNode<T> node, NodeMemoryAccessor<IAlphaMemory<T>> accessor)
         {
             return _alphaMemories.Access(node, accessor);
         }

@@ -18,9 +18,10 @@ namespace Authority.Runtime
     }
 
 
-    public interface IAlphaNode<in T> :
+    public interface IAlphaNode<T> :
         IAlphaNode,
-        IActivation<T>
+        IFactSink<T>,
+        IFactSource<T>
         where T : class
     {
     }

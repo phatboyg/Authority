@@ -12,9 +12,9 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Runtime
 {
-    using System.Linq;
+    using System;
     using System.Threading.Tasks;
-    using GreenPipes.Util;
+    using GreenPipes;
     using Util;
 
 
@@ -22,27 +22,36 @@ namespace Authority.Runtime
         IAlphaNode<TFact>
         where TFact : class
     {
-        readonly OrderedHashSet<IActivation<TFact>> _activations;
+        readonly ConnectableList<IAlphaNode<TFact>> _childNodes;
+        readonly Lazy<AlphaMemoryNode<TFact>> _memoryNode;
 
         public AlphaNode()
         {
-            _activations = new OrderedHashSet<IActivation<TFact>>();
+            _memoryNode = new Lazy<AlphaMemoryNode<TFact>>(() => new AlphaMemoryNode<TFact>());
+            _childNodes = new ConnectableList<IAlphaNode<TFact>>();
         }
 
-        public virtual Task Insert(FactContext<TFact> context)
+        public virtual async Task Insert(FactContext<TFact> context)
         {
-            if (Matches(context))
-                return context.WorkingMemory.Access(this, memory =>
-                {
-                    memory.Add(context.Fact);
+            if (Evaluate(context))
+            {
+                await _childNodes.All(node => node.Insert(context)).ConfigureAwait(false);
 
-                    return Task.WhenAll(_activations.Select(x => x.Insert(context)));
-                });
-
-            return TaskUtil.Completed;
+                await _memoryNode.Value.Insert(context).ConfigureAwait(false);
+            }
         }
 
-        protected virtual bool Matches(FactContext<TFact> context)
+        public Task All(SessionContext context, Func<FactContext<TFact>, Task> callback)
+        {
+            return _memoryNode.Value.All(context, callback);
+        }
+
+        public ConnectHandle Connect(IFactSink<TFact> sink)
+        {
+            return _memoryNode.Value.Connect(sink);
+        }
+
+        protected virtual bool Evaluate(FactContext<TFact> context)
         {
             return true;
         }

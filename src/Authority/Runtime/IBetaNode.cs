@@ -12,6 +12,12 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Runtime
 {
+    public interface IBetaNode :
+        INode
+    {
+    }
+
+
     public interface IBetaNode<in TLeft, TRight> :
         IFactSink<TRight>,
         ITupleSink<TLeft>,
@@ -19,12 +25,6 @@ namespace Authority.Runtime
         IBetaNode
         where TRight : class
         where TLeft : class
-    {
-    }
-
-
-    public interface IBetaNode :
-        INode
     {
     }
 }

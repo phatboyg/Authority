@@ -38,7 +38,6 @@ namespace Authority.Runtime
                 _count++;
         }
 
-
         public Tuple(TRight right)
         {
             _right = right;
@@ -56,7 +55,7 @@ namespace Authority.Runtime
         {
             var self = this as Tuple<T>;
             if (self != null)
-                await callback(new TupleFactContext<T>(context, self, self._right)).ConfigureAwait(false);
+                await callback(new TupleFactContext<T>(context, self)).ConfigureAwait(false);
 
             await _left.ForEach(context, callback).ConfigureAwait(false);
         }
@@ -72,17 +71,15 @@ namespace Authority.Runtime
         {
             readonly SessionContext _context;
 
-            public TupleFactContext(SessionContext context, ITuple<T> tuple, T fact)
+            public TupleFactContext(SessionContext context, ITuple<T> tuple)
             {
                 _context = context;
                 Tuple = tuple;
-                Fact = fact;
             }
 
             public IWorkingMemory WorkingMemory => _context.WorkingMemory;
 
             public ITuple<T> Tuple { get; }
-            public T Fact { get; }
         }
     }
 }

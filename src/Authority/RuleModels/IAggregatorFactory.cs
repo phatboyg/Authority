@@ -10,21 +10,17 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace Authority.Runtime
+namespace Authority.RuleModels
 {
-    using System.Threading.Tasks;
-
-
-    public interface IActivation
+    /// <summary>
+    /// Base interface for aggregator factories.
+    /// </summary>
+    public interface IAggregatorFactory
     {
-        Task Insert<T>(FactContext<T> context)
-            where T : class;
-    }
-
-
-    public interface IActivation<in T>
-        where T : class
-    {
-        Task Insert(FactContext<T> context);
+        /// <summary>
+        /// Creates a new aggregator instance.
+        /// </summary>
+        /// <returns>Aggregator instance.</returns>
+        IAggregator Create();
     }
 }

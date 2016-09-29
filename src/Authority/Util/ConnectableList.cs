@@ -70,7 +70,7 @@ namespace Authority.Util
         /// </summary>
         /// <param name="callback">The callback</param>
         /// <returns>An awaitable Task for the operation</returns>
-        public Task ForEachAsync(Func<T, Task> callback)
+        public Task All(Func<T, Task> callback)
         {
             if (callback == null)
                 throw new ArgumentNullException(nameof(callback));

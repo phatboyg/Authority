@@ -33,7 +33,7 @@ namespace Authority.Runtime
             _sinks = new ConnectableList<ITupleSink<TRight>>();
         }
 
-        public Task ForEach(SessionContext context, Func<TupleContext<TRight>, Task> callback)
+        public Task All(SessionContext context, Func<TupleContext<TRight>, Task> callback)
         {
             return context.WorkingMemory.Access(this, x => x.ForEach(context, callback));
         }
@@ -51,30 +51,10 @@ namespace Authority.Runtime
 
                 x.Add(childTuple);
 
-                TupleContext<TRight> tupleContext = new TupleFactContext<TRight>(context, childTuple, childTuple.Right);
+                TupleContext<TRight> tupleContext = new SessionTupleContext<TRight>(context, childTuple);
 
-                return _sinks.ForEachAsync(sink => sink.Insert(tupleContext));
+                return _sinks.All(sink => sink.Insert(tupleContext));
             });
-        }
-
-
-        class TupleFactContext<T> :
-            TupleContext<T>
-            where T : class
-        {
-            readonly SessionContext _context;
-
-            public TupleFactContext(SessionContext context, ITuple<T> tuple, T fact)
-            {
-                _context = context;
-                Tuple = tuple;
-                Fact = fact;
-            }
-
-            public IWorkingMemory WorkingMemory => _context.WorkingMemory;
-
-            public ITuple<T> Tuple { get; }
-            public T Fact { get; }
         }
     }
 }

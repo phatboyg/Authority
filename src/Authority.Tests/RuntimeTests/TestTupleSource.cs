@@ -38,9 +38,9 @@ namespace Authority.Tests.RuntimeTests
             return _sinks.Connect(sink);
         }
 
-        public Task ForEach(SessionContext context, Func<TupleContext<T>, Task> callback)
+        public Task All(SessionContext context, Func<TupleContext<T>, Task> callback)
         {
-            return Task.WhenAll(_tuples.Select(x => callback(new TestTupleContext<T>(context, x, x.Right))));
+            return Task.WhenAll(_tuples.Select(x => callback(new TestTupleContext<T>(context, x))));
         }
     }
 }

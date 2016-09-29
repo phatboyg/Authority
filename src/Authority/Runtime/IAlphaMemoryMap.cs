@@ -17,7 +17,7 @@ namespace Authority.Runtime
 
     public interface IAlphaMemoryMap
     {
-        Task Access<T>(IAlphaNode<T> node, NodeMemoryAccessor<IAlphaMemory<T>> accessor)
+        Task Access<T>(IAlphaMemoryNode<T> node, NodeMemoryAccessor<IAlphaMemory<T>> accessor)
             where T : class;
     }
 }
