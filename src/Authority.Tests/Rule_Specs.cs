@@ -79,6 +79,8 @@ namespace Authority.Tests
 
             Authority.Factory.CreateAuthority(cfg =>
             {
+                cfg.SetLoggerFactory(ContextSetup.LoggerFactory);
+
                 cfg.AddRule(rule);
             });
         }

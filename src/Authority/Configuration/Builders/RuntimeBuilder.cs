@@ -16,6 +16,8 @@ namespace Authority.Builders
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using GreenPipes.Internals.Extensions;
+    using Microsoft.Extensions.Logging;
     using RuleModels;
     using Rules;
     using Runtime;
@@ -25,10 +27,12 @@ namespace Authority.Builders
         IRuntimeBuilder
     {
         readonly Network _network;
+        readonly ILogger<RuntimeBuilder> _logger;
 
-        public RuntimeBuilder()
+        public RuntimeBuilder(ILoggerFactory loggerFactory)
         {
-            _network = new Network();
+            _logger = loggerFactory.CreateLogger<RuntimeBuilder>();
+            _network = new Network(loggerFactory);
         }
 
 //        public IEnumerable<ITerminalNode> AddRule(IRuleDefinition ruleDefinition)
@@ -298,31 +302,41 @@ namespace Authority.Builders
         public ITypeNode<T> BuildTypeNode<T>(BuilderContext context)
             where T : class
         {
-            var typeNode = _network.GetTypeNode<T, TypeNode<T>>();
+            using (_logger.BeginScope($"{nameof(BuildTypeNode)}<{typeof(T).Name}>"))
+            {
+                var typeNode = _network.GetTypeNode<T, TypeNode<T>>();
 
-            context.CurrentAlphaNode = typeNode;
+                context.CurrentAlphaNode = typeNode;
 
-            return typeNode;
+                return typeNode;
+            }
         }
 
         public ISelectionNode<T> BuildSelectionNode<T>(BuilderContext context, Expression<Func<T, bool>> conditionExpression)
             where T : class
         {
-            var alphaCondition = new AlphaCondition<T>(conditionExpression);
-
-            var selectionNode = context.CurrentAlphaNode.GetChildNodes<SelectionNode<T>>()
-                .FirstOrDefault(x => x.Condition.Equals(alphaCondition));
-            if (selectionNode == null)
+            using (_logger.BeginScope($"{nameof(BuildSelectionNode)}<{typeof(T).Name}>"))
             {
-                selectionNode = new SelectionNode<T>(alphaCondition);
-                var handle = context.CurrentAlphaNode.AddChild(selectionNode);
+                var alphaCondition = new AlphaCondition<T>(conditionExpression);
 
-                context.AddHandle(handle);
+                _logger.LogDebug($"Condition: {alphaCondition}");
+
+                var selectionNode = context.CurrentAlphaNode.GetChildNodes<SelectionNode<T>>()
+                    .FirstOrDefault(x => x.Condition.Equals(alphaCondition));
+                if (selectionNode == null)
+                {
+                    using(_logger.BeginScope("Create"))
+
+                    selectionNode = new SelectionNode<T>(alphaCondition);
+                    var handle = context.CurrentAlphaNode.AddChild(selectionNode);
+
+                    context.AddHandle(handle);
+                }
+
+                context.CurrentAlphaNode = selectionNode;
+
+                return selectionNode;
             }
-
-            context.CurrentAlphaNode = selectionNode;
-
-            return selectionNode;
         }
 
         //        void BuildSelectionNode(ReteBuilderContext context, ConditionElement condition)

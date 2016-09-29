@@ -14,6 +14,7 @@ namespace Authority.Tests
 {
     using System;
     using System.Threading.Tasks;
+    using Microsoft.Extensions.Logging;
     using NUnit.Framework;
     using Runtime;
 

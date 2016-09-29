@@ -13,6 +13,8 @@
 namespace Authority.Configurators
 {
     using System.Collections.Generic;
+    using Builders;
+    using Microsoft.Extensions.Logging;
     using Rules;
 
 
@@ -21,6 +23,8 @@ namespace Authority.Configurators
         IBuildSupremeAuthority
     {
         readonly List<IRule> _rules;
+
+        ILoggerFactory _loggerFactory;
 
         public SupremeAuthorityConfigurator()
         {
@@ -32,15 +36,19 @@ namespace Authority.Configurators
             _rules.Add(rule);
         }
 
+        public void SetLoggerFactory(ILoggerFactory loggerFactory)
+        {
+            _loggerFactory = loggerFactory;
+        }
+
         public IAuthority Build()
         {
-            var builder = new Builders.RuntimeBuilder();
+            var builder = new RuntimeBuilder(_loggerFactory);
 
             foreach (var rule in _rules)
-            {
                 rule.Apply(builder);
-            }
-            return new SupremeAuthority();
+
+            return new SupremeAuthority(builder.Build());
         }
     }
 }

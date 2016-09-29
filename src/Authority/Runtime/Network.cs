@@ -19,6 +19,7 @@ namespace Authority.Runtime
     using System.Linq;
     using System.Threading.Tasks;
     using GreenPipes;
+    using Microsoft.Extensions.Logging;
 
 
     public class Network :
@@ -26,9 +27,12 @@ namespace Authority.Runtime
     {
         readonly FactObservable _observers;
         readonly ConcurrentDictionary<Type, ITypeActivation> _typeNodes;
+        readonly ILogger<Network> _logger;
 
-        public Network()
+        public Network(ILoggerFactory loggerFactory)
         {
+            _logger = loggerFactory.CreateLogger<Network>();
+
             _typeNodes = new ConcurrentDictionary<Type, ITypeActivation>();
             _observers = new FactObservable();
         }
@@ -61,7 +65,12 @@ namespace Authority.Runtime
         protected virtual ITypeActivation GetTypeNode<T>()
             where T : class
         {
-            return _typeNodes.GetOrAdd(typeof(T), x => new TypeActivation<T>(_observers));
+            return _typeNodes.GetOrAdd(typeof(T), x =>
+            {
+                _logger.LogDebug($"Creating type node: {typeof(T).Name}");
+
+                return new TypeActivation<T>(_observers);
+            });
         }
 
 

@@ -23,9 +23,9 @@ namespace Authority
     {
         readonly INetwork _network;
 
-        public SupremeAuthority()
+        public SupremeAuthority(INetwork network)
         {
-            _network = new Network();
+            _network = network;
         }
 
         public Task<ISession> CreateSession()

@@ -135,6 +135,10 @@ namespace Authority.Rules
 
         public void Apply(IRuntimeBuilder builder)
         {
+            foreach (var condition in _conditions)
+            {
+                condition.Apply(builder);
+            }
             
         }
     }
