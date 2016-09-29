@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{829BFEB1-721B-4891-A752-946709F414C6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Authority</RootNamespace>
+    <AssemblyName>Authority</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GreenPipes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
+      <HintPath>packages\GreenPipes.1.0.2\lib\net452\GreenPipes.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Runtime\AlphaMemory.cs" />
+    <Compile Include="Runtime\AlphaMemoryMap.cs" />
+    <Compile Include="Runtime\AlphaNode.cs" />
+    <Compile Include="Authority.cs" />
+    <Compile Include="AuthorityContext.cs" />
+    <Compile Include="Runtime\BetaMemory.cs" />
+    <Compile Include="Runtime\BetaMemoryMap.cs" />
+    <Compile Include="Configuration\Configurators\IBuildSupremeAuthority.cs" />
+    <Compile Include="Configuration\Configurators\SupremeAuthorityConfigurator.cs" />
+    <Compile Include="Configuration\IAuthorityConfigurator.cs" />
+    <Compile Include="Configuration\EngineConfigurationExtensions.cs" />
+    <Compile Include="FactHandle.cs" />
+    <Compile Include="FactObservable.cs" />
+    <Compile Include="FactObservableAdapter.cs" />
+    <Compile Include="Runtime\IAlphaMemory.cs" />
+    <Compile Include="Runtime\IAlphaMemoryMap.cs" />
+    <Compile Include="Runtime\IAlphaNode.cs" />
+    <Compile Include="IAuthority.cs" />
+    <Compile Include="IAuthorityFactory.cs" />
+    <Compile Include="Runtime\IBetaMemory.cs" />
+    <Compile Include="Runtime\IBetaMemoryMap.cs" />
+    <Compile Include="IFactObserver.cs" />
+    <Compile Include="Runtime\INetwork.cs" />
+    <Compile Include="Runtime\INode.cs" />
+    <Compile Include="Runtime\INodeMemory.cs" />
+    <Compile Include="IObserverConnector.cs" />
+    <Compile Include="ISession.cs" />
+    <Compile Include="Runtime\ITypeNode.cs" />
+    <Compile Include="Runtime\IWorkingMemory.cs" />
+    <Compile Include="Runtime\JoinNode.cs" />
+    <Compile Include="Runtime\Network.cs" />
+    <Compile Include="NodeMemoryAccessor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\Fact.cs" />
+    <Compile Include="Rules\IFact.cs" />
+    <Compile Include="Rules\Rule.cs" />
+    <Compile Include="Rules\RuleFact.cs" />
+    <Compile Include="Rules\SimpleFact.cs" />
+    <Compile Include="Runtime\FactContext.cs" />
+    <Compile Include="Runtime\BetaMemoryNode.cs" />
+    <Compile Include="Runtime\BetaNode.cs" />
+    <Compile Include="Runtime\ConditionNode.cs" />
+    <Compile Include="Runtime\FactIndex.cs" />
+    <Compile Include="Runtime\IActivation.cs" />
+    <Compile Include="Runtime\IBetaMemoryNode.cs" />
+    <Compile Include="Runtime\IBetaNode.cs" />
+    <Compile Include="Runtime\IFactSink.cs" />
+    <Compile Include="Runtime\IFactSource.cs" />
+    <Compile Include="Runtime\ITupleSink.cs" />
+    <Compile Include="Runtime\ITuple.cs" />
+    <Compile Include="Runtime\ITupleSource.cs" />
+    <Compile Include="Runtime\RuntimeFactHandle.cs" />
+    <Compile Include="Runtime\SessionFactContext.cs" />
+    <Compile Include="Runtime\TupleContext.cs" />
+    <Compile Include="SessionContext.cs" />
+    <Compile Include="Runtime\Tuple.cs" />
+    <Compile Include="Session.cs" />
+    <Compile Include="SupremeAuthority.cs" />
+    <Compile Include="Runtime\TypeNode.cs" />
+    <Compile Include="Util\ConnectableList.cs" />
+    <Compile Include="Util\LimitedConcurrencyLevelTaskScheduler.cs" />
+    <Compile Include="Util\OrderedHashSet.cs" />
+    <Compile Include="Runtime\WorkingMemory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Engine\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
