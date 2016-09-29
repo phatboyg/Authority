@@ -10,17 +10,11 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace Authority.Rules
+namespace Authority.Runtime
 {
-    public class SimpleFact<T> :
-        IFact
+    public interface IAlphaCondition<in T>
         where T : class
     {
-        readonly string _name;
-
-        public SimpleFact(string name)
-        {
-            _name = name;
-        }
+        bool Evaluate(FactContext<T> context);
     }
 }

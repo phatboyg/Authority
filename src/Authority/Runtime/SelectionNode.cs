@@ -10,9 +10,25 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace Authority.Rules
+namespace Authority.Runtime
 {
-    public interface IFact
+    public class SelectionNode<T> :
+        AlphaNode<T>,
+        ISelectionNode<T>
+        where T : class
     {
+        readonly IAlphaCondition<T> _condition;
+
+        public SelectionNode(IAlphaCondition<T> condition)
+        {
+            _condition = condition;
+        }
+
+        public IAlphaCondition<T> Condition => _condition;
+
+        protected override bool Evaluate(FactContext<T> context)
+        {
+            return _condition.Evaluate(context);
+        }
     }
 }

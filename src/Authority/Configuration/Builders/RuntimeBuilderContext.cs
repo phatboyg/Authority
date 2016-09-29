@@ -10,37 +10,35 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace Authority.Configurators
+namespace Authority.Builders
 {
+    using System;
     using System.Collections.Generic;
-    using Rules;
+    using GreenPipes;
+    using RuleCompiler;
+    using Runtime;
 
 
-    public class SupremeAuthorityConfigurator :
-        IAuthorityConfigurator,
-        IBuildSupremeAuthority
+    public class RuntimeBuilderContext :
+        BuilderContext
     {
-        readonly List<IRule> _rules;
+        readonly List<ConnectHandle> _handles;
 
-        public SupremeAuthorityConfigurator()
+        public RuntimeBuilderContext()
         {
-            _rules = new List<IRule>();
+            _handles = new List<ConnectHandle>();
         }
 
-        public void AddRule(IRule rule)
+        public IAlphaNode CurrentAlphaNode { get; set; }
+
+        public void AddHandle(ConnectHandle handle)
         {
-            _rules.Add(rule);
+            _handles.Add(handle);
         }
 
-        public IAuthority Build()
+        public void AddParameter<T>(RuleParameter<T> parameter)
         {
-            var builder = new Builders.RuntimeBuilder();
-
-            foreach (var rule in _rules)
-            {
-                rule.Apply(builder);
-            }
-            return new SupremeAuthority();
+            
         }
     }
 }

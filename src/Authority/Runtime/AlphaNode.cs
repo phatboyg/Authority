@@ -13,6 +13,8 @@
 namespace Authority.Runtime
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using GreenPipes;
     using Util;
@@ -54,6 +56,20 @@ namespace Authority.Runtime
         protected virtual bool Evaluate(FactContext<TFact> context)
         {
             return true;
+        }
+
+        IEnumerable<T> IAlphaNode.GetChildNodes<T>()
+        {
+            return _childNodes.Where(x => x is IAlphaNode<T>).Cast<T>();
+        }
+
+        ConnectHandle IAlphaNode.AddChild<T>(IAlphaNode<T> node)
+        {
+            var alphaNode = node as IAlphaNode<TFact>;
+            if (alphaNode == null)
+                throw new ArgumentException($"The node must match the fact type: {typeof(TFact).Name}", nameof(node));
+
+            return _childNodes.Connect(alphaNode);
         }
     }
 }

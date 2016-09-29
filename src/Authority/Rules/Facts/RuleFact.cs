@@ -10,15 +10,26 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace Authority.Rules
+namespace Authority.Rules.Facts
 {
-    public class RuleFact
-    {
-        readonly IFact _fact;
+    using RuleCompiler;
 
-        public RuleFact(IFact fact)
+
+    public class RuleFact<T> :
+        Fact<T>
+        where T : class
+    {
+        readonly string _name;
+        readonly RuleParameter<T> _parameter;
+
+        public RuleFact(string name, RuleParameter<T> parameter)
         {
-            _fact = fact;
+            _parameter = parameter;
+            _name = name;
         }
+
+        RuleParameter<T> IRuleFact<T>.Parameter => _parameter;
+
+        string Fact<T>.Name => _name;
     }
 }

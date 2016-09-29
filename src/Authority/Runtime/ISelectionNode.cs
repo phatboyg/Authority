@@ -10,20 +10,12 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace Authority.Rules
+namespace Authority.Runtime
 {
-    using Facts;
-
-
-    /// <summary>
-    /// Declaring a fact in a rule associates a type and a name with the fact for 
-    /// use within the rule.
-    /// </summary>
-    /// <typeparam name="T">The fact type</typeparam>
-    public interface Fact<T> :
-        IRuleFact<T>
+    public interface ISelectionNode<T> :
+        IAlphaNode<T>
         where T : class
     {
-        string Name { get; }
+        IAlphaCondition<T> Condition { get; }
     }
 }

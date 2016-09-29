@@ -15,7 +15,9 @@ namespace Authority.Builders
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using RuleModels;
+    using Rules;
     using Runtime;
 
 
@@ -288,5 +290,54 @@ namespace Authority.Builders
 //
 //            context.AlphaSource = memoryNode;
 //        }
+        public BuilderContext CreateContext()
+        {
+            return new RuntimeBuilderContext();
+        }
+
+        public ITypeNode<T> BuildTypeNode<T>(BuilderContext context)
+            where T : class
+        {
+            var typeNode = _network.GetTypeNode<T, TypeNode<T>>();
+
+            context.CurrentAlphaNode = typeNode;
+
+            return typeNode;
+        }
+
+        public ISelectionNode<T> BuildSelectionNode<T>(BuilderContext context, Expression<Func<T, bool>> conditionExpression)
+            where T : class
+        {
+            var alphaCondition = new AlphaCondition<T>(conditionExpression);
+
+            var selectionNode = context.CurrentAlphaNode.GetChildNodes<SelectionNode<T>>()
+                .FirstOrDefault(x => x.Condition.Equals(alphaCondition));
+            if (selectionNode == null)
+            {
+                selectionNode = new SelectionNode<T>(alphaCondition);
+                var handle = context.CurrentAlphaNode.AddChild(selectionNode);
+
+                context.AddHandle(handle);
+            }
+
+            context.CurrentAlphaNode = selectionNode;
+
+            return selectionNode;
+        }
+
+        //        void BuildSelectionNode(ReteBuilderContext context, ConditionElement condition)
+        //        {
+        //            var alphaCondition = new AlphaCondition(condition.Expression);
+        //            SelectionNode selectionNode = context.CurrentAlphaNode
+        //                .ChildNodes.OfType<SelectionNode>()
+        //                .FirstOrDefault(sn => sn.Condition.Equals(alphaCondition));
+        //
+        //            if (selectionNode == null)
+        //            {
+        //                selectionNode = new SelectionNode(alphaCondition);
+        //                context.CurrentAlphaNode.ChildNodes.Add(selectionNode);
+        //            }
+        //            context.CurrentAlphaNode = selectionNode;
+        //        }
     }
 }

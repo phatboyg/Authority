@@ -12,9 +12,18 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Runtime
 {
+    using System.Collections.Generic;
+    using GreenPipes;
+
+
     public interface IAlphaNode :
         INode
     {
+        IEnumerable<T> GetChildNodes<T>()
+            where T : class;
+
+        ConnectHandle AddChild<T>(IAlphaNode<T> node)
+            where T : class;
     }
 
 

@@ -12,13 +12,37 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Builders
 {
-    using System.Collections.Generic;
-    using RuleModels;
+    using System;
+    using System.Linq.Expressions;
+    using GreenPipes;
+    using RuleCompiler;
+    using Runtime;
 
 
     public interface IRuntimeBuilder
     {
 //        IEnumerable<ITerminalNode> AddRule(IRuleDefinition ruleDefinition);
+        BuilderContext CreateContext();
+
+        ITypeNode<T> BuildTypeNode<T>(BuilderContext context)
+            where T : class;
+
+        ISelectionNode<T> BuildSelectionNode<T>(BuilderContext context, Expression<Func<T, bool>> conditionExpression)
+            where T : class;
+    }
+
+
+    public interface BuilderContext
+    {
+        IAlphaNode CurrentAlphaNode { get; set; }
+
+        /// <summary>
+        /// Saves a handle of an object created during the build
+        /// </summary>
+        /// <param name="handle"></param>
+        void AddHandle(ConnectHandle handle);
+
+        void AddParameter<T>(RuleParameter<T> parameter);
     }
 
 

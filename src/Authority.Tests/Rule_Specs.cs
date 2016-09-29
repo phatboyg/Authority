@@ -66,6 +66,21 @@ namespace Authority.Tests
         [Test]
         public void Should_find_all_expressed_facts()
         {
+            IRule rule = new MyRule();
+
+            Assert.That(rule.GetFact("Name"), Is.Not.Null);
+            Assert.That(rule.GetFact("Address"), Is.Not.Null);
+        }
+
+        [Test]
+        public void Should_add_conditions_to_the_engine()
+        {
+            IRule rule = new MyRule();
+
+            Authority.Factory.CreateAuthority(cfg =>
+            {
+                cfg.AddRule(rule);
+            });
         }
     }
 }

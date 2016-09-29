@@ -10,37 +10,33 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace Authority.Configurators
+namespace Authority
 {
-    using System.Collections.Generic;
-    using Rules;
+    using System;
+    using System.Runtime.Serialization;
 
 
-    public class SupremeAuthorityConfigurator :
-        IAuthorityConfigurator,
-        IBuildSupremeAuthority
+    [Serializable]
+    public class FactNotFoundException :
+        Exception
     {
-        readonly List<IRule> _rules;
-
-        public SupremeAuthorityConfigurator()
+        public FactNotFoundException()
         {
-            _rules = new List<IRule>();
         }
 
-        public void AddRule(IRule rule)
+        public FactNotFoundException(string message)
+            : base(message)
         {
-            _rules.Add(rule);
         }
 
-        public IAuthority Build()
+        public FactNotFoundException(string message, Exception innerException)
+            : base(message, innerException)
         {
-            var builder = new Builders.RuntimeBuilder();
+        }
 
-            foreach (var rule in _rules)
-            {
-                rule.Apply(builder);
-            }
-            return new SupremeAuthority();
+        protected FactNotFoundException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
         }
     }
 }

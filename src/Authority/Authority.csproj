@@ -45,6 +45,10 @@
     <Compile Include="Configuration\Builders\IRuntimeBuilder.cs" />
     <Compile Include="Configuration\Builders\ReteBuilderContext.cs" />
     <Compile Include="Configuration\Builders\RuntimeBuilder.cs" />
+    <Compile Include="Configuration\Builders\RuntimeBuilderContext.cs" />
+    <Compile Include="Exceptions\FactNotFoundException.cs" />
+    <Compile Include="RuleCompiler\ExpressionConverter.cs" />
+    <Compile Include="RuleCompiler\RuleParameter.cs" />
     <Compile Include="RuleModels\ActionElement.cs" />
     <Compile Include="RuleModels\ActionGroupElement.cs" />
     <Compile Include="RuleModels\AggregateElement.cs" />
@@ -74,6 +78,10 @@
     <Compile Include="RuleModels\RuleRepeatability.cs" />
     <Compile Include="RuleModels\RuleRightElement.cs" />
     <Compile Include="RuleModels\SymbolTable.cs" />
+    <Compile Include="Rules\Conditions\RuleCondition.cs" />
+    <Compile Include="Rules\Facts\IRuleFact.cs" />
+    <Compile Include="Rules\IRule.cs" />
+    <Compile Include="Runtime\AlphaCondition.cs" />
     <Compile Include="Runtime\AlphaMemory.cs" />
     <Compile Include="Runtime\AlphaMemoryMap.cs" />
     <Compile Include="Runtime\AlphaMemoryNode.cs" />
@@ -91,6 +99,8 @@
     <Compile Include="Observers\FactObservable.cs" />
     <Compile Include="Observers\FactObservableAdapter.cs" />
     <Compile Include="Runtime\DummyNode.cs" />
+    <Compile Include="Runtime\ExpressionComparer.cs" />
+    <Compile Include="Runtime\IAlphaCondition.cs" />
     <Compile Include="Runtime\IAlphaMemory.cs" />
     <Compile Include="Runtime\IAlphaMemoryMap.cs" />
     <Compile Include="Runtime\IAlphaMemoryNode.cs" />
@@ -106,6 +116,7 @@
     <Compile Include="Runtime\INodeMemory.cs" />
     <Compile Include="IObserverConnector.cs" />
     <Compile Include="ISession.cs" />
+    <Compile Include="Runtime\ISelectionNode.cs" />
     <Compile Include="Runtime\ITypeNode.cs" />
     <Compile Include="Runtime\IWorkingMemory.cs" />
     <Compile Include="Runtime\JoinNode.cs" />
@@ -113,10 +124,9 @@
     <Compile Include="Runtime\NodeMemoryAccessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\Fact.cs" />
-    <Compile Include="Rules\IFact.cs" />
+    <Compile Include="Rules\Facts\IFact.cs" />
     <Compile Include="Rules\Rule.cs" />
-    <Compile Include="Rules\RuleFact.cs" />
-    <Compile Include="Rules\SimpleFact.cs" />
+    <Compile Include="Rules\Facts\RuleFact.cs" />
     <Compile Include="Runtime\FactContext.cs" />
     <Compile Include="Runtime\BetaMemoryNode.cs" />
     <Compile Include="Runtime\BetaNode.cs" />
@@ -130,6 +140,7 @@
     <Compile Include="Runtime\ITuple.cs" />
     <Compile Include="Runtime\ITupleSource.cs" />
     <Compile Include="Runtime\RuntimeFactHandle.cs" />
+    <Compile Include="Runtime\SelectionNode.cs" />
     <Compile Include="Runtime\SessionFactContext.cs" />
     <Compile Include="Runtime\SessionTupleContext.cs" />
     <Compile Include="Runtime\TupleContext.cs" />

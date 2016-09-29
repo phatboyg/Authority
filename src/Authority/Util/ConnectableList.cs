@@ -13,6 +13,7 @@
 namespace Authority.Util
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
@@ -25,7 +26,8 @@ namespace Authority.Util
     /// Maintains a collection of connections of the generic type
     /// </summary>
     /// <typeparam name="T">The connectable type</typeparam>
-    public class ConnectableList<T>
+    public class ConnectableList<T> :
+        IEnumerable<T>
         where T : class
     {
         readonly LinkedList<T> _connected;
@@ -142,6 +144,17 @@ namespace Authority.Util
             {
                 Disconnect();
             }
+        }
+
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return _connected.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable)_connected).GetEnumerator();
         }
     }
 }

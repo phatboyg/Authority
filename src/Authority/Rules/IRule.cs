@@ -12,18 +12,26 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Rules
 {
+    using Builders;
     using Facts;
 
 
     /// <summary>
-    /// Declaring a fact in a rule associates a type and a name with the fact for 
-    /// use within the rule.
+    /// Used to access the details about a rule once it has been constructed.
     /// </summary>
-    /// <typeparam name="T">The fact type</typeparam>
-    public interface Fact<T> :
-        IRuleFact<T>
-        where T : class
+    public interface IRule
     {
-        string Name { get; }
+        /// <summary>
+        /// Returns the fact by name if it exists.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        IRuleFact GetFact(string name);
+
+        /// <summary>
+        /// Applies the rule configuration to the runtime builder
+        /// </summary>
+        /// <param name="builder"></param>
+        void Apply(IRuntimeBuilder builder);
     }
 }

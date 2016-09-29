@@ -17,7 +17,11 @@ namespace Authority.Rules
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Threading.Tasks;
+    using Builders;
+    using Conditions;
+    using Facts;
     using GreenPipes.Internals.Extensions;
+    using RuleCompiler;
     using Runtime;
 
 
@@ -26,16 +30,20 @@ namespace Authority.Rules
     /// by Automatonymous, and supports the creation of rules and facts based
     /// on this dynamic language.
     /// </summary>
-    public abstract class Rule
+    public abstract class Rule : 
+        IRule
     {
         string _name;
-        readonly Dictionary<string, RuleFact> _ruleCache;
+        readonly Dictionary<string, IRuleFact> _factCache;
+        readonly ExpressionConverter _expressionConverter = new ExpressionConverter();
+        readonly List<IRuleCondition> _conditions;
 
         protected Rule()
         {
             _name = GetType().Name;
 
-            _ruleCache = new Dictionary<string, RuleFact>();
+            _factCache = new Dictionary<string, IRuleFact>();
+            _conditions = new List<IRuleCondition>();
         }
 
         protected void Name(string ruleName)
@@ -50,23 +58,33 @@ namespace Authority.Rules
         /// Declares an event, and initializes the event property
         /// </summary>
         /// <param name="propertyExpression"></param>
-        protected virtual void Fact<T>(Expression<Func<T>> propertyExpression)
+        protected virtual void Fact<T>(Expression<Func<Fact<T>>> propertyExpression)
             where T: class
         {
             PropertyInfo property = propertyExpression.GetPropertyInfo();
+            var parameter = _expressionConverter.GetRuleParameter(propertyExpression);
 
-            DeclareFact<T>(property);
+            DeclareFact(property, parameter);
         }
 
-        void DeclareFact<T>(PropertyInfo property) where T : class
+        /// <summary>
+        /// Declares a fact based on the property, and adds it to the cache
+        /// </summary>
+        /// <typeparam name="T">The fact type</typeparam>
+        /// <param name="property">The property referencing the fact</param>
+        /// <param name="parameter">The parameter for this fact</param>
+        void DeclareFact<T>(PropertyInfo property, RuleParameter<T> parameter) 
+            where T : class
         {
             string name = property.Name;
 
-            var fact = new SimpleFact<T>(name);
+            var fact = new RuleFact<T>(name, parameter);
 
-            property.SetValue(this, fact);
+            Fact<T> propertyValue = fact;
 
-            _ruleCache[name] = new RuleFact(fact);
+            property.SetValue(this, propertyValue);
+
+            _factCache[name] = fact;
         }
 
         /// <summary>
@@ -78,6 +96,13 @@ namespace Authority.Rules
         protected void When<T>(Fact<T> fact, Expression<Func<T, bool>> conditionalExpression) 
             where T : class
         {
+            var ruleFact = _factCache[fact.Name] as IRuleFact<T>;
+            if (ruleFact == null)
+                throw new ArgumentException($"The fact is unknown or has not been declared: {fact.Name}", nameof(fact));
+
+            var condition = _expressionConverter.GetRuleCondition(ruleFact, conditionalExpression);
+
+            _conditions.Add(condition);
         }
 
         protected void When<T1, T2>(Fact<T1> fact1, Fact<T2> fact2, Expression<Func<T1, T2, bool>> conditionalExpression) 
@@ -95,6 +120,22 @@ namespace Authority.Rules
             where T1 : class
             where T2 : class
         {
+        }
+
+        public IRuleFact GetFact(string name)
+        {
+            IRuleFact fact;
+            if (_factCache.TryGetValue(name, out fact))
+            {
+                return fact;
+            }
+
+            throw new FactNotFoundException($"The fact was not found: {name}");
+        }
+
+        public void Apply(IRuntimeBuilder builder)
+        {
+            
         }
     }
 }
