@@ -40,26 +40,7 @@ namespace Authority.Tests.RuntimeTests
 
         public Task ForEach(SessionContext context, Func<TupleContext<T>, Task> callback)
         {
-            return Task.WhenAll(_tuples.Select(x => callback(new TestTupleContext(context, x, x.Right))));
-        }
-
-
-        class TestTupleContext :
-            TupleContext<T>
-        {
-            readonly SessionContext _context;
-
-            public TestTupleContext(SessionContext context, ITuple<T> tuple, T fact)
-            {
-                _context = context;
-                Tuple = tuple;
-                Fact = fact;
-            }
-
-            public IWorkingMemory WorkingMemory => _context.WorkingMemory;
-
-            public ITuple<T> Tuple { get; }
-            public T Fact { get; }
+            return Task.WhenAll(_tuples.Select(x => callback(new TestTupleContext<T>(context, x, x.Right))));
         }
     }
 }

@@ -52,6 +52,7 @@
     <Compile Include="RuntimeTests\BetaNode_Specs.cs" />
     <Compile Include="RuntimeTests\TestFactContext.cs" />
     <Compile Include="RuntimeTests\TestFactSource.cs" />
+    <Compile Include="RuntimeTests\TestTupleContext.cs" />
     <Compile Include="RuntimeTests\TestTupleSink.cs" />
     <Compile Include="RuntimeTests\TestTupleSource.cs" />
     <Compile Include="RuntimeTests\TestSession.cs" />
