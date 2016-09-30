@@ -19,8 +19,8 @@ namespace Authority.Runtime
 
 
     public interface IBetaNode<in TLeft, TRight> :
-        IFactSink<TRight>,
         ITupleSink<TLeft>,
+        IFactSink<TRight>,
         ITupleSource<TRight>,
         IBetaNode
         where TRight : class

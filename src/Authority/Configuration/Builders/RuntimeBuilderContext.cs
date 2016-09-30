@@ -28,6 +28,7 @@ namespace Authority.Builders
         public RuntimeBuilderContext()
         {
             _handles = new List<ConnectHandle>();
+            _parameters = new List<IRuleParameter>();
         }
 
         public IAlphaNode CurrentAlphaNode { get; set; }
@@ -37,7 +38,7 @@ namespace Authority.Builders
             _handles.Add(handle);
         }
 
-        public void AddParameter<T>(RuleParameter<T> parameter)
+        public void AddParameter<T>(IRuleParameter<T> parameter) 
             where T : class
         {
             _parameters.Add(parameter);

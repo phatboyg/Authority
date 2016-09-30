@@ -74,9 +74,11 @@ namespace Authority.Builders
 
             var factIndexMap = context.CreateIndexMap(fact);
 
-            var terminalNode = new TerminalNode<T>(context.BetaSource, factIndexMap);
+//            var terminalNode = new TerminalNode<T>(context.BetaSource, factIndexMap);
 
-            return terminalNode;
+//            return terminalNode;
+
+            throw new NotImplementedException();
         }
 
 

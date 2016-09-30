@@ -37,7 +37,7 @@ namespace Authority.Builders
     {
         IAlphaNode CurrentAlphaNode { get; set; }
 
-        ITupleSource BetaSource { get; set; }
+        //ITupleSource BetaSource { get; set; }
 
         /// <summary>
         /// Saves a handle of an object created during the build
@@ -45,7 +45,7 @@ namespace Authority.Builders
         /// <param name="handle"></param>
         void AddHandle(ConnectHandle handle);
 
-        void AddParameter<T>(RuleParameter<T> parameter)
+        void AddParameter<T>(IRuleParameter<T> parameter)
             where T : class;
 
         IndexMap CreateIndexMap(IRuleFact fact);

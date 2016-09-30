@@ -42,5 +42,11 @@ namespace Authority
         {
             return _network.ConnectObserver(observer);
         }
+
+
+        public void Accept<TContext>(RuntimeVisitor<TContext> visitor, TContext context)
+        {
+            _network.Accept(visitor, context);
+        }
     }
 }

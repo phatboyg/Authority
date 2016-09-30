@@ -86,6 +86,7 @@
     <Compile Include="RuntimeTests\TestTupleSink.cs" />
     <Compile Include="RuntimeTests\TestTupleSource.cs" />
     <Compile Include="RuntimeTests\TestSession.cs" />
+    <Compile Include="Visitation\VisitAlphaNode_Specs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Authority\Authority.csproj">

@@ -55,5 +55,10 @@ namespace Authority.Runtime
                 throw;
             }
         }
+
+        public override void Accept<TContext>(RuntimeVisitor<TContext> visitor, TContext context)
+        {
+            visitor.VisitTypeNode(context, this);
+        }
     }
 }

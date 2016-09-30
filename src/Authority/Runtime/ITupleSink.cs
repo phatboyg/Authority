@@ -19,7 +19,8 @@ namespace Authority.Runtime
     /// A place where tuples can be propogated forward
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface ITupleSink<in T>
+    public interface ITupleSink<in T> :
+        IAcceptVisitor
         where T : class
     {
         /// <summary>

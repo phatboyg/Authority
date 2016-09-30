@@ -21,5 +21,15 @@ namespace Authority.Runtime
             : base(leftSource, rightSource, condition)
         {
         }
+
+        public override void Accept<TContext>(RuntimeVisitor<TContext> visitor, TContext context)
+        {
+            if (visitor.IsCompleted)
+                return;
+
+            visitor.VisitJoinNode(context, this);
+
+            base.Accept(visitor, context);
+        }
     }
 }

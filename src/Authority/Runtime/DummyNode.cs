@@ -19,41 +19,57 @@ namespace Authority.Runtime
     using Util;
 
 
-    class DummyNode<TRight> :
-        IBetaMemoryNode<TRight>
-        where TRight : class
+    public class DummyNode<T> :
+        IBetaMemoryNode<T>
+        where T : class
     {
-        readonly ConnectableList<ITupleSink<TRight>> _sinks;
+        readonly ConnectableList<ITupleSink<T>> _sinks;
 
-        public DummyNode(ConnectableList<ITupleSink<TRight>> sinks)
+        public DummyNode(ConnectableList<ITupleSink<T>> sinks)
         {
             _sinks = sinks;
         }
 
-        public Task All(SessionContext context, Func<TupleContext<TRight>, Task> callback)
+        public Task All(SessionContext context, Func<TupleContext<T>, Task> callback)
         {
             return context.WorkingMemory.Access(this, x => x.ForEach(context, callback));
         }
 
-        public ConnectHandle Connect(ITupleSink<TRight> sink)
+        public ConnectHandle Connect(ITupleSink<T> sink)
         {
             return _sinks.Connect(sink);
         }
 
-        public Task Insert(SessionContext context, ITuple tuple, TRight fact)
+        public Task Insert(SessionContext context, ITuple tuple, T fact)
         {
             return TaskUtil.Completed;
+        }
+
+        public virtual void Accept<TContext>(RuntimeVisitor<TContext> visitor, TContext context)
+        {
+            if (visitor.IsCompleted)
+                return;
+
+            visitor.VisitDummyNode(context, this);
+
+            foreach (ITupleSink<T> sink in _sinks)
+            {
+                if (visitor.IsCompleted)
+                    return;
+
+                sink.Accept(visitor, context);
+            }
         }
 
         public Task Activate(SessionContext context)
         {
             return context.WorkingMemory.Access(this, x =>
             {
-                var childTuple = new Tuple<TRight>();
+                var childTuple = new Tuple<T>();
 
                 x.Add(childTuple);
 
-                TupleContext<TRight> tupleContext = new SessionTupleContext<TRight>(context, childTuple);
+                TupleContext<T> tupleContext = new SessionTupleContext<T>(context, childTuple);
 
                 return _sinks.All(sink => sink.Insert(tupleContext));
             });

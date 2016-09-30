@@ -12,7 +12,8 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Runtime
 {
-    public interface ITypeNode<out TFact> :
+    public interface ITypeNode<TFact> :
+        IAlphaNode<TFact>,
         IFactSink,
         IObserverConnector<TFact>
         where TFact : class

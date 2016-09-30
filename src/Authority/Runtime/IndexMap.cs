@@ -38,11 +38,11 @@ namespace Authority.Runtime
                 target[index + offset] = value;
         }
 
-        public static IndexMap CreateMap(IEnumerable<IRuleParameter> facts, IEnumerable<IRuleFact> baseFacts)
+        public static IndexMap CreateMap(IEnumerable<IRuleParameter> facts, IEnumerable<IRuleParameter> baseFacts)
         {
             IDictionary<IRuleParameter, int> positionMap = GetPositionMap(facts);
 
-            int[] map = baseFacts.Select(x => IndexOrDefault(positionMap, x.Parameter)).ToArray();
+            int[] map = baseFacts.Select(x => IndexOrDefault(positionMap, x)).ToArray();
 
             return new IndexMap(map);
         }

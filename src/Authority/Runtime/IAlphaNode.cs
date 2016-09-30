@@ -33,5 +33,6 @@ namespace Authority.Runtime
         IFactSource<T>
         where T : class
     {
+        IAlphaMemoryNode<T> MemoryNode { get; }
     }
 }

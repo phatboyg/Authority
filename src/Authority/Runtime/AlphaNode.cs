@@ -20,16 +20,16 @@ namespace Authority.Runtime
     using Util;
 
 
-    public class AlphaNode<TFact> :
+    public abstract class AlphaNode<TFact> :
         IAlphaNode<TFact>
         where TFact : class
     {
         readonly ConnectableList<IAlphaNode<TFact>> _childNodes;
-        readonly Lazy<AlphaMemoryNode<TFact>> _memoryNode;
+        readonly Lazy<IAlphaMemoryNode<TFact>> _memoryNode;
 
         public AlphaNode()
         {
-            _memoryNode = new Lazy<AlphaMemoryNode<TFact>>(() => new AlphaMemoryNode<TFact>());
+            _memoryNode = new Lazy<IAlphaMemoryNode<TFact>>(() => new AlphaMemoryNode<TFact>());
             _childNodes = new ConnectableList<IAlphaNode<TFact>>();
         }
 
@@ -53,11 +53,6 @@ namespace Authority.Runtime
             return _memoryNode.Value.Connect(sink);
         }
 
-        protected virtual bool Evaluate(FactContext<TFact> context)
-        {
-            return true;
-        }
-
         IEnumerable<T> IAlphaNode.GetChildNodes<T>()
         {
             return _childNodes.Where(x => x is IAlphaNode<T>).Cast<T>();
@@ -70,6 +65,18 @@ namespace Authority.Runtime
                 throw new ArgumentException($"The node must match the fact type: {typeof(TFact).Name}", nameof(node));
 
             return _childNodes.Connect(alphaNode);
+        }
+
+        public virtual void Accept<TContext>(RuntimeVisitor<TContext> visitor, TContext context)
+        {
+            visitor.VisitAlphaNode(context, this);
+        }
+
+        public IAlphaMemoryNode<TFact> MemoryNode => _memoryNode.Value;
+
+        protected virtual bool Evaluate(FactContext<TFact> context)
+        {
+            return true;
         }
     }
 }

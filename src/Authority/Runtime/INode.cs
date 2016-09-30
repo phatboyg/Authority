@@ -12,7 +12,8 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Runtime
 {
-    public interface INode
+    public interface INode :
+        IAcceptVisitor
     {
     }
 }

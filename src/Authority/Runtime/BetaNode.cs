@@ -99,5 +99,16 @@ namespace Authority.Runtime
             return _condition.Evaluate(context, left, right);
 //            return true; //Conditions.All(joinCondition => joinCondition.IsSatisfiedBy(context, left, right));
         }
+
+        public virtual void Accept<TContext>(RuntimeVisitor<TContext> visitor, TContext context)
+        {
+            if (visitor.IsCompleted)
+                return;
+
+            visitor.VisitBetaNode(context, this);
+
+            if (_memoryNode.IsValueCreated)
+                _memoryNode.Value.Accept(visitor, context);
+        }
     }
 }

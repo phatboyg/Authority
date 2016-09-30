@@ -30,5 +30,10 @@ namespace Authority.Runtime
         {
             return _condition.Evaluate(context);
         }
+
+        public override void Accept<TContext>(RuntimeVisitor<TContext> visitor, TContext context)
+        {
+            visitor.VisitSelectionNode(context, this);
+        }
     }
 }

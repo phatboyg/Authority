@@ -13,6 +13,7 @@
 namespace Authority.Runtime
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using GreenPipes;
     using Util;
@@ -51,6 +52,19 @@ namespace Authority.Runtime
 
                 return _sinks.All(sink => sink.Insert(context));
             });
+        }
+
+        public IEnumerable<IFactSink<T>> GetSinks()
+        {
+            return _sinks;
+        }
+
+        public virtual void Accept<TContext>(RuntimeVisitor<TContext> visitor, TContext context)
+        {
+            if (visitor.IsCompleted)
+                return;
+
+            visitor.VisitAlphaMemoryNode(context, this);
         }
     }
 }

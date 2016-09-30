@@ -42,5 +42,16 @@ namespace Authority.Runtime
         {
             return _ruleNodes.Connect(ruleNode);
         }
+
+        public void Accept<TContext>(RuntimeVisitor<TContext> visitor, TContext context)
+        {
+            foreach (IRuleNode<T> node in _ruleNodes)
+            {
+                if (visitor.IsCompleted)
+                    return;
+
+                node.Accept(visitor, context);
+            }
+        }
     }
 }

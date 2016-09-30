@@ -25,9 +25,9 @@ namespace Authority.Runtime
     public class Network :
         INetwork
     {
+        readonly ILogger<Network> _logger;
         readonly FactObservable _observers;
         readonly ConcurrentDictionary<Type, ITypeActivation> _typeNodes;
-        readonly ILogger<Network> _logger;
 
         public Network(ILoggerFactory loggerFactory)
         {
@@ -53,6 +53,17 @@ namespace Authority.Runtime
         ConnectHandle Authority_IObserverConnector.ConnectObserver(IFactObserver observer)
         {
             return _observers.Connect(observer);
+        }
+
+        public virtual void Accept<TContext>(RuntimeVisitor<TContext> visitor, TContext context)
+        {
+            foreach (var node in _typeNodes.Values)
+            {
+                if (visitor.IsCompleted)
+                    return;
+
+                node.FactSink.Accept(visitor, context);
+            }
         }
 
         public TResult GetTypeNode<T, TResult>()

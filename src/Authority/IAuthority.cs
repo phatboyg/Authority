@@ -13,13 +13,15 @@
 namespace Authority
 {
     using System.Threading.Tasks;
+    using Runtime;
 
 
     /// <summary>
     /// The authority is all things awesome
     /// </summary>
     public interface IAuthority :
-        IObserverConnector
+        IObserverConnector,
+        IAcceptVisitor
     {
         Task<ISession> CreateSession();
     }

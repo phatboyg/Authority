@@ -30,5 +30,15 @@ namespace Authority.Runtime
         {
             return _matches(context.Fact);
         }
+
+        public override void Accept<TContext>(RuntimeVisitor<TContext> visitor, TContext context)
+        {
+            if (visitor.IsCompleted)
+                return;
+
+            visitor.VisitConditionNode(context, this);
+
+            base.Accept(visitor, context);
+        }
     }
 }

@@ -21,40 +21,56 @@ namespace Authority.Runtime
     /// <summary>
     /// For beta nodes that need to have memory, this is it
     /// </summary>
-    /// <typeparam name="TRight"></typeparam>
-    public class BetaMemoryNode<TRight> :
-        IBetaMemoryNode<TRight>
-        where TRight : class
+    /// <typeparam name="T"></typeparam>
+    public class BetaMemoryNode<T> :
+        IBetaMemoryNode<T>
+        where T : class
     {
-        readonly ConnectableList<ITupleSink<TRight>> _sinks;
+        readonly ConnectableList<ITupleSink<T>> _sinks;
 
         public BetaMemoryNode()
         {
-            _sinks = new ConnectableList<ITupleSink<TRight>>();
+            _sinks = new ConnectableList<ITupleSink<T>>();
         }
 
-        public Task All(SessionContext context, Func<TupleContext<TRight>, Task> callback)
+        public Task All(SessionContext context, Func<TupleContext<T>, Task> callback)
         {
             return context.WorkingMemory.Access(this, x => x.ForEach(context, callback));
         }
 
-        public ConnectHandle Connect(ITupleSink<TRight> sink)
+        public ConnectHandle Connect(ITupleSink<T> sink)
         {
             return _sinks.Connect(sink);
         }
 
-        public Task Insert(SessionContext context, ITuple tuple, TRight fact)
+        public Task Insert(SessionContext context, ITuple tuple, T fact)
         {
             return context.WorkingMemory.Access(this, x =>
             {
-                var childTuple = new Tuple<TRight>(tuple, fact);
+                var childTuple = new Tuple<T>(tuple, fact);
 
                 x.Add(childTuple);
 
-                TupleContext<TRight> tupleContext = new SessionTupleContext<TRight>(context, childTuple);
+                TupleContext<T> tupleContext = new SessionTupleContext<T>(context, childTuple);
 
                 return _sinks.All(sink => sink.Insert(tupleContext));
             });
+        }
+
+        public virtual void Accept<TContext>(RuntimeVisitor<TContext> visitor, TContext context)
+        {
+            if (visitor.IsCompleted)
+                return;
+
+            visitor.VisitBetaMemoryNode(context, this);
+
+            foreach (ITupleSink<T> sink in _sinks)
+            {
+                if (visitor.IsCompleted)
+                    return;
+
+                sink.Accept(visitor, context);
+            }
         }
     }
 }

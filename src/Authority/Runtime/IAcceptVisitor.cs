@@ -12,30 +12,8 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Runtime
 {
-    using System.Threading.Tasks;
-
-
-    public interface IFactSink :
-        IAcceptVisitor
+    public interface IAcceptVisitor
     {
-        Task Insert<T>(FactContext<T> context)
-            where T : class;
-    }
-
-
-    /// <summary>
-    /// A target for facts that are being propogated forward
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IFactSink<in T> :
-        IAcceptVisitor
-        where T : class
-    {
-        /// <summary>
-        /// Insert a fact into the sink
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        Task Insert(FactContext<T> context);
+        void Accept<TContext>(RuntimeVisitor<TContext> visitor, TContext context);
     }
 }

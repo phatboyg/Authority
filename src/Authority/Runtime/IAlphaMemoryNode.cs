@@ -12,16 +12,23 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Runtime
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+
     public interface IAlphaMemoryNode :
         INode
     {
     }
 
 
-    public interface IAlphaMemoryNode<out T> :
+    public interface IAlphaMemoryNode<T> :
         IAlphaMemoryNode,
         IFactSource<T>
         where T : class
     {
+        Task Insert(FactContext<T> context);
+
+        IEnumerable<IFactSink<T>> GetSinks();
     }
 }

@@ -37,5 +37,10 @@ namespace Authority.Tests.RuntimeTests
 
             return TaskUtil.Completed;
         }
+
+        public void Accept<TContext>(RuntimeVisitor<TContext> visitor, TContext context)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
