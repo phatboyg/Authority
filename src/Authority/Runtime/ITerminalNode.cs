@@ -10,20 +10,16 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace Authority.RuleCompiler
+namespace Authority.Runtime
 {
-    using System.Linq.Expressions;
+    using GreenPipes;
 
 
-    public class RuleParameter<T> :
-        IRuleParameter<T>
+    public interface ITerminalNode<T> :
+        ITupleSink<T>,
+        INode
         where T : class
     {
-        readonly ParameterExpression _parameter;
-
-        public RuleParameter(ParameterExpression parameter)
-        {
-            _parameter = parameter;
-        }
+        ConnectHandle Connect(IRuleNode<T> ruleNode);
     }
 }

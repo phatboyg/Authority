@@ -16,6 +16,7 @@ namespace Authority.Builders
     using System.Linq.Expressions;
     using GreenPipes;
     using RuleCompiler;
+    using Rules.Facts;
     using Runtime;
 
 
@@ -36,17 +37,17 @@ namespace Authority.Builders
     {
         IAlphaNode CurrentAlphaNode { get; set; }
 
+        ITupleSource BetaSource { get; set; }
+
         /// <summary>
         /// Saves a handle of an object created during the build
         /// </summary>
         /// <param name="handle"></param>
         void AddHandle(ConnectHandle handle);
 
-        void AddParameter<T>(RuleParameter<T> parameter);
-    }
+        void AddParameter<T>(RuleParameter<T> parameter)
+            where T : class;
 
-
-    public interface ITerminalNode
-    {
+        IndexMap CreateIndexMap(IRuleFact fact);
     }
 }

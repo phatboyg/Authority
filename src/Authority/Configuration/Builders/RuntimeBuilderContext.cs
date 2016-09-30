@@ -12,10 +12,10 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Builders
 {
-    using System;
     using System.Collections.Generic;
     using GreenPipes;
     using RuleCompiler;
+    using Rules.Facts;
     using Runtime;
 
 
@@ -23,6 +23,7 @@ namespace Authority.Builders
         BuilderContext
     {
         readonly List<ConnectHandle> _handles;
+        readonly List<IRuleParameter> _parameters;
 
         public RuntimeBuilderContext()
         {
@@ -37,8 +38,14 @@ namespace Authority.Builders
         }
 
         public void AddParameter<T>(RuleParameter<T> parameter)
+            where T : class
         {
-            
+            _parameters.Add(parameter);
+        }
+
+        public IndexMap CreateIndexMap(IRuleFact fact)
+        {
+            return IndexMap.CreateMap(_parameters, _parameters);
         }
     }
 }

@@ -20,6 +20,7 @@ namespace Authority.Builders
     using Microsoft.Extensions.Logging;
     using RuleModels;
     using Rules;
+    using Rules.Facts;
     using Runtime;
 
 
@@ -64,6 +65,22 @@ namespace Authority.Builders
         {
             return _network;
         }
+
+        public ITerminalNode<T> BuildTerminalNode<T>(BuilderContext context, IRuleFact<T> fact)
+            where T : class
+        {
+//            if (context.AlphaSource != null)
+//                BuildJoinNode(context);
+
+            var factIndexMap = context.CreateIndexMap(fact);
+
+            var terminalNode = new TerminalNode<T>(context.BetaSource, factIndexMap);
+
+            return terminalNode;
+        }
+
+
+
 //
 //        TerminalNode BuildTerminalNode(ReteBuilderContext context, IEnumerable<Declaration> ruleDeclarations)
 //        {
@@ -253,34 +270,6 @@ namespace Authority.Builders
 //            context.BetaSource = betaNode.MemoryNode;
 //        }
 //
-//        void BuildTypeNode(ReteBuilderContext context, Type declarationType)
-//        {
-//            TypeNode typeNode = context.CurrentAlphaNode
-//                .ChildNodes.OfType<TypeNode>()
-//                .FirstOrDefault(tn => tn.FilterType == declarationType);
-//
-//            if (typeNode == null)
-//            {
-//                typeNode = new TypeNode(declarationType);
-//                context.CurrentAlphaNode.ChildNodes.Add(typeNode);
-//            }
-//            context.CurrentAlphaNode = typeNode;
-//        }
-//
-//        void BuildSelectionNode(ReteBuilderContext context, ConditionElement condition)
-//        {
-//            var alphaCondition = new AlphaCondition(condition.Expression);
-//            SelectionNode selectionNode = context.CurrentAlphaNode
-//                .ChildNodes.OfType<SelectionNode>()
-//                .FirstOrDefault(sn => sn.Condition.Equals(alphaCondition));
-//
-//            if (selectionNode == null)
-//            {
-//                selectionNode = new SelectionNode(alphaCondition);
-//                context.CurrentAlphaNode.ChildNodes.Add(selectionNode);
-//            }
-//            context.CurrentAlphaNode = selectionNode;
-//        }
 //
 //        void BuildAlphaMemoryNode(ReteBuilderContext context)
 //        {
@@ -325,12 +314,13 @@ namespace Authority.Builders
                     .FirstOrDefault(x => x.Condition.Equals(alphaCondition));
                 if (selectionNode == null)
                 {
-                    using(_logger.BeginScope("Create"))
+                    using (_logger.BeginScope("Create"))
+                    {
+                        selectionNode = new SelectionNode<T>(alphaCondition);
+                        var handle = context.CurrentAlphaNode.AddChild(selectionNode);
 
-                    selectionNode = new SelectionNode<T>(alphaCondition);
-                    var handle = context.CurrentAlphaNode.AddChild(selectionNode);
-
-                    context.AddHandle(handle);
+                        context.AddHandle(handle);
+                    }
                 }
 
                 context.CurrentAlphaNode = selectionNode;
@@ -338,20 +328,5 @@ namespace Authority.Builders
                 return selectionNode;
             }
         }
-
-        //        void BuildSelectionNode(ReteBuilderContext context, ConditionElement condition)
-        //        {
-        //            var alphaCondition = new AlphaCondition(condition.Expression);
-        //            SelectionNode selectionNode = context.CurrentAlphaNode
-        //                .ChildNodes.OfType<SelectionNode>()
-        //                .FirstOrDefault(sn => sn.Condition.Equals(alphaCondition));
-        //
-        //            if (selectionNode == null)
-        //            {
-        //                selectionNode = new SelectionNode(alphaCondition);
-        //                context.CurrentAlphaNode.ChildNodes.Add(selectionNode);
-        //            }
-        //            context.CurrentAlphaNode = selectionNode;
-        //        }
     }
 }

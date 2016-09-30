@@ -28,8 +28,10 @@ namespace Authority.Rules.Facts
             _name = name;
         }
 
-        RuleParameter<T> IRuleFact<T>.Parameter => _parameter;
+        IRuleParameter<T> IRuleFact<T>.Parameter => _parameter;
 
         string Fact<T>.Name => _name;
+
+        IRuleParameter IRuleFact.Parameter => _parameter;
     }
 }

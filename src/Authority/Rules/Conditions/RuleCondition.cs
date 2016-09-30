@@ -18,12 +18,6 @@ namespace Authority.Rules.Conditions
     using Facts;
 
 
-    public interface IRuleCondition
-    {
-        void Apply(IRuntimeBuilder builder);
-    }
-
-
     public class RuleCondition<T> : 
         IRuleCondition
         where T : class
@@ -42,6 +36,7 @@ namespace Authority.Rules.Conditions
             var context = builder.CreateContext();
 
             context.AddParameter(_ruleFact.Parameter);
+
             builder.BuildTypeNode<T>(context);
 
             builder.BuildSelectionNode(context, _conditionExpression);

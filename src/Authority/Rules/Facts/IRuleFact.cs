@@ -17,6 +17,7 @@ namespace Authority.Rules.Facts
 
     public interface IRuleFact
     {
+        IRuleParameter Parameter { get; }
     }
 
 
@@ -24,6 +25,6 @@ namespace Authority.Rules.Facts
         IRuleFact
         where T : class
     {
-        RuleParameter<T> Parameter { get; }
+        new IRuleParameter<T> Parameter { get; }
     }
 }

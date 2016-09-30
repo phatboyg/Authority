@@ -12,18 +12,14 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.RuleCompiler
 {
-    using System.Linq.Expressions;
+    public interface IRuleParameter
+    {
+    }
 
 
-    public class RuleParameter<T> :
-        IRuleParameter<T>
+    public interface IRuleParameter<T> :
+        IRuleParameter
         where T : class
     {
-        readonly ParameterExpression _parameter;
-
-        public RuleParameter(ParameterExpression parameter)
-        {
-            _parameter = parameter;
-        }
     }
 }
