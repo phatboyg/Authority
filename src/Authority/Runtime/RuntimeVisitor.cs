@@ -40,10 +40,10 @@ namespace Authority.Runtime
         public virtual void VisitAlphaNode<T>(TContext context, IAlphaNode<T> node)
             where T : class
         {
-            foreach (IAlphaNode<T> childNode in node.GetChildNodes<IAlphaNode<T>>())
-                childNode.Accept(this, context);
-
             VisitAlphaMemoryNode(context, node.MemoryNode);
+
+            foreach (var childNode in node.GetChildNodes<INode>())
+                childNode.Accept(this, context);
         }
 
         public virtual void VisitConditionNode<T>(TContext context, ConditionNode<T> node)
@@ -75,6 +75,7 @@ namespace Authority.Runtime
             where TLeft : class
             where TRight : class
         {
+            VisitBetaMemoryNode(context, node.MemoryNode);
         }
 
         public virtual void VisitBetaMemoryNode<TRight>(TContext context, IBetaMemoryNode<TRight> node)

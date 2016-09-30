@@ -130,6 +130,7 @@
     <Compile Include="Runtime\ITypeNode.cs" />
     <Compile Include="Runtime\IWorkingMemory.cs" />
     <Compile Include="Runtime\JoinNode.cs" />
+    <Compile Include="Runtime\LoggerExtensions.cs" />
     <Compile Include="Runtime\LogRuntimeVisitor.cs" />
     <Compile Include="Runtime\Network.cs" />
     <Compile Include="Runtime\NodeMemoryAccessor.cs" />

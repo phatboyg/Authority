@@ -69,7 +69,6 @@ namespace Authority.Tests.Visitation
         {
             var visitor = new LogRuntimeVisitor(ContextSetup.LoggerFactory);
 
-
             var authority = Authority.Factory.CreateAuthority(cfg =>
             {
                 cfg.SetLoggerFactory(ContextSetup.LoggerFactory);

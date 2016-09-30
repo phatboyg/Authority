@@ -37,8 +37,6 @@ namespace Authority.Runtime
                 return;
 
             visitor.VisitConditionNode(context, this);
-
-            base.Accept(visitor, context);
         }
     }
 }

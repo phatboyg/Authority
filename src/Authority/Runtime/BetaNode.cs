@@ -42,7 +42,7 @@ namespace Authority.Runtime
             _rightHandle = rightSource.Connect(this);
         }
 
-        protected IBetaMemoryNode<TRight> MemoryNode => _memoryNode.Value;
+        public IBetaMemoryNode<TRight> MemoryNode => _memoryNode.Value;
 
         public virtual Task Insert(FactContext<TRight> context)
         {

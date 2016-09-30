@@ -55,7 +55,7 @@ namespace Authority.Runtime
 
         IEnumerable<T> IAlphaNode.GetChildNodes<T>()
         {
-            return _childNodes.Where(x => x is IAlphaNode<T>).Cast<T>();
+            return _childNodes.Where(x => x is T).Cast<T>();
         }
 
         ConnectHandle IAlphaNode.AddChild<T>(IAlphaNode<T> node)
@@ -69,6 +69,9 @@ namespace Authority.Runtime
 
         public virtual void Accept<TContext>(RuntimeVisitor<TContext> visitor, TContext context)
         {
+            if (visitor.IsCompleted)
+                return;
+
             visitor.VisitAlphaNode(context, this);
         }
 

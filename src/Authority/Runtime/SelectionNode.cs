@@ -33,6 +33,9 @@ namespace Authority.Runtime
 
         public override void Accept<TContext>(RuntimeVisitor<TContext> visitor, TContext context)
         {
+            if (visitor.IsCompleted)
+                return;
+
             visitor.VisitSelectionNode(context, this);
         }
     }

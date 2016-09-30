@@ -12,20 +12,23 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Runtime
 {
-    public interface IBetaNode :
-        INode
-    {
-    }
+    using System;
+    using System.Linq;
+    using GreenPipes.Internals.Extensions;
+    using Microsoft.Extensions.Logging;
 
 
-    public interface IBetaNode<in TLeft, TRight> :
-        ITupleSink<TLeft>,
-        IFactSink<TRight>,
-        ITupleSource<TRight>,
-        IBetaNode
-        where TRight : class
-        where TLeft : class
+    public static class LoggerExtensions
     {
-        IBetaMemoryNode<TRight> MemoryNode { get; }
+        public static IDisposable BeginScope<T>(this ILogger logger)
+        {
+            
+            var message = typeof(T).IsGenericType
+                ? $"{typeof(T).GetGenericTypeDefinition().Name.TrimEnd('1').TrimEnd('`')}<{string.Join(",", typeof(T).GetClosingArguments(typeof(T).GetGenericTypeDefinition()).Select(x => x.Name))}>"
+                : $"{typeof(T).Name}>";
+
+            logger.LogDebug(message);
+            return logger.BeginScope(message);
+        }
     }
 }

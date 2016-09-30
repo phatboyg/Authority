@@ -32,16 +32,51 @@ namespace Authority.Runtime
 
         public override void VisitAlphaNode<T>(LogContext context, IAlphaNode<T> node)
         {
-            base.VisitAlphaNode(context, node);
+            using (_log.BeginScope<AlphaNode<T>>())
+            {
+                base.VisitAlphaNode(context, node);
+            }
+        }
+
+        public override void VisitBetaNode<TLeft, TRight>(LogContext context, IBetaNode<TLeft, TRight> node)
+        {
+            using (_log.BeginScope<BetaNode<TLeft, TRight>>())
+            {
+                base.VisitBetaNode(context, node);
+            }
+        }
+
+        public override void VisitSelectionNode<T>(LogContext context, ISelectionNode<T> node)
+        {
+            using (_log.BeginScope<SelectionNode<T>>())
+            {
+                _log.LogDebug("Condition: {0}", node.Condition);
+
+                base.VisitAlphaNode(context, node);
+            }
+        }
+
+        public override void VisitConditionNode<T>(LogContext context, ConditionNode<T> node)
+        {
+            using (_log.BeginScope<ConditionNode<T>>())
+            {
+                base.VisitConditionNode(context, node);
+            }
+        }
+
+        public override void VisitAlphaMemoryNode<T>(LogContext context, IAlphaMemoryNode<T> node)
+        {
+            using (_log.BeginScope<AlphaMemoryNode<T>>())
+            {
+                base.VisitAlphaMemoryNode(context, node);
+            }
         }
 
         public override void VisitTypeNode<T>(LogContext context, ITypeNode<T> node)
         {
-            var message = $"TypeNode<{typeof(T).Name}>";
-            _log.LogDebug(message);
-            using (_log.BeginScope(message))
+            using (_log.BeginScope<TypeNode<T>>())
             {
-                base.VisitTypeNode(context, node);
+                base.VisitAlphaNode(context, node);
             }
         }
     }
