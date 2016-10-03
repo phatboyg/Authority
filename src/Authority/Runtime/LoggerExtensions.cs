@@ -22,10 +22,14 @@ namespace Authority.Runtime
     {
         public static IDisposable BeginScope<T>(this ILogger logger)
         {
-            
-            var message = typeof(T).IsGenericType
-                ? $"{typeof(T).GetGenericTypeDefinition().Name.TrimEnd('1').TrimEnd('`')}<{string.Join(",", typeof(T).GetClosingArguments(typeof(T).GetGenericTypeDefinition()).Select(x => x.Name))}>"
-                : $"{typeof(T).Name}>";
+            return BeginTypeScope(logger, typeof(T));
+        }
+
+        public static IDisposable BeginTypeScope(this ILogger logger, Type scopeType)
+        {
+            var message = scopeType.IsGenericType
+                ? $"{scopeType.GetGenericTypeDefinition().Name.TrimEnd('1').TrimEnd('`')}<{string.Join(",", scopeType.GetClosingArguments(scopeType.GetGenericTypeDefinition()).Select(x => x.Name))}>"
+                : $"{scopeType.Name}>";
 
             logger.LogDebug(message);
             return logger.BeginScope(message);

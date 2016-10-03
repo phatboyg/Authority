@@ -20,7 +20,7 @@ namespace Authority.Tests.RuntimeTests
     {
         public TestSession()
         {
-            WorkingMemory = new WorkingMemory();
+            WorkingMemory = new WorkingMemory(ContextSetup.LoggerFactory);
         }
 
         public IWorkingMemory WorkingMemory { get; }

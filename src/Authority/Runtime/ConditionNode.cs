@@ -13,6 +13,7 @@
 namespace Authority.Runtime
 {
     using System;
+    using Microsoft.Extensions.Logging;
 
 
     public class ConditionNode<T> :
@@ -21,7 +22,8 @@ namespace Authority.Runtime
     {
         readonly Func<T, bool> _matches;
 
-        public ConditionNode(Func<T, bool> matches)
+        public ConditionNode(ILoggerFactory loggerFactory, Func<T, bool> matches)
+            : base(loggerFactory)
         {
             _matches = matches;
         }

@@ -13,6 +13,7 @@
 namespace Authority.Tests
 {
     using System;
+    using System.Threading.Tasks;
     using NUnit.Framework;
     using Rules;
 
@@ -31,7 +32,7 @@ namespace Authority.Tests
                 Fact(() => Address);
 
                 // simple conditionals
-                When(Name, x => x.First == "David");
+                When(Name, x => x.First == "Brandon");
                 When(Address, x => x.PostalCode == "90210");
 
                 // join conditional
@@ -53,6 +54,11 @@ namespace Authority.Tests
         {
             public int MemberId { get; set; }
             public string First { get; set; }
+
+            public override string ToString()
+            {
+                return $"MemberName (MemberId={MemberId},First='{First}')";
+            }
         }
 
 
@@ -73,16 +79,22 @@ namespace Authority.Tests
         }
 
         [Test]
-        public void Should_add_conditions_to_the_engine()
+        public async Task Should_add_conditions_to_the_engine()
         {
             IRule rule = new MyRule();
 
-            Authority.Factory.CreateAuthority(cfg =>
+            var authority = Authority.Factory.CreateAuthority(cfg =>
             {
                 cfg.SetLoggerFactory(ContextSetup.LoggerFactory);
 
                 cfg.AddRule(rule);
             });
+
+
+            var session = await authority.CreateSession();
+
+            var memberName = await session.Insert(new MemberName() {First = "Brandon", MemberId = 27});
+
         }
     }
 }

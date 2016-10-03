@@ -13,6 +13,7 @@
 namespace Authority.Runtime
 {
     using System.Threading.Tasks;
+    using Microsoft.Extensions.Logging;
 
 
     public class WorkingMemory :
@@ -21,9 +22,9 @@ namespace Authority.Runtime
         readonly IAlphaMemoryMap _alphaMemories;
         readonly IBetaMemoryMap _betaMemories;
 
-        public WorkingMemory()
+        public WorkingMemory(ILoggerFactory loggerFactory)
         {
-            _alphaMemories = new AlphaMemoryMap();
+            _alphaMemories = new AlphaMemoryMap(loggerFactory);
             _betaMemories = new BetaMemoryMap();
         }
 

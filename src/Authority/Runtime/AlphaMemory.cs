@@ -16,6 +16,7 @@ namespace Authority.Runtime
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.Extensions.Logging;
     using Util;
 
 
@@ -32,12 +33,15 @@ namespace Authority.Runtime
         where TFact : class
     {
         readonly OrderedHashSet<TFact> _facts;
+        readonly ILogger<AlphaMemory<TFact>> _log;
         readonly LimitedConcurrencyLevelTaskScheduler _scheduler;
 
-        public AlphaMemory()
+        public AlphaMemory(ILoggerFactory loggerFactory)
         {
             _scheduler = new LimitedConcurrencyLevelTaskScheduler(1);
             _facts = new OrderedHashSet<TFact>();
+
+            _log = loggerFactory.CreateLogger<AlphaMemory<TFact>>();
         }
 
         Task INodeMemory.Access<T>(NodeMemoryAccessor<T> accessor)
@@ -51,7 +55,10 @@ namespace Authority.Runtime
 
         void IAlphaMemory<TFact>.Add(TFact fact)
         {
-            _facts.Add(fact);
+            var added = _facts.Add(fact);
+
+            if (added)
+                _log.LogDebug("Fact Added: {0}", fact);
         }
 
         bool IAlphaMemory<TFact>.Contains(TFact fact)
@@ -61,7 +68,10 @@ namespace Authority.Runtime
 
         void IAlphaMemory<TFact>.Remove(TFact fact)
         {
-            _facts.Remove(fact);
+            var removed = _facts.Remove(fact);
+
+            if (removed)
+                _log.LogDebug("Fact Removed: {0}", fact);
         }
 
         Task IAlphaMemory<TFact>.ForEach(SessionContext context, Func<FactContext<TFact>, Task> callback)

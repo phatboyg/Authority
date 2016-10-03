@@ -12,6 +12,9 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Runtime
 {
+    using Microsoft.Extensions.Logging;
+
+
     public class SelectionNode<T> :
         AlphaNode<T>,
         ISelectionNode<T>
@@ -19,7 +22,8 @@ namespace Authority.Runtime
     {
         readonly IAlphaCondition<T> _condition;
 
-        public SelectionNode(IAlphaCondition<T> condition)
+        public SelectionNode(ILoggerFactory loggerFactory, IAlphaCondition<T> condition)
+            : base(loggerFactory)
         {
             _condition = condition;
         }

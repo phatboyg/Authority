@@ -17,6 +17,7 @@ namespace Authority.Runtime
     using System.Linq;
     using System.Threading.Tasks;
     using GreenPipes;
+    using Microsoft.Extensions.Logging;
     using Util;
 
 
@@ -25,21 +26,27 @@ namespace Authority.Runtime
         where TFact : class
     {
         readonly ConnectableList<IAlphaNode<TFact>> _childNodes;
+        readonly ILogger<AlphaNode<TFact>> _log;
         readonly Lazy<IAlphaMemoryNode<TFact>> _memoryNode;
 
-        public AlphaNode()
+        public AlphaNode(ILoggerFactory loggerFactory)
         {
             _memoryNode = new Lazy<IAlphaMemoryNode<TFact>>(() => new AlphaMemoryNode<TFact>());
             _childNodes = new ConnectableList<IAlphaNode<TFact>>();
+
+            _log = loggerFactory.CreateLogger<AlphaNode<TFact>>();
         }
 
         public virtual async Task Insert(FactContext<TFact> context)
         {
-            if (Evaluate(context))
+            using (_log.BeginTypeScope(GetType()))
             {
-                await _childNodes.All(node => node.Insert(context)).ConfigureAwait(false);
+                if (Evaluate(context))
+                {
+                    await _childNodes.All(node => node.Insert(context)).ConfigureAwait(false);
 
-                await _memoryNode.Value.Insert(context).ConfigureAwait(false);
+                    await _memoryNode.Value.Insert(context).ConfigureAwait(false);
+                }
             }
         }
 

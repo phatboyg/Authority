@@ -14,6 +14,7 @@ namespace Authority.Runtime
 {
     using System;
     using System.Threading.Tasks;
+    using Microsoft.Extensions.Logging;
 
 
     public class TypeNode<TFact> :
@@ -23,7 +24,8 @@ namespace Authority.Runtime
     {
         readonly FactObservable<TFact> _observers;
 
-        public TypeNode()
+        public TypeNode(ILoggerFactory loggerFactory)
+            : base(loggerFactory)
         {
             _observers = new FactObservable<TFact>();
         }

@@ -14,6 +14,7 @@ namespace Authority.Runtime
 {
     using System.Collections.Concurrent;
     using System.Threading.Tasks;
+    using Microsoft.Extensions.Logging;
 
 
     /// <summary>
@@ -22,16 +23,18 @@ namespace Authority.Runtime
     public class AlphaMemoryMap : 
         IAlphaMemoryMap
     {
+        readonly ILoggerFactory _loggerFactory;
         readonly ConcurrentDictionary<IAlphaMemoryNode, IAlphaMemory> _memories;
 
-        public AlphaMemoryMap()
+        public AlphaMemoryMap(ILoggerFactory loggerFactory)
         {
+            _loggerFactory = loggerFactory;
             _memories = new ConcurrentDictionary<IAlphaMemoryNode, IAlphaMemory>();
         }
 
         Task IAlphaMemoryMap.Access<T>(IAlphaMemoryNode<T> node, NodeMemoryAccessor<IAlphaMemory<T>> accessor)
         {
-            var memory = _memories.GetOrAdd(node, add => new AlphaMemory<T>());
+            var memory = _memories.GetOrAdd(node, add => new AlphaMemory<T>(_loggerFactory));
 
             return memory.Access(accessor);
         }

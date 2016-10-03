@@ -25,9 +25,12 @@ namespace Authority.Runtime
         readonly ILogger<Network> _logger;
         readonly FactObservable _observers;
         readonly ConcurrentDictionary<Type, ITypeActivation> _typeNodes;
+        ILoggerFactory _loggerFactory;
 
         public Network(ILoggerFactory loggerFactory)
         {
+            _loggerFactory = loggerFactory;
+
             _logger = loggerFactory.CreateLogger<Network>();
 
             _typeNodes = new ConcurrentDictionary<Type, ITypeActivation>();
@@ -77,7 +80,7 @@ namespace Authority.Runtime
             {
                 _logger.LogDebug($"Creating type node: {typeof(T).Name}");
 
-                return new TypeActivation<T>(_observers);
+                return new TypeActivation<T>(_observers, _loggerFactory);
             });
         }
 
@@ -98,10 +101,12 @@ namespace Authority.Runtime
         {
             readonly Lazy<ITypeNode<TFact>> _filter;
             readonly FactObservable _observers;
+            readonly ILoggerFactory _loggerFactory;
 
-            public TypeActivation(FactObservable observers)
+            public TypeActivation(FactObservable observers, ILoggerFactory loggerFactory)
             {
                 _observers = observers;
+                _loggerFactory = loggerFactory;
                 _filter = new Lazy<ITypeNode<TFact>>(CreateTypeNode);
             }
 
@@ -128,7 +133,7 @@ namespace Authority.Runtime
 
             ITypeNode<TFact> CreateTypeNode()
             {
-                var typeNode = new TypeNode<TFact>();
+                var typeNode = new TypeNode<TFact>(_loggerFactory);
 
                 typeNode.ConnectObserver(new FactObservableAdapter<TFact>(_observers));
 

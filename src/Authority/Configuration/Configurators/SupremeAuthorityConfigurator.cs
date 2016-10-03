@@ -48,7 +48,7 @@ namespace Authority.Configurators
             foreach (var rule in _rules)
                 rule.Apply(builder);
 
-            return new SupremeAuthority(builder.Build());
+            return new SupremeAuthority(builder.Build(), _loggerFactory);
         }
     }
 }

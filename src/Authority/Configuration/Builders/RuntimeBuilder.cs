@@ -29,9 +29,12 @@ namespace Authority.Builders
     {
         readonly Network _network;
         readonly ILogger<RuntimeBuilder> _logger;
+        ILoggerFactory _loggerFactory;
 
         public RuntimeBuilder(ILoggerFactory loggerFactory)
         {
+            _loggerFactory = loggerFactory;
+
             _logger = loggerFactory.CreateLogger<RuntimeBuilder>();
             _network = new Network(loggerFactory);
         }
@@ -321,7 +324,7 @@ namespace Authority.Builders
                 {
                     using (_logger.BeginScope("Create"))
                     {
-                        selectionNode = new SelectionNode<T>(alphaCondition);
+                        selectionNode = new SelectionNode<T>(_loggerFactory, alphaCondition);
                         context.CurrentAlphaNode.AddChild(selectionNode);
                     }
                 }

@@ -13,6 +13,7 @@
 namespace Authority
 {
     using System.Threading.Tasks;
+    using Microsoft.Extensions.Logging;
     using Runtime;
 
 
@@ -21,15 +22,17 @@ namespace Authority
         AuthorityContext
     {
         readonly INetwork _network;
+        readonly ILoggerFactory _loggerFactory;
 
-        public SupremeAuthority(INetwork network)
+        public SupremeAuthority(INetwork network, ILoggerFactory loggerFactory)
         {
             _network = network;
+            _loggerFactory = loggerFactory;
         }
 
         public Task<ISession> CreateSession()
         {
-            return Task.FromResult<ISession>(new Session(this, _network));
+            return Task.FromResult<ISession>(new Session(this, _network, _loggerFactory));
         }
 
         ObserverHandle IObserverConnector.ConnectObserver<T>(IFactObserver<T> observer)

@@ -15,6 +15,7 @@ namespace Authority
     using System;
     using System.Diagnostics;
     using System.Threading.Tasks;
+    using Microsoft.Extensions.Logging;
     using Runtime;
 
 
@@ -28,13 +29,13 @@ namespace Authority
         readonly Stopwatch _stopwatch;
         readonly IWorkingMemory _workingMemory;
 
-        public Session(AuthorityContext authorityContext, INetwork network)
+        public Session(AuthorityContext authorityContext, INetwork network, ILoggerFactory loggerFactory)
         {
             _authorityContext = authorityContext;
             _network = network;
 
             _factIndex = new FactIndex();
-            _workingMemory = new WorkingMemory();
+            _workingMemory = new WorkingMemory(loggerFactory);
 
             _stopwatch = Stopwatch.StartNew();
         }
