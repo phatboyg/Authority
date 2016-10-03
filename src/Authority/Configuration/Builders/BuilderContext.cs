@@ -12,33 +12,20 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Builders
 {
-    using System.Collections.Generic;
     using RuleCompiler;
     using Rules.Facts;
     using Runtime;
 
 
-    public class RuntimeBuilderContext :
-        BuilderContext
+    public interface BuilderContext
     {
-        readonly List<IRuleParameter> _parameters;
+        IAlphaNode CurrentAlphaNode { get; set; }
 
-        public RuntimeBuilderContext()
-        {
-            _parameters = new List<IRuleParameter>();
-        }
+        //ITupleSource BetaSource { get; set; }
 
-        public IAlphaNode CurrentAlphaNode { get; set; }
+        void AddParameter<T>(IRuleParameter<T> parameter)
+            where T : class;
 
-        public void AddParameter<T>(IRuleParameter<T> parameter)
-            where T : class
-        {
-            _parameters.Add(parameter);
-        }
-
-        public IndexMap CreateIndexMap(IRuleFact fact)
-        {
-            return IndexMap.CreateMap(_parameters, _parameters);
-        }
+        IndexMap CreateIndexMap(IRuleFact fact);
     }
 }

@@ -13,7 +13,6 @@
 namespace Authority
 {
     using System.Threading.Tasks;
-    using GreenPipes;
     using Runtime;
 
 
@@ -33,16 +32,15 @@ namespace Authority
             return Task.FromResult<ISession>(new Session(this, _network));
         }
 
-        ConnectHandle IObserverConnector.ConnectObserver<T>(IFactObserver<T> observer)
+        ObserverHandle IObserverConnector.ConnectObserver<T>(IFactObserver<T> observer)
         {
             return _network.ConnectObserver(observer);
         }
 
-        ConnectHandle IObserverConnector.ConnectObserver(IFactObserver observer)
+        ObserverHandle IObserverConnector.ConnectObserver(IFactObserver observer)
         {
             return _network.ConnectObserver(observer);
         }
-
 
         public void Accept<TContext>(RuntimeVisitor<TContext> visitor, TContext context)
         {

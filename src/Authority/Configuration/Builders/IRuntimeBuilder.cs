@@ -14,9 +14,6 @@ namespace Authority.Builders
 {
     using System;
     using System.Linq.Expressions;
-    using GreenPipes;
-    using RuleCompiler;
-    using Rules.Facts;
     using Runtime;
 
 
@@ -25,29 +22,23 @@ namespace Authority.Builders
 //        IEnumerable<ITerminalNode> AddRule(IRuleDefinition ruleDefinition);
         BuilderContext CreateContext();
 
+        /// <summary>
+        /// Builds (or uses an existing) type node
+        /// </summary>
+        /// <typeparam name="T">The fact type</typeparam>
+        /// <param name="context"></param>
+        /// <returns></returns>
         ITypeNode<T> BuildTypeNode<T>(BuilderContext context)
             where T : class;
 
+        /// <summary>
+        /// Builds (or uses an existing) selection node
+        /// </summary>
+        /// <typeparam name="T">The fact type</typeparam>
+        /// <param name="context"></param>
+        /// <param name="conditionExpression"></param>
+        /// <returns></returns>
         ISelectionNode<T> BuildSelectionNode<T>(BuilderContext context, Expression<Func<T, bool>> conditionExpression)
             where T : class;
-    }
-
-
-    public interface BuilderContext
-    {
-        IAlphaNode CurrentAlphaNode { get; set; }
-
-        //ITupleSource BetaSource { get; set; }
-
-        /// <summary>
-        /// Saves a handle of an object created during the build
-        /// </summary>
-        /// <param name="handle"></param>
-        void AddHandle(ConnectHandle handle);
-
-        void AddParameter<T>(IRuleParameter<T> parameter)
-            where T : class;
-
-        IndexMap CreateIndexMap(IRuleFact fact);
     }
 }

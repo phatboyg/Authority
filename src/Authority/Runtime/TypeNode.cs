@@ -14,7 +14,6 @@ namespace Authority.Runtime
 {
     using System;
     using System.Threading.Tasks;
-    using GreenPipes;
 
 
     public class TypeNode<TFact> :
@@ -29,9 +28,9 @@ namespace Authority.Runtime
             _observers = new FactObservable<TFact>();
         }
 
-        public ConnectHandle ConnectObserver(IFactObserver<TFact> observer)
+        public ObserverHandle ConnectObserver(IFactObserver<TFact> observer)
         {
-            return _observers.Connect(observer);
+            return _observers.Connect(observer).ToObserverHandle();
         }
 
         async Task IFactSink.Insert<T>(FactContext<T> factContext)

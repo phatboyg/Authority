@@ -12,9 +12,6 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority
 {
-    using GreenPipes;
-
-
     public interface IObserverConnector<out TContext>
         where TContext : class
     {
@@ -23,7 +20,7 @@ namespace Authority
         /// </summary>
         /// <param name="observer"></param>
         /// <returns></returns>
-        ConnectHandle ConnectObserver(IFactObserver<TContext> observer);
+        ObserverHandle ConnectObserver(IFactObserver<TContext> observer);
     }
 
 
@@ -34,7 +31,7 @@ namespace Authority
         /// </summary>
         /// <param name="observer"></param>
         /// <returns></returns>
-        ConnectHandle ConnectObserver<T>(IFactObserver<T> observer)
+        ObserverHandle ConnectObserver<T>(IFactObserver<T> observer)
             where T : class;
 
         /// <summary>
@@ -42,6 +39,6 @@ namespace Authority
         /// </summary>
         /// <param name="observer"></param>
         /// <returns></returns>
-        ConnectHandle ConnectObserver(IFactObserver observer);
+        ObserverHandle ConnectObserver(IFactObserver observer);
     }
 }

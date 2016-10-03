@@ -312,6 +312,9 @@ namespace Authority.Builders
 
                 _logger.LogDebug($"Condition: {alphaCondition}");
 
+                if (context.CurrentAlphaNode == null)
+                    throw new RuntimeBuilderException("CurrentAlphaNode must not be null");
+
                 var selectionNode = context.CurrentAlphaNode.GetChildNodes<SelectionNode<T>>()
                     .FirstOrDefault(x => x.Condition.Equals(alphaCondition));
                 if (selectionNode == null)
@@ -319,9 +322,7 @@ namespace Authority.Builders
                     using (_logger.BeginScope("Create"))
                     {
                         selectionNode = new SelectionNode<T>(alphaCondition);
-                        var handle = context.CurrentAlphaNode.AddChild(selectionNode);
-
-                        context.AddHandle(handle);
+                        context.CurrentAlphaNode.AddChild(selectionNode);
                     }
                 }
 

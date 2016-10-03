@@ -46,11 +46,14 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\Builders\BuilderContext.cs" />
     <Compile Include="Configuration\Builders\IRuntimeBuilder.cs" />
     <Compile Include="Configuration\Builders\ReteBuilderContext.cs" />
     <Compile Include="Configuration\Builders\RuntimeBuilder.cs" />
     <Compile Include="Configuration\Builders\RuntimeBuilderContext.cs" />
     <Compile Include="Exceptions\FactNotFoundException.cs" />
+    <Compile Include="Exceptions\RuntimeBuilderException.cs" />
+    <Compile Include="ObserverHandle.cs" />
     <Compile Include="RuleCompiler\ExpressionConverter.cs" />
     <Compile Include="RuleCompiler\IRuleParameter.cs" />
     <Compile Include="RuleCompiler\RuleParameter.cs" />

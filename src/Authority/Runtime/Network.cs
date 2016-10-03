@@ -10,15 +10,12 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-using Authority_IObserverConnector = Authority.IObserverConnector;
-
 namespace Authority.Runtime
 {
     using System;
     using System.Collections.Concurrent;
     using System.Linq;
     using System.Threading.Tasks;
-    using GreenPipes;
     using Microsoft.Extensions.Logging;
 
 
@@ -45,14 +42,14 @@ namespace Authority.Runtime
             return Task.WhenAll(_typeNodes.Values.Select(x => x.FactSink.Insert(context)));
         }
 
-        ConnectHandle Authority_IObserverConnector.ConnectObserver<T>(IFactObserver<T> observer)
+        ObserverHandle IObserverConnector.ConnectObserver<T>(IFactObserver<T> observer)
         {
             return GetTypeNode<T>().ConnectObserver(observer);
         }
 
-        ConnectHandle Authority_IObserverConnector.ConnectObserver(IFactObserver observer)
+        ObserverHandle IObserverConnector.ConnectObserver(IFactObserver observer)
         {
-            return _observers.Connect(observer);
+            return _observers.Connect(observer).ToObserverHandle();
         }
 
         public virtual void Accept<TContext>(RuntimeVisitor<TContext> visitor, TContext context)
@@ -86,7 +83,7 @@ namespace Authority.Runtime
 
 
         protected interface ITypeActivation :
-            Authority_IObserverConnector
+            IObserverConnector
         {
             IFactSink FactSink { get; }
 
@@ -115,7 +112,7 @@ namespace Authority.Runtime
                 return _filter.Value as TResult;
             }
 
-            ConnectHandle Authority_IObserverConnector.ConnectObserver<T>(IFactObserver<T> observer)
+            ObserverHandle IObserverConnector.ConnectObserver<T>(IFactObserver<T> observer)
             {
                 var connector = _filter.Value as ITypeNode<T>;
                 if (connector == null)
@@ -124,9 +121,9 @@ namespace Authority.Runtime
                 return connector.ConnectObserver(observer);
             }
 
-            public ConnectHandle ConnectObserver(IFactObserver observer)
+            public ObserverHandle ConnectObserver(IFactObserver observer)
             {
-                return _observers.Connect(observer);
+                return _observers.Connect(observer).ToObserverHandle();
             }
 
             ITypeNode<TFact> CreateTypeNode()
