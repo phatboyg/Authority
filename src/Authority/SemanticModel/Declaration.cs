@@ -10,32 +10,37 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace Authority.RuleCompiler
+namespace Authority.SemanticModel
 {
     using System;
-    using System.Linq.Expressions;
 
 
-    public class RuleParameter<T> :
-        IRuleParameter<T>,
-        IEquatable<RuleParameter<T>>
+    public class Declaration<T> :
+        IDeclaration<T>
         where T : class
     {
-        readonly ParameterExpression _parameter;
-
-        public RuleParameter(ParameterExpression parameter)
+        public Declaration(string name, string scope)
         {
-            _parameter = parameter;
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+
+            Name = name;
+            FullName = scope != null ? $"{scope}{SymbolTable.ScopeSeparator}{name}" : name;
         }
 
-        public bool Equals(RuleParameter<T> other)
+        public bool Equals(Declaration<T> other)
         {
             if (ReferenceEquals(null, other))
                 return false;
             if (ReferenceEquals(this, other))
                 return true;
-            return _parameter.Equals(other._parameter);
+            return string.Equals(FullName, other.FullName);
         }
+
+        public string Name { get; }
+        public string FullName { get; }
+
+        public Type DeclarationType => typeof(T);
 
         public override bool Equals(object obj)
         {
@@ -45,12 +50,22 @@ namespace Authority.RuleCompiler
                 return true;
             if (obj.GetType() != GetType())
                 return false;
-            return Equals((RuleParameter<T>)obj);
+            return Equals((Declaration<T>)obj);
         }
 
         public override int GetHashCode()
         {
-            return _parameter.GetHashCode();
+            return FullName.GetHashCode();
+        }
+
+        public static bool operator ==(Declaration<T> left, Declaration<T> right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(Declaration<T> left, Declaration<T> right)
+        {
+            return !Equals(left, right);
         }
     }
 }

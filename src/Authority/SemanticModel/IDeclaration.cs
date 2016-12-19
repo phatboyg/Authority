@@ -10,31 +10,34 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace Authority.Rules.Facts
+namespace Authority.SemanticModel
 {
     using System;
-    using RuleCompiler;
 
 
-    public class RuleFact<T> :
-        Fact<T>
+    public interface IDeclaration
+    {
+        /// <summary>
+        /// The fact type of this declaration
+        /// </summary>
+        Type DeclarationType { get; }
+
+        /// <summary>
+        /// The name of the declaration as defined in the rule
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
+        /// The fully scoped name of the declaration
+        /// </summary>
+        string FullName { get; }
+    }
+
+
+    public interface IDeclaration<T> :
+        IDeclaration,
+        IEquatable<Declaration<T>>
         where T : class
     {
-        readonly string _name;
-        readonly RuleParameter<T> _parameter;
-
-        public RuleFact(string name, RuleParameter<T> parameter)
-        {
-            _parameter = parameter;
-            _name = name;
-        }
-
-        public Type FactType => typeof(T);
-
-        IRuleParameter<T> IRuleFact<T>.Parameter => _parameter;
-
-        string Fact<T>.Name => _name;
-
-        IRuleParameter IRuleFact.Parameter => _parameter;
     }
 }

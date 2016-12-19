@@ -21,6 +21,22 @@ namespace Authority.Tests.Visitation
     [TestFixture]
     public class Visiting_the_network
     {
+        [Test]
+        public void Should_find_all_alpha_nodes()
+        {
+            var visitor = new LogRuntimeVisitor(ContextSetup.LoggerFactory);
+
+            var authority = Authority.Factory.CreateAuthority(cfg =>
+            {
+                cfg.SetLoggerFactory(ContextSetup.LoggerFactory);
+
+                cfg.AddRule(new MyRule());
+            });
+
+            visitor.Visit(new LogContext(), authority);
+        }
+
+
         sealed class MyRule :
             Rule
         {
@@ -61,22 +77,6 @@ namespace Authority.Tests.Visitation
         {
             public int MemberId { get; set; }
             public string PostalCode { get; set; }
-        }
-
-
-        [Test]
-        public void Should_find_all_alpha_nodes()
-        {
-            var visitor = new LogRuntimeVisitor(ContextSetup.LoggerFactory);
-
-            var authority = Authority.Factory.CreateAuthority(cfg =>
-            {
-                cfg.SetLoggerFactory(ContextSetup.LoggerFactory);
-
-                cfg.AddRule(new MyRule());
-            });
-
-            visitor.Visit(new LogContext(), authority);
         }
     }
 }

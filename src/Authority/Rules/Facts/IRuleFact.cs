@@ -12,11 +12,14 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Rules.Facts
 {
+    using System;
     using RuleCompiler;
 
 
     public interface IRuleFact
     {
+        Type FactType { get; }
+
         IRuleParameter Parameter { get; }
     }
 

@@ -21,11 +21,17 @@ namespace Authority.Builders
     {
         IAlphaNode CurrentAlphaNode { get; set; }
 
-        //ITupleSource BetaSource { get; set; }
+        IAlphaMemoryNode AlphaSource { get; set; }
+        IBetaMemoryNode BetaSource { get; set; }
 
         void AddParameter<T>(IRuleParameter<T> parameter)
             where T : class;
 
         IndexMap CreateIndexMap(IRuleFact fact);
+
+        /// <summary>
+        /// Clears the Alpha network source and any associated data
+        /// </summary>
+        void ClearAlphaSource();
     }
 }

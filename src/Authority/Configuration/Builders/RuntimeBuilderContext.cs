@@ -12,23 +12,25 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Builders
 {
-    using System.Collections.Generic;
     using RuleCompiler;
     using Rules.Facts;
     using Runtime;
+    using Util;
 
 
     public class RuntimeBuilderContext :
         BuilderContext
     {
-        readonly List<IRuleParameter> _parameters;
+        readonly OrderedHashSet<IRuleParameter> _parameters;
 
         public RuntimeBuilderContext()
         {
-            _parameters = new List<IRuleParameter>();
+            _parameters = new OrderedHashSet<IRuleParameter>();
         }
 
         public IAlphaNode CurrentAlphaNode { get; set; }
+        public IAlphaMemoryNode AlphaSource { get; set; }
+        public IBetaMemoryNode BetaSource { get; set; }
 
         public void AddParameter<T>(IRuleParameter<T> parameter)
             where T : class
@@ -39,6 +41,11 @@ namespace Authority.Builders
         public IndexMap CreateIndexMap(IRuleFact fact)
         {
             return IndexMap.CreateMap(_parameters, _parameters);
+        }
+
+        public void ClearAlphaSource()
+        {
+            AlphaSource = null;
         }
     }
 }

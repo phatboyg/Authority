@@ -13,13 +13,9 @@
 namespace Authority.Builders
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using GreenPipes.Internals.Extensions;
     using Microsoft.Extensions.Logging;
-    using RuleModels;
-    using Rules;
     using Rules.Facts;
     using Runtime;
 
@@ -27,9 +23,9 @@ namespace Authority.Builders
     public class RuntimeBuilder :
         IRuntimeBuilder
     {
-        readonly Network _network;
         readonly ILogger<RuntimeBuilder> _logger;
-        ILoggerFactory _loggerFactory;
+        readonly ILoggerFactory _loggerFactory;
+        readonly Network _network;
 
         public RuntimeBuilder(ILoggerFactory loggerFactory)
         {
@@ -38,53 +34,6 @@ namespace Authority.Builders
             _logger = loggerFactory.CreateLogger<RuntimeBuilder>();
             _network = new Network(loggerFactory);
         }
-
-//        public IEnumerable<ITerminalNode> AddRule(IRuleDefinition ruleDefinition)
-//        {
-//            List<Declaration> ruleDeclarations = ruleDefinition.LeftHandSide.Declarations.ToList();
-//            var terminals = new List<ITerminalNode>();
-//            ruleDefinition.LeftHandSide.Match(
-//                and =>
-//                {
-//                    var context = new ReteBuilderContext(_dummyNode);
-//                    Visit(context, and);
-//                    var terminalNode = BuildTerminalNode(context, ruleDeclarations);
-//                    terminals.Add(terminalNode);
-//                },
-//                or =>
-//                {
-//                    foreach (var childElement in or.ChildElements)
-//                    {
-//                        var context = new ReteBuilderContext(_dummyNode);
-//                        Visit(context, childElement);
-//                        var terminalNode = BuildTerminalNode(context, ruleDeclarations);
-//                        terminals.Add(terminalNode);
-//                    }
-//                });
-//            return terminals;
-//        }
-//
-        public INetwork Build()
-        {
-            return _network;
-        }
-
-        public ITerminalNode<T> BuildTerminalNode<T>(BuilderContext context, IRuleFact<T> fact)
-            where T : class
-        {
-//            if (context.AlphaSource != null)
-//                BuildJoinNode(context);
-
-            var factIndexMap = context.CreateIndexMap(fact);
-
-//            var terminalNode = new TerminalNode<T>(context.BetaSource, factIndexMap);
-
-//            return terminalNode;
-
-            throw new NotImplementedException();
-        }
-
-
 
 //
 //        TerminalNode BuildTerminalNode(ReteBuilderContext context, IEnumerable<Declaration> ruleDeclarations)
@@ -298,7 +247,7 @@ namespace Authority.Builders
         {
             using (_logger.BeginScope($"{nameof(BuildTypeNode)}<{typeof(T).Name}>"))
             {
-                var typeNode = _network.GetTypeNode<T, TypeNode<T>>();
+                TypeNode<T> typeNode = _network.GetTypeNode<T, TypeNode<T>>();
 
                 context.CurrentAlphaNode = typeNode;
 
@@ -315,24 +264,79 @@ namespace Authority.Builders
 
                 _logger.LogDebug($"Condition: {alphaCondition}");
 
-                if (context.CurrentAlphaNode == null)
-                    throw new RuntimeBuilderException("CurrentAlphaNode must not be null");
+                var alphaNode = context.CurrentAlphaNode ?? BuildTypeNode<T>(context);
 
-                var selectionNode = context.CurrentAlphaNode.GetChildNodes<SelectionNode<T>>()
+                SelectionNode<T> selectionNode = alphaNode.GetChildNodes<SelectionNode<T>>()
                     .FirstOrDefault(x => x.Condition.Equals(alphaCondition));
                 if (selectionNode == null)
-                {
                     using (_logger.BeginScope("Create"))
                     {
                         selectionNode = new SelectionNode<T>(_loggerFactory, alphaCondition);
-                        context.CurrentAlphaNode.AddChild(selectionNode);
+                        alphaNode.AddChild(selectionNode);
                     }
-                }
 
                 context.CurrentAlphaNode = selectionNode;
 
                 return selectionNode;
             }
+        }
+
+        public IBetaNode<T, T> BuildJoinNode<T>(BuilderContext context)
+            where T : class
+        {
+            var betaSource = (context.BetaSource ?? new DummyNode<T>()) as ITupleSource<T>;
+            var alphaSource = context.AlphaSource as IFactSource<T>;
+
+            var node = new JoinNode<T, T>(betaSource, alphaSource, new BetaCondition<T, T>((x, y) => true));
+
+            context.BetaSource = node.MemoryNode;
+
+            context.ClearAlphaSource();
+
+            return node;
+        }
+
+        public ITerminalNode<T> BuildTerminalNode<T>(BuilderContext context, IRuleFact<T> fact)
+            where T : class
+        {
+            if (context.AlphaSource != null)
+                BuildJoinNode<T>(context);
+
+            var factIndexMap = context.CreateIndexMap(fact);
+
+            var betaSource = context.BetaSource as ITupleSource<T>;
+
+            return new TerminalNode<T>(betaSource, factIndexMap);
+        }
+
+//        public IEnumerable<ITerminalNode> AddRule(IRuleDefinition ruleDefinition)
+//        {
+//            List<Declaration> ruleDeclarations = ruleDefinition.LeftHandSide.Declarations.ToList();
+//            var terminals = new List<ITerminalNode>();
+//            ruleDefinition.LeftHandSide.Match(
+//                and =>
+//                {
+//                    var context = new ReteBuilderContext(_dummyNode);
+//                    Visit(context, and);
+//                    var terminalNode = BuildTerminalNode(context, ruleDeclarations);
+//                    terminals.Add(terminalNode);
+//                },
+//                or =>
+//                {
+//                    foreach (var childElement in or.ChildElements)
+//                    {
+//                        var context = new ReteBuilderContext(_dummyNode);
+//                        Visit(context, childElement);
+//                        var terminalNode = BuildTerminalNode(context, ruleDeclarations);
+//                        terminals.Add(terminalNode);
+//                    }
+//                });
+//            return terminals;
+//        }
+//
+        public INetwork Build()
+        {
+            return _network;
         }
     }
 }

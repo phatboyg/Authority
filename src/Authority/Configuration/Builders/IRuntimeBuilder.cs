@@ -14,12 +14,12 @@ namespace Authority.Builders
 {
     using System;
     using System.Linq.Expressions;
+    using Rules.Facts;
     using Runtime;
 
 
     public interface IRuntimeBuilder
     {
-//        IEnumerable<ITerminalNode> AddRule(IRuleDefinition ruleDefinition);
         BuilderContext CreateContext();
 
         /// <summary>
@@ -39,6 +39,12 @@ namespace Authority.Builders
         /// <param name="conditionExpression"></param>
         /// <returns></returns>
         ISelectionNode<T> BuildSelectionNode<T>(BuilderContext context, Expression<Func<T, bool>> conditionExpression)
+            where T : class;
+
+        IBetaNode<T, T> BuildJoinNode<T>(BuilderContext context)
+            where T : class;
+
+        ITerminalNode<T> BuildTerminalNode<T>(BuilderContext context, IRuleFact<T> fact)
             where T : class;
     }
 }

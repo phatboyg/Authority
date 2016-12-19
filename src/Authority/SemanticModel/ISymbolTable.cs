@@ -10,10 +10,23 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace Authority.Runtime
+namespace Authority.SemanticModel
 {
-    using System.Threading.Tasks;
+    using System;
+    using System.Collections.Generic;
 
 
-    public delegate Task NodeMemoryAccessor<in TMemory>(TMemory memory);
+    public interface ISymbolTable
+    {
+        IEnumerable<IDeclaration> Declarations { get; }
+        IEnumerable<IDeclaration> VisibleDeclarations { get; }
+
+        IDeclaration<T> Declare<T>(string name)
+            where T : class;
+
+        IDeclaration Lookup(Type type, string name);
+
+        IDeclaration<T> Lookup<T>(string name)
+            where T : class;
+    }
 }

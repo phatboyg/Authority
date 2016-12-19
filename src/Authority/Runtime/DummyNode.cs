@@ -25,9 +25,9 @@ namespace Authority.Runtime
     {
         readonly ConnectableList<ITupleSink<T>> _sinks;
 
-        public DummyNode(ConnectableList<ITupleSink<T>> sinks)
+        public DummyNode()
         {
-            _sinks = sinks;
+            _sinks = new ConnectableList<ITupleSink<T>>();
         }
 
         public Task All(SessionContext context, Func<TupleContext<T>, Task> callback)

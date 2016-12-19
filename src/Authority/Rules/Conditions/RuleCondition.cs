@@ -22,6 +22,8 @@ namespace Authority.Rules.Conditions
         IRuleCondition
         where T : class
     {
+        public static IRuleConditionFactory<T> Factory { get; } = new DefaultRuleConditionFactory<T>();
+
         readonly IRuleFact<T> _ruleFact;
         readonly Expression<Func<T, bool>> _conditionExpression;
 
@@ -31,13 +33,10 @@ namespace Authority.Rules.Conditions
             _conditionExpression = conditionExpression;
         }
 
-        public void Apply(IRuntimeBuilder builder)
+        public void Apply(IRuntimeBuilder builder, BuilderContext context)
         {
-            var context = builder.CreateContext();
 
             context.AddParameter(_ruleFact.Parameter);
-
-            builder.BuildTypeNode<T>(context);
 
             builder.BuildSelectionNode(context, _conditionExpression);
 

@@ -15,7 +15,6 @@ namespace Authority.Runtime
     using System.Collections.Generic;
     using System.Linq;
     using RuleCompiler;
-    using Rules.Facts;
 
 
     public class IndexMap

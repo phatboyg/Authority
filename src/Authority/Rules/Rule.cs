@@ -30,20 +30,34 @@ namespace Authority.Rules
     /// by Automatonymous, and supports the creation of rules and facts based
     /// on this dynamic language.
     /// </summary>
-    public abstract class Rule : 
+    public abstract class Rule :
         IRule
     {
-        string _name;
-        readonly Dictionary<string, IRuleFact> _factCache;
-        readonly ExpressionConverter _expressionConverter = new ExpressionConverter();
         readonly List<IRuleCondition> _conditions;
+        readonly ExpressionConverter _expressionConverter = new ExpressionConverter();
+        readonly RuleFactCollection _facts;
+        string _name;
 
         protected Rule()
         {
             _name = GetType().Name;
 
-            _factCache = new Dictionary<string, IRuleFact>();
+            _facts = new RuleFactCollection();
             _conditions = new List<IRuleCondition>();
+        }
+
+        public IRuleFact GetFact(string name)
+        {
+            return _facts.GetFact(name);
+        }
+
+        public void Apply(IRuntimeBuilder builder)
+        {
+            var context = builder.CreateContext();
+
+            foreach (var condition in _conditions)
+                condition.Apply(builder, context);
+
         }
 
         protected void Name(string ruleName)
@@ -59,10 +73,10 @@ namespace Authority.Rules
         /// </summary>
         /// <param name="propertyExpression"></param>
         protected virtual void Fact<T>(Expression<Func<Fact<T>>> propertyExpression)
-            where T: class
+            where T : class
         {
-            PropertyInfo property = propertyExpression.GetPropertyInfo();
-            var parameter = _expressionConverter.GetRuleParameter(propertyExpression);
+            var property = propertyExpression.GetPropertyInfo();
+            RuleParameter<T> parameter = _expressionConverter.GetRuleParameter(propertyExpression);
 
             DeclareFact(property, parameter);
         }
@@ -73,10 +87,10 @@ namespace Authority.Rules
         /// <typeparam name="T">The fact type</typeparam>
         /// <param name="property">The property referencing the fact</param>
         /// <param name="parameter">The parameter for this fact</param>
-        void DeclareFact<T>(PropertyInfo property, RuleParameter<T> parameter) 
+        void DeclareFact<T>(PropertyInfo property, RuleParameter<T> parameter)
             where T : class
         {
-            string name = property.Name;
+            var name = property.Name;
 
             var fact = new RuleFact<T>(name, parameter);
 
@@ -84,7 +98,7 @@ namespace Authority.Rules
 
             property.SetValue(this, propertyValue);
 
-            _factCache[name] = fact;
+            _facts.Add(name, fact);
         }
 
         /// <summary>
@@ -93,53 +107,31 @@ namespace Authority.Rules
         /// <param name="fact"></param>
         /// <param name="conditionalExpression"></param>
         /// <returns></returns>
-        protected void When<T>(Fact<T> fact, Expression<Func<T, bool>> conditionalExpression) 
+        protected void When<T>(Fact<T> fact, Expression<Func<T, bool>> conditionalExpression)
             where T : class
         {
-            var ruleFact = _factCache[fact.Name] as IRuleFact<T>;
-            if (ruleFact == null)
-                throw new ArgumentException($"The fact is unknown or has not been declared: {fact.Name}", nameof(fact));
+            IRuleFact<T> ruleFact = _facts.GetFact<T>(fact.Name);
 
-            var condition = _expressionConverter.GetRuleCondition(ruleFact, conditionalExpression);
+            RuleCondition<T> condition = RuleCondition<T>.Factory.New(ruleFact, conditionalExpression);
 
             _conditions.Add(condition);
         }
 
-        protected void When<T1, T2>(Fact<T1> fact1, Fact<T2> fact2, Expression<Func<T1, T2, bool>> conditionalExpression) 
+        protected void When<T1, T2>(Fact<T1> fact1, Fact<T2> fact2, Expression<Func<T1, T2, bool>> conditionalExpression)
             where T1 : class
             where T2 : class
         {
         }
 
-        protected void Then<T>(Fact<T> fact, Func<FactContext<T>, T, Task> action) 
+        protected void Then<T>(Fact<T> fact, Func<FactContext<T>, T, Task> action)
             where T : class
         {
         }
 
-        protected void Then<T1, T2>(Fact<T1> fact1, Fact<T2> fact2, Func<FactContext<Tuple<T1,T2>>, T1, T2, Task> action)
+        protected void Then<T1, T2>(Fact<T1> fact1, Fact<T2> fact2, Func<FactContext<Tuple<T1, T2>>, T1, T2, Task> action)
             where T1 : class
             where T2 : class
         {
-        }
-
-        public IRuleFact GetFact(string name)
-        {
-            IRuleFact fact;
-            if (_factCache.TryGetValue(name, out fact))
-            {
-                return fact;
-            }
-
-            throw new FactNotFoundException($"The fact was not found: {name}");
-        }
-
-        public void Apply(IRuntimeBuilder builder)
-        {
-            foreach (var condition in _conditions)
-            {
-                condition.Apply(builder);
-            }
-            
         }
     }
 }

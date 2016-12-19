@@ -17,6 +17,6 @@ namespace Authority.Rules.Conditions
 
     public interface IRuleCondition
     {
-        void Apply(IRuntimeBuilder builder);
+        void Apply(IRuntimeBuilder builder, BuilderContext context);
     }
 }

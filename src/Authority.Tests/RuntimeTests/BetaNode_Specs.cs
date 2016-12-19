@@ -21,20 +21,6 @@ namespace Authority.Tests.RuntimeTests
     [TestFixture]
     public class Running_a_beta_node
     {
-        class Member
-        {
-            public int MemberId { get; set; }
-            public string Name { get; set; }
-        }
-
-
-        class Address
-        {
-            public int MemberId { get; set; }
-            public string PostalCode { get; set; }
-        }
-
-
         [Test]
         public async Task Should_handle_inverse_activation()
         {
@@ -174,6 +160,20 @@ namespace Authority.Tests.RuntimeTests
             await betaNode.Insert(factContext);
 
             Assert.That(testSink.Tuples.Count(), Is.EqualTo(2));
+        }
+
+
+        class Member
+        {
+            public int MemberId { get; set; }
+            public string Name { get; set; }
+        }
+
+
+        class Address
+        {
+            public int MemberId { get; set; }
+            public string PostalCode { get; set; }
         }
     }
 }

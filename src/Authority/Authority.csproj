@@ -73,6 +73,10 @@
     <Compile Include="RuleModels\GroupElement.cs" />
     <Compile Include="RuleModels\IAggregator.cs" />
     <Compile Include="RuleModels\IAggregatorFactory.cs" />
+    <Compile Include="Rules\Conditions\DefaultRuleConditionFactory.cs" />
+    <Compile Include="Rules\Conditions\IRuleConditionFactory.cs" />
+    <Compile Include="Rules\RuleFactCollection.cs" />
+    <Compile Include="SemanticModel\IDeclaration.cs" />
     <Compile Include="RuleModels\IRuleDefinition.cs" />
     <Compile Include="RuleModels\NamedExpression.cs" />
     <Compile Include="RuleModels\NotElement.cs" />
@@ -161,6 +165,9 @@
     <Compile Include="Runtime\SessionTupleContext.cs" />
     <Compile Include="Runtime\TerminalNode.cs" />
     <Compile Include="Runtime\TupleContext.cs" />
+    <Compile Include="SemanticModel\Declaration.cs" />
+    <Compile Include="SemanticModel\ISymbolTable.cs" />
+    <Compile Include="SemanticModel\SymbolTable.cs" />
     <Compile Include="SessionContext.cs" />
     <Compile Include="Runtime\Tuple.cs" />
     <Compile Include="Session.cs" />

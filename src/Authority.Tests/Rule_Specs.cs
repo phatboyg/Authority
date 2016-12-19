@@ -21,10 +21,67 @@ namespace Authority.Tests
     [TestFixture]
     public class Declaring_a_rule
     {
+        [Test]
+        public async Task Should_add_conditions_to_the_engine()
+        {
+            IRule rule = new MyRule();
+
+            var authority = Authority.Factory.CreateAuthority(cfg =>
+            {
+                cfg.SetLoggerFactory(ContextSetup.LoggerFactory);
+
+                cfg.AddRule(rule);
+            });
+
+
+            var session = await authority.CreateSession();
+
+            FactHandle<MemberName> memberName = await session.Insert(new MemberName()
+            {
+                First = "Brandon",
+                MemberId = 27
+            });
+
+            FactHandle<MemberAddress> memberAddress = await session.Insert(new MemberAddress()
+            {
+                MemberId = 27,
+                PostalCode = "90210",
+            });
+        }
+
+        [Test]
+        public void Should_find_all_expressed_facts()
+        {
+            IRule rule = new MyRule();
+
+            Assert.That(rule.GetFact("Name"), Is.Not.Null);
+           // Assert.That(rule.GetFact("Address"), Is.Not.Null);
+        }
+
+
         sealed class MyRule :
             Rule
         {
             public MyRule()
+            {
+                Name("Member is named Brandon");
+
+                Fact(() => Name);
+
+                // simple conditionals
+                When(Name, x => x.First == "Brandon");
+
+                // then using on a single member of the rule match
+                Then(Name, (context, name) => Console.Out.WriteLineAsync($"His name was {name.First}"));
+            }
+
+            Fact<MemberName> Name { get; set; }
+        }
+
+        sealed class OldRule :
+            Rule
+        {
+            public OldRule()
             {
                 Name("Member lives in Beverly Hills");
 
@@ -66,35 +123,11 @@ namespace Authority.Tests
         {
             public int MemberId { get; set; }
             public string PostalCode { get; set; }
-        }
 
-
-        [Test]
-        public void Should_find_all_expressed_facts()
-        {
-            IRule rule = new MyRule();
-
-            Assert.That(rule.GetFact("Name"), Is.Not.Null);
-            Assert.That(rule.GetFact("Address"), Is.Not.Null);
-        }
-
-        [Test]
-        public async Task Should_add_conditions_to_the_engine()
-        {
-            IRule rule = new MyRule();
-
-            var authority = Authority.Factory.CreateAuthority(cfg =>
+            public override string ToString()
             {
-                cfg.SetLoggerFactory(ContextSetup.LoggerFactory);
-
-                cfg.AddRule(rule);
-            });
-
-
-            var session = await authority.CreateSession();
-
-            var memberName = await session.Insert(new MemberName() {First = "Brandon", MemberId = 27});
-
+                return $"MemberAddress (MemberId={MemberId},PostalCode='{PostalCode}')";
+            }
         }
     }
 }
