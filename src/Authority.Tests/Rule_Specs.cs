@@ -73,6 +73,9 @@ namespace Authority.Tests
 
                 // then using on a single member of the rule match
                 Then(Name, (context, name) => Console.Out.WriteLineAsync($"His name was {name.First}"));
+
+                // then using on a single member of the rule match
+                Then(Name, (context) => Console.Out.WriteLineAsync($"His name was {context.Fact.First}"));
             }
 
             Fact<MemberName> Name { get; set; }

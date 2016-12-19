@@ -250,6 +250,7 @@ namespace Authority.Builders
                 TypeNode<T> typeNode = _network.GetTypeNode<T, TypeNode<T>>();
 
                 context.CurrentAlphaNode = typeNode;
+                context.AlphaSource = typeNode.MemoryNode;
 
                 return typeNode;
             }
@@ -271,11 +272,14 @@ namespace Authority.Builders
                 if (selectionNode == null)
                     using (_logger.BeginScope("Create"))
                     {
+                        _logger.LogDebug($"Creating selection node: {typeof(T).Name}");
+
                         selectionNode = new SelectionNode<T>(_loggerFactory, alphaCondition);
                         alphaNode.AddChild(selectionNode);
                     }
 
                 context.CurrentAlphaNode = selectionNode;
+                context.AlphaSource = selectionNode.MemoryNode;
 
                 return selectionNode;
             }
@@ -284,29 +288,39 @@ namespace Authority.Builders
         public IBetaNode<T, T> BuildJoinNode<T>(BuilderContext context)
             where T : class
         {
-            var betaSource = (context.BetaSource ?? new DummyNode<T>()) as ITupleSource<T>;
-            var alphaSource = context.AlphaSource as IFactSource<T>;
+            using (_logger.BeginScope($"{nameof(BuildJoinNode)}<{typeof(T).Name}>"))
+            {
+                var betaSource = (context.BetaSource ?? new DummyNode<T>()) as ITupleSource<T>;
+                var alphaSource = context.AlphaSource as IFactSource<T>;
 
-            var node = new JoinNode<T, T>(betaSource, alphaSource, new BetaCondition<T, T>((x, y) => true));
+                _logger.LogDebug($"Creating join node: {typeof(T).Name}");
 
-            context.BetaSource = node.MemoryNode;
+                var node = new JoinNode<T, T>(betaSource, alphaSource, new BetaCondition<T, T>((x, y) => true));
 
-            context.ClearAlphaSource();
+                context.BetaSource = node.MemoryNode;
 
-            return node;
+                context.ClearAlphaSource();
+
+                return node;
+            }
         }
 
         public ITerminalNode<T> BuildTerminalNode<T>(BuilderContext context, IRuleFact<T> fact)
             where T : class
         {
-            if (context.AlphaSource != null)
-                BuildJoinNode<T>(context);
+            using (_logger.BeginScope($"{nameof(BuildTerminalNode)}<{typeof(T).Name}>"))
+            {
+                if (context.AlphaSource != null)
+                    BuildJoinNode<T>(context);
 
-            var factIndexMap = context.CreateIndexMap(fact);
+                var factIndexMap = context.CreateIndexMap(fact);
 
-            var betaSource = context.BetaSource as ITupleSource<T>;
+                var betaSource = context.BetaSource as ITupleSource<T>;
 
-            return new TerminalNode<T>(betaSource, factIndexMap);
+                _logger.LogDebug($"Creating terminal node: {typeof(T).Name}");
+
+                return new TerminalNode<T>(betaSource, factIndexMap);
+            }
         }
 
 //        public IEnumerable<ITerminalNode> AddRule(IRuleDefinition ruleDefinition)

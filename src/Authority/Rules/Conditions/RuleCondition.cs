@@ -35,7 +35,6 @@ namespace Authority.Rules.Conditions
 
         public void Apply(IRuntimeBuilder builder, BuilderContext context)
         {
-
             context.AddParameter(_ruleFact.Parameter);
 
             builder.BuildSelectionNode(context, _conditionExpression);

@@ -17,6 +17,7 @@ namespace Authority.Rules
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Threading.Tasks;
+    using Actions;
     using Builders;
     using Conditions;
     using Facts;
@@ -33,6 +34,7 @@ namespace Authority.Rules
     public abstract class Rule :
         IRule
     {
+        readonly List<IRuleAction> _actions;
         readonly List<IRuleCondition> _conditions;
         readonly ExpressionConverter _expressionConverter = new ExpressionConverter();
         readonly RuleFactCollection _facts;
@@ -44,6 +46,7 @@ namespace Authority.Rules
 
             _facts = new RuleFactCollection();
             _conditions = new List<IRuleCondition>();
+            _actions = new List<IRuleAction>();
         }
 
         public IRuleFact GetFact(string name)
@@ -58,6 +61,8 @@ namespace Authority.Rules
             foreach (var condition in _conditions)
                 condition.Apply(builder, context);
 
+            foreach (var action in _actions)
+                action.Apply(builder, context);
         }
 
         protected void Name(string ruleName)
@@ -126,6 +131,17 @@ namespace Authority.Rules
         protected void Then<T>(Fact<T> fact, Func<FactContext<T>, T, Task> action)
             where T : class
         {
+            var ruleAction = new RuleAction<T>(fact, context => action(context, context.Fact));
+
+            _actions.Add(ruleAction);
+        }
+
+        protected void Then<T>(Fact<T> fact, Func<FactContext<T>, Task> action)
+            where T : class
+        {
+            var ruleAction = new RuleAction<T>(fact, action);
+
+            _actions.Add(ruleAction);
         }
 
         protected void Then<T1, T2>(Fact<T1> fact1, Fact<T2> fact2, Func<FactContext<Tuple<T1, T2>>, T1, T2, Task> action)

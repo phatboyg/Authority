@@ -73,6 +73,8 @@
     <Compile Include="RuleModels\GroupElement.cs" />
     <Compile Include="RuleModels\IAggregator.cs" />
     <Compile Include="RuleModels\IAggregatorFactory.cs" />
+    <Compile Include="Rules\Actions\IRuleAction.cs" />
+    <Compile Include="Rules\Actions\RuleAction.cs" />
     <Compile Include="Rules\Conditions\DefaultRuleConditionFactory.cs" />
     <Compile Include="Rules\Conditions\IRuleConditionFactory.cs" />
     <Compile Include="Rules\RuleFactCollection.cs" />
