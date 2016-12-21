@@ -38,7 +38,7 @@ namespace Authority.Builders
             _parameters.Add(parameter);
         }
 
-        public IndexMap CreateIndexMap(IRuleFact fact)
+        public IndexMap CreateIndexMap(FactDeclaration factDeclaration)
         {
             return IndexMap.CreateMap(_parameters, _parameters);
         }

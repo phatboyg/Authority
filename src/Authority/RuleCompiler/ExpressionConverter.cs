@@ -23,7 +23,7 @@ namespace Authority.RuleCompiler
 
     public class ExpressionConverter
     {
-        public RuleParameter<T> GetRuleParameter<T>(Expression<Func<Fact<T>>> propertyExpression)
+        public ParameterExpression GetRuleParameter<T>(Expression<Func<Fact<T>>> propertyExpression)
             where T : class
         {
             if (propertyExpression == null)
@@ -38,10 +38,10 @@ namespace Authority.RuleCompiler
             if (factType != typeof(T))
                 throw new ArgumentException($"Invalid property type. Expected={typeof(T)}, Actual={factType}");
 
-            return new RuleParameter<T>(Expression.Parameter(factType, memberExpression.Member.Name));
+            return Expression.Parameter(factType, memberExpression.Member.Name);
         }
 
-        public RuleCondition<T> GetRuleCondition<T>(IRuleFact<T> ruleFact, Expression<Func<T, bool>> conditionExpression)
+        public RuleCondition<T> GetRuleCondition<T>(FactDeclaration<T> factDeclaration, Expression<Func<T, bool>> conditionExpression)
             where T : class
         {
             if (conditionExpression == null)
@@ -50,7 +50,7 @@ namespace Authority.RuleCompiler
             if (conditionExpression.Parameters.Count != 1)
                 throw new ArgumentException($"Expected 1 parameter, found {conditionExpression.Parameters.Count}", nameof(conditionExpression));
 
-            var condition = new RuleCondition<T>(ruleFact, conditionExpression);
+            var condition = new RuleCondition<T>(factDeclaration, conditionExpression);
 
             return condition;
         }

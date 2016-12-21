@@ -13,28 +13,24 @@
 namespace Authority.Rules.Facts
 {
     using System;
-    using RuleCompiler;
+    using System.Linq.Expressions;
 
 
-    public class RuleFact<T> :
+    public class RuleFactDeclaration<T> :
+        FactDeclaration<T>,
         Fact<T>
         where T : class
     {
-        readonly string _name;
-        readonly RuleParameter<T> _parameter;
+        readonly ParameterExpression _parameter;
 
-        public RuleFact(string name, RuleParameter<T> parameter)
+        public RuleFactDeclaration(string name, ParameterExpression parameter)
         {
+            Name = name;
             _parameter = parameter;
-            _name = name;
         }
 
+        public string Name { get; }
+
         public Type FactType => typeof(T);
-
-        IRuleParameter<T> IRuleFact<T>.Parameter => _parameter;
-
-        string Fact<T>.Name => _name;
-
-        IRuleParameter IRuleFact.Parameter => _parameter;
     }
 }

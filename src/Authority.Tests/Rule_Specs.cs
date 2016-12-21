@@ -34,6 +34,15 @@ namespace Authority.Tests
             });
 
 
+            var visitor = new GraphRuntimeVisitor();
+
+            var graphContext = new GraphContext();
+
+            visitor.Visit(graphContext, authority);
+
+            graphContext.Dump(Console.Out);
+
+
             var session = await authority.CreateSession();
 
             FactHandle<MemberName> memberName = await session.Insert(new MemberName()

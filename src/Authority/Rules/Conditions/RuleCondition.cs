@@ -18,28 +18,27 @@ namespace Authority.Rules.Conditions
     using Facts;
 
 
-    public class RuleCondition<T> : 
-        IRuleCondition
+    public class RuleCondition<T> :
+        IRuleCondition<T>
         where T : class
     {
+        public RuleCondition(FactDeclaration<T> factDeclaration, Expression<Func<T, bool>> conditionExpression)
+        {
+            FactDeclaration = factDeclaration;
+            ConditionExpression = conditionExpression;
+        }
+
         public static IRuleConditionFactory<T> Factory { get; } = new DefaultRuleConditionFactory<T>();
 
-        readonly IRuleFact<T> _ruleFact;
-        readonly Expression<Func<T, bool>> _conditionExpression;
+        public FactDeclaration<T> FactDeclaration { get; }
 
-        public RuleCondition(IRuleFact<T> ruleFact, Expression<Func<T, bool>> conditionExpression)
-        {
-            _ruleFact = ruleFact;
-            _conditionExpression = conditionExpression;
-        }
+        public Expression<Func<T, bool>> ConditionExpression { get; }
 
         public void Apply(IRuntimeBuilder builder, BuilderContext context)
         {
-            context.AddParameter(_ruleFact.Parameter);
+//            context.AddParameter(_factDeclaration.);
 
-            builder.BuildSelectionNode(context, _conditionExpression);
-
-
+            builder.BuildSelectionNode(context, ConditionExpression);
 
 //            protected override void VisitPattern(ReteBuilderContext context, PatternElement element)
 //        {
@@ -74,7 +73,6 @@ namespace Authority.Rules.Conditions
 //                }
 //            }
 //        }
-
         }
-}
+    }
 }

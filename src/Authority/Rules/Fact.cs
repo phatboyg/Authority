@@ -12,18 +12,16 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Rules
 {
-    using Facts;
-
-
     /// <summary>
-    /// Declaring a fact in a rule associates a type and a name with the fact for 
-    /// use within the rule.
+    /// A fact
     /// </summary>
-    /// <typeparam name="T">The fact type</typeparam>
-    public interface Fact<T> :
-        IRuleFact<T>
-        where T : class
+    /// <typeparam name="TFact"></typeparam>
+    public interface Fact<TFact>
+        where TFact : class
     {
+        /// <summary>
+        /// The name of the fact, derived from the property name in the rule itself
+        /// </summary>
         string Name { get; }
     }
 }

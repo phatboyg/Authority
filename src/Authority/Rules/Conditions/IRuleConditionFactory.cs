@@ -20,6 +20,6 @@ namespace Authority.Rules.Conditions
     public interface IRuleConditionFactory<T>
         where T : class
     {
-        RuleCondition<T> New(IRuleFact<T> ruleFact, Expression<Func<T, bool>> conditionExpression);
+        RuleCondition<T> New(FactDeclaration<T> factDeclaration, Expression<Func<T, bool>> conditionExpression);
     }
 }

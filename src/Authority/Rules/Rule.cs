@@ -14,6 +14,7 @@ namespace Authority.Rules
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Threading.Tasks;
@@ -26,6 +27,9 @@ namespace Authority.Rules
     using Runtime;
 
 
+
+
+
     /// <summary>
     /// This is a base class that is used to define a rule. This is inspired
     /// by Automatonymous, and supports the creation of rules and facts based
@@ -35,34 +39,38 @@ namespace Authority.Rules
         IRule
     {
         readonly List<IRuleAction> _actions;
-        readonly List<IRuleCondition> _conditions;
         readonly ExpressionConverter _expressionConverter = new ExpressionConverter();
-        readonly RuleFactCollection _facts;
+        readonly RuleDeclarationCollection _declarations;
         string _name;
 
         protected Rule()
         {
             _name = GetType().Name;
 
-            _facts = new RuleFactCollection();
-            _conditions = new List<IRuleCondition>();
+            _declarations = new RuleDeclarationCollection();
             _actions = new List<IRuleAction>();
         }
 
-        public IRuleFact GetFact(string name)
+        public FactDeclaration GetFact(string name)
         {
-            return _facts.GetFact(name);
+            return _declarations.Get(name);
         }
 
         public void Apply(IRuntimeBuilder builder)
         {
+            var contextCollection = _declarations.Build(builder);
+
+
+
+
             var context = builder.CreateContext();
 
-            foreach (var condition in _conditions)
-                condition.Apply(builder, context);
 
-            foreach (var action in _actions)
-                action.Apply(builder, context);
+//            foreach (var condition in _conditions)
+//                condition.Apply(builder, context);
+
+//            foreach (var action in _actions)
+//                action.Apply(builder, context);
         }
 
         protected void Name(string ruleName)
@@ -81,9 +89,9 @@ namespace Authority.Rules
             where T : class
         {
             var property = propertyExpression.GetPropertyInfo();
-            RuleParameter<T> parameter = _expressionConverter.GetRuleParameter(propertyExpression);
+            ParameterExpression parameter = _expressionConverter.GetRuleParameter(propertyExpression);
 
-            DeclareFact(property, parameter);
+            DeclareFact<T>(property, parameter);
         }
 
         /// <summary>
@@ -91,19 +99,19 @@ namespace Authority.Rules
         /// </summary>
         /// <typeparam name="T">The fact type</typeparam>
         /// <param name="property">The property referencing the fact</param>
-        /// <param name="parameter">The parameter for this fact</param>
-        void DeclareFact<T>(PropertyInfo property, RuleParameter<T> parameter)
+        /// <param name="parameterExpression">The parameter for this fact</param>
+        void DeclareFact<T>(PropertyInfo property, ParameterExpression parameterExpression)
             where T : class
         {
             var name = property.Name;
 
-            var fact = new RuleFact<T>(name, parameter);
+            var fact = new RuleFactDeclaration<T>(name, parameterExpression);
 
             Fact<T> propertyValue = fact;
 
             property.SetValue(this, propertyValue);
 
-            _facts.Add(name, fact);
+            _declarations.Add(name, fact);
         }
 
         /// <summary>
@@ -115,11 +123,11 @@ namespace Authority.Rules
         protected void When<T>(Fact<T> fact, Expression<Func<T, bool>> conditionalExpression)
             where T : class
         {
-            IRuleFact<T> ruleFact = _facts.GetFact<T>(fact.Name);
+            var factDeclaration = _declarations.Get<T>(fact.Name);
 
-            RuleCondition<T> condition = RuleCondition<T>.Factory.New(ruleFact, conditionalExpression);
+            RuleCondition<T> condition = RuleCondition<T>.Factory.New(factDeclaration, conditionalExpression);
 
-            _conditions.Add(condition);
+            _declarations.AddCondition(factDeclaration, condition);
         }
 
         protected void When<T1, T2>(Fact<T1> fact1, Fact<T2> fact2, Expression<Func<T1, T2, bool>> conditionalExpression)
@@ -131,7 +139,9 @@ namespace Authority.Rules
         protected void Then<T>(Fact<T> fact, Func<FactContext<T>, T, Task> action)
             where T : class
         {
-            var ruleAction = new RuleAction<T>(fact, context => action(context, context.Fact));
+            var factDeclaration = _declarations.Get<T>(fact.Name);
+
+            var ruleAction = new RuleAction<T>(factDeclaration, context => action(context, context.Fact));
 
             _actions.Add(ruleAction);
         }
@@ -139,7 +149,9 @@ namespace Authority.Rules
         protected void Then<T>(Fact<T> fact, Func<FactContext<T>, Task> action)
             where T : class
         {
-            var ruleAction = new RuleAction<T>(fact, action);
+            var factDeclaration = _declarations.Get<T>(fact.Name);
+
+            var ruleAction = new RuleAction<T>(factDeclaration, action);
 
             _actions.Add(ruleAction);
         }

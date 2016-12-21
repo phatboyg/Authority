@@ -49,7 +49,10 @@ namespace Authority.Runtime
         public virtual void VisitConditionNode<T>(TContext context, ConditionNode<T> node)
             where T : class
         {
-            VisitAlphaNode(context, node);
+            VisitAlphaMemoryNode(context, node.MemoryNode);
+
+            foreach (var childNode in node.GetChildNodes<INode>())
+                childNode.Accept(this, context);
         }
 
         public virtual void VisitAlphaMemoryNode<T>(TContext context, IAlphaMemoryNode<T> node)
@@ -62,7 +65,10 @@ namespace Authority.Runtime
         public virtual void VisitSelectionNode<T>(TContext context, ISelectionNode<T> node)
             where T : class
         {
-            VisitAlphaNode(context, node);
+            VisitAlphaMemoryNode(context, node.MemoryNode);
+
+            foreach (var childNode in node.GetChildNodes<INode>())
+                childNode.Accept(this, context);
         }
 
         public virtual void VisitJoinNode<TLeft, TRight>(TContext context, JoinNode<TLeft, TRight> node)
@@ -91,7 +97,15 @@ namespace Authority.Runtime
         public virtual void VisitTypeNode<T>(TContext context, ITypeNode<T> node)
             where T : class
         {
-            VisitAlphaNode(context, node);
+            VisitAlphaMemoryNode(context, node.MemoryNode);
+
+            foreach (var childNode in node.GetChildNodes<INode>())
+                childNode.Accept(this, context);
+        }
+
+        public virtual void VisitRuleNode<T>(TContext context, RuleNode<T> ruleNode)
+            where T : class
+        {
         }
     }
 }

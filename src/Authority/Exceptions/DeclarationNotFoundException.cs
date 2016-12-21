@@ -10,33 +10,33 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace Authority.Rules.Actions
+namespace Authority
 {
     using System;
-    using System.Threading.Tasks;
-    using Builders;
-    using Facts;
-    using Runtime;
+    using System.Runtime.Serialization;
 
 
-    public class RuleAction<T> :
-        IRuleAction<T>
-        where T : class
+    [Serializable]
+    public class DeclarationNotFoundException :
+        Exception
     {
-        readonly Func<FactContext<T>, Task> _action;
-        readonly FactDeclaration<T> _declaration;
-
-        public RuleAction(FactDeclaration<T> declaration, Func<FactContext<T>, Task> action)
+        public DeclarationNotFoundException()
         {
-            _declaration = declaration;
-            _action = action;
         }
 
-        public void Apply(IRuntimeBuilder builder, BuilderContext context)
+        public DeclarationNotFoundException(string message)
+            : base(message)
         {
-            var terminalNode = builder.BuildTerminalNode(context, _declaration);
+        }
 
+        public DeclarationNotFoundException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
 
+        protected DeclarationNotFoundException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
         }
     }
 }

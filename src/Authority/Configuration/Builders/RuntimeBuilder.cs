@@ -305,7 +305,7 @@ namespace Authority.Builders
             }
         }
 
-        public ITerminalNode<T> BuildTerminalNode<T>(BuilderContext context, IRuleFact<T> fact)
+        public ITerminalNode<T> BuildTerminalNode<T>(BuilderContext context, FactDeclaration<T> factDeclaration)
             where T : class
         {
             using (_logger.BeginScope($"{nameof(BuildTerminalNode)}<{typeof(T).Name}>"))
@@ -313,13 +313,97 @@ namespace Authority.Builders
                 if (context.AlphaSource != null)
                     BuildJoinNode<T>(context);
 
-                var factIndexMap = context.CreateIndexMap(fact);
+                var factIndexMap = context.CreateIndexMap(factDeclaration);
 
                 var betaSource = context.BetaSource as ITupleSource<T>;
 
                 _logger.LogDebug($"Creating terminal node: {typeof(T).Name}");
 
                 return new TerminalNode<T>(betaSource, factIndexMap);
+            }
+        }
+
+        public AlphaBuilderContext<T> CreateContext<T>(FactDeclaration<T> declaration) where T : class
+        {
+            using (_logger.BeginScope($"{nameof(CreateContext)}<{typeof(T).Name}>"))
+            {
+                TypeNode<T> typeNode = _network.GetTypeNode<T, TypeNode<T>>();
+
+                return new RuntimeAlphaBuilderContext<T>(declaration, typeNode);
+            }
+        }
+
+        public AlphaBuilderContext<T> BuildSelectionNode<T>(AlphaBuilderContext<T> context, Expression<Func<T, bool>> conditionExpression)
+            where T : class
+        {
+            using (_logger.BeginScope($"{nameof(BuildSelectionNode)}<{typeof(T).Name}>"))
+            {
+                var alphaCondition = new AlphaCondition<T>(conditionExpression);
+
+                _logger.LogDebug($"Condition: {alphaCondition}");
+
+                IAlphaNode<T> alphaNode = context.CurrentNode;
+
+                SelectionNode<T> selectionNode = alphaNode.GetChildNodes<SelectionNode<T>>()
+                    .FirstOrDefault(x => x.Condition.Equals(alphaCondition));
+                if (selectionNode == null)
+                    using (_logger.BeginScope("Create"))
+                    {
+                        _logger.LogDebug($"Creating selection node: {typeof(T).Name}");
+
+                        selectionNode = new SelectionNode<T>(_loggerFactory, alphaCondition);
+                        alphaNode.AddChild(selectionNode);
+                    }
+
+                return new RuntimeAlphaBuilderContext<T>(context.Declaration, selectionNode);
+            }
+        }
+
+        public BetaBuilderContext<T, T> BuildJoinNode<T>(AlphaBuilderContext<T> context)
+            where T : class
+        {
+            using (_logger.BeginScope($"{nameof(BuildJoinNode)}<{typeof(T).Name}>"))
+            {
+                var betaSource = new DummyNode<T>() as ITupleSource<T>;
+                var alphaSource = context.CurrentSource as IFactSource<T>;
+
+                _logger.LogDebug($"Creating join node: {typeof(T).Name}");
+
+                var node = new JoinNode<T, T>(betaSource, alphaSource, new BetaCondition<T, T>((x, y) => true));
+
+                return new RuntimeBetaBuilderContext<T, T>(context.Declaration, node);
+            }
+        }
+
+        public BetaBuilderContext<TLeft, T> BuildJoinNode<T, TLeft>(AlphaBuilderContext<T> context, BetaBuilderContext<TLeft> betaContext)
+            where T : class 
+            where TLeft : class
+        {
+            using (_logger.BeginScope($"{nameof(BuildJoinNode)}<{typeof(T).Name}>"))
+            {
+                var betaSource = betaContext.CurrentSource as ITupleSource<TLeft>;
+                var alphaSource = context.CurrentSource as IFactSource<T>;
+
+                _logger.LogDebug($"Creating join node: {typeof(T).Name}");
+
+                var node = new JoinNode<TLeft, T>(betaSource, alphaSource, new BetaCondition<TLeft, T>((x, y) => true));
+
+                return new RuntimeBetaBuilderContext<TLeft, T>(context.Declaration, node);
+            }
+        }
+
+        public ITerminalNode<T> BuildTerminalNode<T>(AlphaBuilderContext<T> context)
+            where T : class
+        {
+            using (_logger.BeginScope($"{nameof(BuildTerminalNode)}<{typeof(T).Name}>"))
+            {
+                BetaBuilderContext<T> betaContext = BuildJoinNode(context);
+
+                var factIndexMap = betaContext.CreateIndexMap(betaContext.Declaration);
+
+                _logger.LogDebug($"Creating terminal node: {typeof(T).Name}");
+
+                return new TerminalNode<T>(betaContext.CurrentSource, factIndexMap);
             }
         }
 

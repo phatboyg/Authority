@@ -15,6 +15,7 @@ namespace Authority.Runtime
     using System.Collections.Generic;
     using System.Linq;
     using RuleCompiler;
+    using Rules.Facts;
 
 
     public class IndexMap
@@ -46,7 +47,21 @@ namespace Authority.Runtime
             return new IndexMap(map);
         }
 
+        public static IndexMap CreateMap(IEnumerable<FactDeclaration> facts, IEnumerable<FactDeclaration> baseFacts)
+        {
+            var positionMap = GetPositionMap(facts);
+
+            int[] map = baseFacts.Select(x => IndexOrDefault(positionMap, x)).ToArray();
+
+            return new IndexMap(map);
+        }
+
         static IDictionary<IRuleParameter, int> GetPositionMap(IEnumerable<IRuleParameter> facts)
+        {
+            return facts.Select((x, index) => new {Index = index, Fact = x}).ToDictionary(x => x.Fact, x => x.Index);
+        }
+
+        static IDictionary<FactDeclaration, int> GetPositionMap(IEnumerable<FactDeclaration> facts)
         {
             return facts.Select((x, index) => new {Index = index, Fact = x}).ToDictionary(x => x.Fact, x => x.Index);
         }

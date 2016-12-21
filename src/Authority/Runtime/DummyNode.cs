@@ -13,6 +13,7 @@
 namespace Authority.Runtime
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using GreenPipes;
     using GreenPipes.Util;
@@ -43,6 +44,11 @@ namespace Authority.Runtime
         public Task Insert(SessionContext context, ITuple tuple, T fact)
         {
             return TaskUtil.Completed;
+        }
+
+        public IEnumerable<ITupleSink<T>> GetSinks()
+        {
+            return _sinks;
         }
 
         public virtual void Accept<TContext>(RuntimeVisitor<TContext> visitor, TContext context)

@@ -21,17 +21,17 @@ namespace Authority.Rules.Conditions
         IRuleConditionFactory<T>
         where T : class
     {
-        public RuleCondition<T> New(IRuleFact<T> ruleFact, Expression<Func<T, bool>> conditionExpression)
+        public RuleCondition<T> New(FactDeclaration<T> factDeclaration, Expression<Func<T, bool>> conditionExpression)
         {
-            if (ruleFact == null)
-                throw new ArgumentNullException(nameof(ruleFact));
+            if (factDeclaration == null)
+                throw new ArgumentNullException(nameof(factDeclaration));
             if (conditionExpression == null)
                 throw new ArgumentNullException(nameof(conditionExpression));
 
             if (conditionExpression.Parameters.Count != 1)
                 throw new ArgumentException($"Expected 1 parameter, found {conditionExpression.Parameters.Count}", nameof(conditionExpression));
 
-            return new RuleCondition<T>(ruleFact, conditionExpression);
+            return new RuleCondition<T>(factDeclaration, conditionExpression);
         }
     }
 }

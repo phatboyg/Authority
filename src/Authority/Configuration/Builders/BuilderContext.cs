@@ -27,7 +27,7 @@ namespace Authority.Builders
         void AddParameter<T>(IRuleParameter<T> parameter)
             where T : class;
 
-        IndexMap CreateIndexMap(IRuleFact fact);
+        IndexMap CreateIndexMap(FactDeclaration factDeclaration);
 
         /// <summary>
         /// Clears the Alpha network source and any associated data

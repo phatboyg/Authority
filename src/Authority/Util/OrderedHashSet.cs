@@ -61,6 +61,19 @@ namespace Authority.Util
             return true;
         }
 
+        public bool TryGetValue(T item, out T value)
+        {
+            LinkedListNode<T> node;
+            if (_nodes.TryGetValue(item, out node))
+            {
+                value = node.Value;
+                return true;
+            }
+
+            value = default(T);
+            return false;
+        }
+
         public IEnumerator<T> GetEnumerator()
         {
             return _values.GetEnumerator();

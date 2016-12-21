@@ -12,11 +12,24 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Rules.Conditions
 {
+    using System;
+    using System.Linq.Expressions;
     using Builders;
+    using Facts;
 
 
     public interface IRuleCondition
     {
         void Apply(IRuntimeBuilder builder, BuilderContext context);
+    }
+
+
+    public interface IRuleCondition<T> :
+        IRuleCondition
+        where T : class
+    {
+        FactDeclaration<T> FactDeclaration { get; }
+
+        Expression<Func<T, bool>> ConditionExpression { get; }
     }
 }

@@ -23,6 +23,15 @@ namespace Authority.Builders
         BuilderContext CreateContext();
 
         /// <summary>
+        /// Creates a context for the declaration, starting at the type node for the fact type
+        /// </summary>
+        /// <typeparam name="T">The fact type</typeparam>
+        /// <param name="declaration"></param>
+        /// <returns></returns>
+        AlphaBuilderContext<T> CreateContext<T>(FactDeclaration<T> declaration)
+            where T : class;
+
+        /// <summary>
         /// Builds (or uses an existing) type node
         /// </summary>
         /// <typeparam name="T">The fact type</typeparam>
@@ -41,10 +50,23 @@ namespace Authority.Builders
         ISelectionNode<T> BuildSelectionNode<T>(BuilderContext context, Expression<Func<T, bool>> conditionExpression)
             where T : class;
 
+        /// <summary>
+        /// Builds a new, or uses an existing, selection node
+        /// </summary>
+        /// <typeparam name="T">The fact type</typeparam>
+        /// <param name="context">The builder context containing the current position in the alpha network</param>
+        /// <param name="conditionExpression">The conditional expression for selection</param>
+        /// <returns></returns>
+        AlphaBuilderContext<T> BuildSelectionNode<T>(AlphaBuilderContext<T> context, Expression<Func<T, bool>> conditionExpression)
+            where T : class;
+
         IBetaNode<T, T> BuildJoinNode<T>(BuilderContext context)
             where T : class;
 
-        ITerminalNode<T> BuildTerminalNode<T>(BuilderContext context, IRuleFact<T> fact)
+        ITerminalNode<T> BuildTerminalNode<T>(BuilderContext context, FactDeclaration<T> factDeclaration)
+            where T : class;
+
+        BetaBuilderContext<T, T> BuildJoinNode<T>(AlphaBuilderContext<T> context)
             where T : class;
     }
 }

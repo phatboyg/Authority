@@ -26,7 +26,7 @@ namespace Authority.Rules
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        IRuleFact GetFact(string name);
+        FactDeclaration GetFact(string name);
 
         /// <summary>
         /// Applies the rule configuration to the runtime builder

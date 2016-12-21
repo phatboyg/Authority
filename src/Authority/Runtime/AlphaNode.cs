@@ -60,7 +60,8 @@ namespace Authority.Runtime
             return _memoryNode.Value.Connect(sink);
         }
 
-        IEnumerable<T> IAlphaNode.GetChildNodes<T>()
+        public IEnumerable<T> GetChildNodes<T>()
+            where T : class
         {
             return _childNodes.Where(x => x is T).Cast<T>();
         }
