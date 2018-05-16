@@ -19,6 +19,6 @@ namespace Authority.Runtime
         INode
         where T : class
     {
-        Task Activate(TupleContext<T> context, IndexMap indexMap);
+        Task Activate(BetaContext<T> context, IndexMap indexMap);
     }
 }

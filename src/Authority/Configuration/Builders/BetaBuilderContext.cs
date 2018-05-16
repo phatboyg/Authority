@@ -28,6 +28,12 @@ namespace Authority.Builders
     }
 
 
+    /// <summary>
+    /// Context for building out the beta network (right side), which knows the type of the
+    /// output of the last beta node. Contains knowledge on the entire tuple chain leading up
+    /// to the node, so that additional nodes may be added.
+    /// </summary>
+    /// <typeparam name="T">The rightmost fact type</typeparam>
     public interface BetaBuilderContext<T> :
         BetaBuilderContext
         where T : class
@@ -40,12 +46,22 @@ namespace Authority.Builders
         /// <summary>
         /// The current memoryNode which sources the facts from the alpha network
         /// </summary>
-        IBetaMemoryNode<T> CurrentSource { get; }
+        IBetaMemoryNode<T> CurrentTupleSource { get; }
     }
 
 
     public interface BetaBuilderContext
     {
         IndexMap CreateIndexMap(params FactDeclaration[] declarations);
+
+        /// <summary>
+        /// Try to obtain the proper tuple source from the beta builder
+        /// </summary>
+        /// <param name="fact"></param>
+        /// <param name="index"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        bool TryGetTupleIndex<T>(FactDeclaration<T> fact, out int index)
+            where T : class;
     }
 }

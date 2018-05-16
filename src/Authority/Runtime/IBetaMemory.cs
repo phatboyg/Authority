@@ -12,7 +12,6 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Runtime
 {
-    using System;
     using System.Threading.Tasks;
 
 
@@ -25,13 +24,13 @@ namespace Authority.Runtime
     public interface IBetaMemory<in TRight>
         where TRight : class
     {
-        void Add(ITuple<TRight> tuple);
+        void Add(ITupleChain<TRight> tupleChain);
 
-        void Remove(ITuple<TRight> tuple);
+        void Remove(ITupleChain<TRight> tupleChain);
 
-        bool TryGetTuple(ITuple<TRight> leftTuple, TRight rightFact, out ITuple tuple);
+        bool TryGetTuple(ITupleChain<TRight> leftTupleChain, TRight rightFact, out ITupleChain tupleChain);
 
-        Task ForEach<T>(SessionContext context, Func<TupleContext<T>, Task> callback)
+        Task ForEach<T>(SessionContext context, BetaContextCallback<T> callback)
             where T : class;
     }
 }

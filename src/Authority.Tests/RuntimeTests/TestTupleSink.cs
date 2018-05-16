@@ -22,16 +22,16 @@ namespace Authority.Tests.RuntimeTests
         ITupleSink<T>
         where T : class
     {
-        readonly IList<TupleContext<T>> _tuples;
+        readonly IList<BetaContext<T>> _tuples;
 
         public TestTupleSink()
         {
-            _tuples = new List<TupleContext<T>>();
+            _tuples = new List<BetaContext<T>>();
         }
 
-        public IEnumerable<TupleContext<T>> Tuples => _tuples;
+        public IEnumerable<BetaContext<T>> Tuples => _tuples;
 
-        public Task Insert(TupleContext<T> context)
+        public Task Insert(BetaContext<T> context)
         {
             _tuples.Add(context);
 

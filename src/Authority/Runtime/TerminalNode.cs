@@ -33,7 +33,7 @@ namespace Authority.Runtime
             _handle = tupleSource.Connect(this);
         }
 
-        public Task Insert(TupleContext<T> context)
+        public Task Insert(BetaContext<T> context)
         {
             return _ruleNodes.All(node => node.Activate(context, _indexMap));
         }

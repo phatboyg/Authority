@@ -22,19 +22,19 @@ namespace Authority
         Connectable<IFactObserver>,
         IFactObserver
     {
-        public Task PreInsert<T>(FactContext<T> fact)
+        public Task PreInsert<T>(AlphaContext<T> fact)
             where T : class
         {
             return ForEachAsync(x => x.PreInsert(fact));
         }
 
-        public Task PostInsert<T>(FactContext<T> fact)
+        public Task PostInsert<T>(AlphaContext<T> fact)
             where T : class
         {
             return ForEachAsync(x => x.PostInsert(fact));
         }
 
-        public Task InsertFault<T>(FactContext<T> fact, Exception exception)
+        public Task InsertFault<T>(AlphaContext<T> fact, Exception exception)
             where T : class
         {
             return ForEachAsync(x => x.InsertFault(fact, exception));
@@ -47,17 +47,17 @@ namespace Authority
         IFactObserver<T>
         where T : class
     {
-        public Task PreInsert(FactContext<T> fact)
+        public Task PreInsert(AlphaContext<T> fact)
         {
             return ForEachAsync(x => x.PreInsert(fact));
         }
 
-        public Task PostInsert(FactContext<T> fact)
+        public Task PostInsert(AlphaContext<T> fact)
         {
             return ForEachAsync(x => x.PostInsert(fact));
         }
 
-        public Task InsertFault(FactContext<T> fact, Exception exception)
+        public Task InsertFault(AlphaContext<T> fact, Exception exception)
         {
             return ForEachAsync(x => x.InsertFault(fact, exception));
         }

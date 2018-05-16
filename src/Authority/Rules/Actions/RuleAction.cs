@@ -23,10 +23,10 @@ namespace Authority.Rules.Actions
         IRuleAction<T>
         where T : class
     {
-        readonly Func<FactContext<T>, Task> _action;
+        readonly Func<AlphaContext<T>, Task> _action;
         readonly FactDeclaration<T> _declaration;
 
-        public RuleAction(FactDeclaration<T> declaration, Func<FactContext<T>, Task> action)
+        public RuleAction(FactDeclaration<T> declaration, Func<AlphaContext<T>, Task> action)
         {
             _declaration = declaration;
             _action = action;

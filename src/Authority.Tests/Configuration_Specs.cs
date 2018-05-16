@@ -49,17 +49,17 @@ namespace Authority.Tests
         class Observer :
             IFactObserver
         {
-            public Task PreInsert<T>(FactContext<T> fact) where T : class
+            public Task PreInsert<T>(AlphaContext<T> fact) where T : class
             {
                 return Console.Out.WriteLineAsync($"PreInsert:{typeof(T).Name}");
             }
 
-            public Task PostInsert<T>(FactContext<T> fact) where T : class
+            public Task PostInsert<T>(AlphaContext<T> fact) where T : class
             {
                 return Console.Out.WriteLineAsync($"PostInsert:{typeof(T).Name}");
             }
 
-            public Task InsertFault<T>(FactContext<T> fact, Exception exception) where T : class
+            public Task InsertFault<T>(AlphaContext<T> fact, Exception exception) where T : class
             {
                 return Console.Out.WriteLineAsync($"InsertFault:{typeof(T).Name}:{exception}");
             }

@@ -74,9 +74,9 @@ namespace Authority.Runtime
                 _log.LogDebug("Fact Removed: {0}", fact);
         }
 
-        Task IAlphaMemory<TFact>.ForEach(SessionContext context, Func<FactContext<TFact>, Task> callback)
+        Task IAlphaMemory<TFact>.ForEach(SessionContext context, AlphaContextCallback<TFact> callback)
         {
-            return Task.WhenAll(_facts.Select(x => callback(new SessionFactContext<TFact>(context, x))));
+            return Task.WhenAll(_facts.Select(x => callback(new SessionAlphaContext<TFact>(context, x))));
         }
     }
 }

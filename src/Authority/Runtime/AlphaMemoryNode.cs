@@ -34,7 +34,7 @@ namespace Authority.Runtime
             _sinks = new ConnectableList<IFactSink<T>>();
         }
 
-        public Task All(SessionContext context, Func<FactContext<T>, Task> callback)
+        public Task All(SessionContext context, AlphaContextCallback<T> callback)
         {
             return context.WorkingMemory.Access(this, x => x.ForEach(context, callback));
         }
@@ -44,7 +44,7 @@ namespace Authority.Runtime
             return _sinks.Connect(sink);
         }
 
-        public Task Insert(FactContext<T> context)
+        public Task Insert(AlphaContext<T> context)
         {
             return context.WorkingMemory.Access(this, x =>
             {

@@ -1,4 +1,4 @@
-﻿// Copyright 2012-2016 Chris Patterson
+﻿// Copyright 2012-2017 Chris Patterson
 //  
 // Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 // this file except in compliance with the License. You may obtain a copy of the 
@@ -27,10 +27,37 @@ namespace Authority.Rules.Facts
         {
             Name = name;
             _parameter = parameter;
+
+            FactType = typeof(T);
         }
 
         public string Name { get; }
 
-        public Type FactType => typeof(T);
+        public Type FactType { get; }
+
+        bool Equals(FactDeclaration other)
+        {
+            return string.Equals(Name, other.Name) && FactType == other.FactType;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+                return false;
+            if (ReferenceEquals(this, obj))
+                return true;
+            if (obj is FactDeclaration other)
+                return Equals(other);
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (Name.GetHashCode() * 397) ^ FactType.GetHashCode();
+            }
+        }
     }
 }

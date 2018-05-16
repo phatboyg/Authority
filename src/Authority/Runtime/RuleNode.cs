@@ -20,7 +20,7 @@ namespace Authority.Runtime
         IRuleNode<T>
         where T : class
     {
-        public Task Activate(TupleContext<T> context, IndexMap indexMap)
+        public Task Activate(BetaContext<T> context, IndexMap indexMap)
         {
             return TaskUtil.Completed;
         }

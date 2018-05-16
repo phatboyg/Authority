@@ -1,0 +1,955 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="d9d693f7-45a0-40ab-adb0-f0f8ae8814c2" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Authority/.idea/contentModel.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Authority/.idea/indexLayout.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Authority/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Authority/.idea/other.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Authority/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Authority/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Authority/riderModule.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Configuration/Builders/DeclarationContext.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Internals/ExpressionCompiler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Rules/Facts/BuilderContextCollection.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Runtime/AlphaContextCallback.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Runtime/BetaContextCallback.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Runtime/TupleChain.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Authority.Tests/Authority.Tests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../Authority.Tests/Authority.Tests.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Authority.Tests/Configuration_Specs.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Authority.Tests/Configuration_Specs.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Authority.Tests/RuntimeTests/BetaNode_Specs.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Authority.Tests/RuntimeTests/BetaNode_Specs.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Authority.Tests/RuntimeTests/TestFactContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Authority.Tests/RuntimeTests/TestAlphaContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Authority.Tests/RuntimeTests/TestFactSource.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Authority.Tests/RuntimeTests/TestFactSource.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Authority.Tests/RuntimeTests/TestTupleContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Authority.Tests/RuntimeTests/TestBetaContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Authority.Tests/RuntimeTests/TestTupleSink.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Authority.Tests/RuntimeTests/TestTupleSink.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Authority.Tests/RuntimeTests/TestTupleSource.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Authority.Tests/RuntimeTests/TestTupleSource.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Authority.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Authority.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Authority.sln.DotSettings" beforeDir="false" afterPath="$PROJECT_DIR$/Authority.sln.DotSettings" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configuration/Builders/AlphaBuilderContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration/Builders/AlphaBuilderContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configuration/Builders/BetaBuilderContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration/Builders/BetaBuilderContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configuration/Builders/BuilderContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration/Builders/BuilderContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configuration/Builders/IRuntimeBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration/Builders/IRuntimeBuilder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configuration/Builders/RuntimeAlphaBuilderContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration/Builders/RuntimeAlphaBuilderContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configuration/Builders/RuntimeBetaBuilderContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration/Builders/RuntimeBetaBuilderContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configuration/Builders/RuntimeBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration/Builders/RuntimeBuilder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configuration/Builders/RuntimeBuilderContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration/Builders/RuntimeBuilderContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IFactObserver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/IFactObserver.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Observers/FactObservable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Observers/FactObservable.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Observers/FactObservableAdapter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Observers/FactObservableAdapter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Rules/Actions/RuleAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Rules/Actions/RuleAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Rules/Conditions/AlphaConditionCollection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Rules/Conditions/AlphaConditionCollection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Rules/Conditions/IRuleCondition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Rules/Conditions/IRuleCondition.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Rules/Conditions/RuleCondition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Rules/Conditions/RuleCondition.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Rules/Facts/RuleDeclarationCollection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Rules/Facts/RuleDeclarationCollection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Rules/Facts/RuleFactDeclaration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Rules/Facts/RuleFactDeclaration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Rules/Rule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Rules/Rule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/AlphaCondition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/AlphaCondition.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/AlphaMemory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/AlphaMemory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/AlphaMemoryNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/AlphaMemoryNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/AlphaNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/AlphaNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/BetaCondition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/BetaCondition.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/BetaMemory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/BetaMemory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/BetaMemoryNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/BetaMemoryNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/BetaNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/BetaNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/ConditionNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/ConditionNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/DummyNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/DummyNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/FactContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/BetaContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/IAlphaCondition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/IAlphaCondition.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/IAlphaMemory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/IAlphaMemory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/IAlphaMemoryNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/IAlphaMemoryNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/IBetaCondition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/IBetaCondition.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/IBetaMemory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/IBetaMemory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/IBetaMemoryNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/IBetaMemoryNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/IBetaNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/IBetaNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/IFactSink.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/IFactSink.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/IFactSource.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/IFactSource.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/IRuleNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/IRuleNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/ITuple.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/ITupleChain.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/ITupleSink.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/ITupleSink.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/ITupleSource.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/ITupleSource.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/LogRuntimeVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/LogRuntimeVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/Network.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/Network.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/RuleNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/RuleNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/SelectionNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/SelectNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/SessionFactContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/SessionAlphaContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/SessionTupleContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/SessionBetaContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/TerminalNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/TerminalNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/Tuple.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/TupleContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/AlphaContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/TypeNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/TypeNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Session.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Session.cs" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_TABLE_DETAILS" value="true" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <expand />
+    <select />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="Authority" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="IRuntimeBuilder.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Configuration/Builders/IRuntimeBuilder.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1248">
+              <caret line="78" column="50" selection-start-line="78" selection-start-column="50" selection-end-line="78" selection-end-column="50" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RuntimeBuilder.cs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Configuration/Builders/RuntimeBuilder.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="352">
+              <caret line="250" column="67" selection-start-line="250" selection-start-column="67" selection-end-line="250" selection-end-column="67" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BuilderContext.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Configuration/Builders/BuilderContext.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="672">
+              <caret line="42" column="17" selection-start-line="42" selection-start-column="17" selection-end-line="42" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BetaBuilderContext.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Configuration/Builders/BetaBuilderContext.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="548">
+              <caret line="36" column="21" selection-start-line="36" selection-start-column="21" selection-end-line="36" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Rule_Specs.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Authority.Tests/Rule_Specs.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1280">
+              <caret line="80" column="18" selection-start-line="80" selection-start-column="18" selection-end-line="80" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Rule.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Rules/Rule.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1424">
+              <caret line="89" column="9" selection-start-line="89" selection-start-column="9" selection-end-line="89" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Fact.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Rules/Fact.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="416">
+              <caret line="26" column="1" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IRuleParameter.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RuleCompiler/IRuleParameter.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="304">
+              <caret line="19" column="21" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RuleParameter.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RuleCompiler/RuleParameter.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="528">
+              <caret line="33" column="29" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BetaCondition.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Runtime/BetaCondition.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="496">
+              <caret line="31" column="15" selection-start-line="31" selection-start-column="15" selection-end-line="31" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IBetaCondition.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Runtime/IBetaCondition.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="17" column="21" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JoinNode.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Runtime/JoinNode.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="15" column="14" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BetaNode.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Runtime/BetaNode.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="736">
+              <caret line="46" selection-start-line="46" selection-end-line="46" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BetaNode_Specs.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Authority.Tests/RuntimeTests/BetaNode_Specs.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="681">
+              <caret line="80" column="105" selection-start-line="80" selection-start-column="105" selection-end-line="80" selection-end-column="105" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BetaContextCallback.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Runtime/BetaContextCallback.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="80">
+              <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RuleCondition.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Rules/Conditions/RuleCondition.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1472">
+              <caret line="92" column="28" selection-start-line="92" selection-start-column="28" selection-end-line="92" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Rules/Rule.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/AlphaCondition.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/AlphaMemory.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/AlphaMemoryNode.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/AlphaNode.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/BetaCondition.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/BetaMemory.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/BetaMemoryNode.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/BetaNode.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/DummyNode.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Exceptions/DeclarationNotFoundException.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/IAlphaCondition.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/IAlphaMemory.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/IAlphaMemoryNode.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/IBetaCondition.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/IBetaMemory.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RuleModels/ActionElement.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/IBetaMemoryNode.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/IBetaNode.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/IFactSink.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/IFactSource.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/ITupleSource.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/LogRuntimeVisitor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/Network.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/TypeNode.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/TupleChain.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/SessionAlphaContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RuleModels/Declaration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/BetaContextCallback.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/AlphaContextCallback.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RuleCompiler/IRuleParameter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RuleCompiler/RuleParameter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RuleCompiler/ExpressionConverter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/SelectNode.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/ITupleChain.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Internals/ExpressionCompiler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/SessionBetaContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/GraphRuntimeVisitor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Authority.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/BetaContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Authority.Tests/Rule_Specs.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Authority.Tests/ContextSetup.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/70A2D8CE-1EB2-4164-B2C9-55E1BE71EF08/9a/8a963f9e/LoggerExtensions.cs" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Rules/Facts/BuilderContextCollection.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/B4EAA2BC-235D-4337-95EC-F85C2CB89857/8d/cc88d998/LoggerFactory.cs" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Util/OrderedHashSet.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Configuration/Builders/DeclarationContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Rules/Fact.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Rules/Facts/FactDeclaration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Rules/Conditions/IRuleConditionFactory.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Rules/Conditions/DefaultRuleConditionFactory.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/AlphaMemoryMap.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/IndexMap.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/JoinNode.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/LoggerExtensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/AlphaContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Authority.Tests/Configuration_Specs.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Authority.Tests/RuntimeTests/BetaNode_Specs.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Authority.Tests/RuntimeTests/TestFactSource.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Authority.Tests/RuntimeTests/TestTupleSource.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Configuration/Builders/AlphaBuilderContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Configuration/Builders/BetaBuilderContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Configuration/Builders/BuilderContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Configuration/Builders/IRuntimeBuilder.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Configuration/Builders/RuntimeAlphaBuilderContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Configuration/Builders/RuntimeBetaBuilderContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Configuration/Builders/RuntimeBuilder.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Configuration/Builders/RuntimeBuilderContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/IFactObserver.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Rules/Conditions/AlphaConditionCollection.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Rules/Conditions/IRuleCondition.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Rules/Conditions/RuleCondition.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Rules/Facts/RuleDeclarationCollection.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Rules/Facts/RuleFactDeclaration.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Runtime/TypeNode.cs" />
+        <option value="$PROJECT_DIR$/Runtime/SelectNode.cs" />
+        <option value="$PROJECT_DIR$/Runtime/IAlphaCondition.cs" />
+        <option value="$PROJECT_DIR$/Runtime/AlphaCondition.cs" />
+        <option value="$PROJECT_DIR$/Internals/ExpressionCompiler.cs" />
+        <option value="$PROJECT_DIR$/Runtime/FactPath.cs" />
+        <option value="$PROJECT_DIR$/Runtime/SessionFactContext.cs" />
+        <option value="$PROJECT_DIR$/Runtime/SessionTupleContext.cs" />
+        <option value="$PROJECT_DIR$/Runtime/SessionAlphaContext.cs" />
+        <option value="$PROJECT_DIR$/Runtime/SessionBetaContext.cs" />
+        <option value="$PROJECT_DIR$/Runtime/BetaContext.cs" />
+        <option value="$PROJECT_DIR$/Runtime/AlphaContext.cs" />
+        <option value="$PROJECT_DIR$/Runtime/AlphaMemoryNode.cs" />
+        <option value="$PROJECT_DIR$/Runtime/IAlphaMemory.cs" />
+        <option value="$PROJECT_DIR$/Runtime/AlphaMemory.cs" />
+        <option value="$PROJECT_DIR$/Runtime/IFactSource.cs" />
+        <option value="$PROJECT_DIR$/Runtime/IFactSink.cs" />
+        <option value="$PROJECT_DIR$/../Authority.Tests/RuntimeTests/TestFactSource.cs" />
+        <option value="$PROJECT_DIR$/Runtime/AlphaNode.cs" />
+        <option value="$PROJECT_DIR$/Runtime/AlphaContextCallback.cs" />
+        <option value="$PROJECT_DIR$/Runtime/BetaContextCallback.cs" />
+        <option value="$PROJECT_DIR$/Runtime/BetaMemory.cs" />
+        <option value="$PROJECT_DIR$/Runtime/IBetaMemory.cs" />
+        <option value="$PROJECT_DIR$/Runtime/BetaMemoryNode.cs" />
+        <option value="$PROJECT_DIR$/Runtime/DummyNode.cs" />
+        <option value="$PROJECT_DIR$/../Authority.Tests/RuntimeTests/TestTupleSource.cs" />
+        <option value="$PROJECT_DIR$/Rules/Facts/RuleDeclarationCollection.cs" />
+        <option value="$PROJECT_DIR$/Rules/Facts/BuilderContextCollection.cs" />
+        <option value="$PROJECT_DIR$/Rules/Rule.cs" />
+        <option value="$PROJECT_DIR$/Rules/Conditions/IRuleCondition.cs" />
+        <option value="$PROJECT_DIR$/RuleCompiler/IRuleParameter.cs" />
+        <option value="$PROJECT_DIR$/Runtime/ITupleChain.cs" />
+        <option value="$PROJECT_DIR$/Runtime/TupleChain.cs" />
+        <option value="$PROJECT_DIR$/Configuration/Builders/DeclarationContext.cs" />
+        <option value="$PROJECT_DIR$/Configuration/Builders/BuilderDeclarationContext.cs" />
+        <option value="$PROJECT_DIR$/Rules/Conditions/RuleCondition.cs" />
+        <option value="$PROJECT_DIR$/Configuration/Builders/BuilderContext.cs" />
+        <option value="$PROJECT_DIR$/Configuration/Builders/IRuntimeBuilder.cs" />
+        <option value="$PROJECT_DIR$/Configuration/Builders/RuntimeBuilderContext.cs" />
+        <option value="$PROJECT_DIR$/Configuration/Builders/AlphaBuilderContext.cs" />
+        <option value="$PROJECT_DIR$/Configuration/Builders/RuntimeAlphaBuilderContext.cs" />
+        <option value="$PROJECT_DIR$/Runtime/IBetaMemoryNode.cs" />
+        <option value="$PROJECT_DIR$/Rules/Facts/RuleFactDeclaration.cs" />
+        <option value="$PROJECT_DIR$/Runtime/IBetaNode.cs" />
+        <option value="$PROJECT_DIR$/Runtime/ITupleSource.cs" />
+        <option value="$PROJECT_DIR$/Configuration/Builders/BetaBuilderContext.cs" />
+        <option value="$PROJECT_DIR$/Configuration/Builders/RuntimeBetaBuilderContext.cs" />
+        <option value="$PROJECT_DIR$/Runtime/BetaCondition.cs" />
+        <option value="$PROJECT_DIR$/Runtime/BetaNode.cs" />
+        <option value="$PROJECT_DIR$/../Authority.Tests/RuntimeTests/BetaNode_Specs.cs" />
+        <option value="$PROJECT_DIR$/Configuration/Builders/RuntimeBuilder.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="23" />
+    <option name="width" value="1920" />
+    <option name="height" value="1146" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="SolutionExplorer" proportions="" version="1">
+      <autoscrollFromSource SolutionExplorer="true" />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="SolutionExplorer">
+        <subPane>
+          <expand>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Authority (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Authority (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Authority" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Authority (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Authority" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Configuration" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Authority (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Authority" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Configuration" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Builders" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Authority (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Authority" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Runtime" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Authority (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Authority.Tests" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="Authority (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Authority.Tests" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="RuntimeTests" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+        <option name="show-file-system" value="false" />
+        <option name="show-all-items" value="false" />
+      </pane>
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Rider.ProjectViewActivator.IsNotFirstRun" value="true" />
+    <property name="SearchEverywhereHistoryKey" value="RuleCOn&#9;FILE&#9;file:///Users/Chris/Code/Authority/src/Authority/Rules/Conditions/RuleCondition.cs&#10;IRB&#9;FILE&#9;file:///Users/Chris/Code/Authority/src/Authority/Configuration/Builders/IRuntimeBuilder.cs&#10;RBC&#9;FILE&#9;file:///Users/Chris/Code/Authority/src/Authority/Configuration/Builders/RuntimeBuilderContext.cs&#10;TupleCha&#9;FILE&#9;file:///Users/Chris/Code/Authority/src/Authority/Runtime/TupleChain.cs&#10;collection&#9;FILE&#9;file:///Users/Chris/Code/Authority/src/Authority/Rules/Facts/RuleDeclarationCollection.cs&#10;cached&#9;null&#9;null&#10;BetaCondit&#9;null&#9;null&#10;TupleChain&#9;null&#9;null&#10;TupCh&#9;FILE&#9;file:///Users/Chris/Code/Authority/src/Authority/Runtime/ITupleChain.cs&#10;AlpCoC&#9;FILE&#9;file:///Users/Chris/Code/Authority/src/Authority/Runtime/AlphaContextCallback.cs&#10;FactPath&#9;FILE&#9;file:///Users/Chris/Code/Authority/src/Authority/Runtime/FactPath.cs&#10;BetaContext&#9;FILE&#9;file:///Users/Chris/Code/Authority/src/Authority/Runtime/BetaContext.cs&#10;Typen&#9;null&#9;null" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Default" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="PROJECT_PATH" value="" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="None" />
+      <option name="PROJECT_TFM" value="" />
+    </configuration>
+    <configuration default="true" type="DotNetProject" factoryName=".NET Project">
+      <option name="PROJECT_PATH" value="" />
+      <option name="PROJECT_KIND" value="None" />
+      <option name="PROJECT_TFM" value="" />
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="USE_MONO" value="0" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <envs />
+      <method />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d9d693f7-45a0-40ab-adb0-f0f8ae8814c2" name="Default" comment="" />
+      <created>1494261015896</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1494261015896</updated>
+      <workItem from="1494261018388" duration="319000" />
+      <workItem from="1510164294163" duration="1762000" />
+      <workItem from="1510237954801" duration="2897000" />
+      <workItem from="1510326422049" duration="4334000" />
+      <workItem from="1510405311807" duration="2102000" />
+      <workItem from="1510584678368" duration="309000" />
+      <workItem from="1510611909018" duration="662000" />
+      <workItem from="1510675097573" duration="8858000" />
+      <workItem from="1510691846409" duration="2470000" />
+      <workItem from="1522901761960" duration="1306000" />
+      <workItem from="1526508550838" duration="256000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="25275000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="1920" height="1146" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Errors In Solution" order="3" sideWeight="0.31296295" side_tool="true" visible="true" weight="0.15165877" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Unit Tests" order="7" weight="0.3282588" />
+      <window_info anchor="bottom" id="Database Changes" order="18" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="NuGet" order="7" />
+      <window_info active="true" anchor="right" content_ui="combo" id="Project" order="5" sideWeight="0.68703705" visible="true" weight="0.15165877" />
+      <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
+      <window_info anchor="right" id="Database" order="4" show_stripe_button="false" />
+      <window_info id="Structure" order="1" show_stripe_button="false" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="0" show_stripe_button="false" side_tool="true" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Run Dashboard" order="14" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Inspection Results" order="7" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Change Signature" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Build" order="7" />
+      <window_info anchor="bottom" id="Message" order="0" />
+    </layout>
+    <layout-to-restore>
+      <window_info anchor="bottom" id="NuGet" order="4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Run" order="10" />
+      <window_info anchor="bottom" id="Cvs" order="12" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.25239617" />
+      <window_info anchor="bottom" id="Change Signature" order="5" side_tool="true" />
+      <window_info anchor="right" id="Commander" order="2" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="14" />
+      <window_info anchor="bottom" id="Inspection Results" order="7" />
+      <window_info anchor="bottom" id="Unit Tests" order="1" visible="true" weight="0.32922202" />
+      <window_info anchor="bottom" id="Message" order="8" />
+      <window_info anchor="bottom" id="Inspection" order="13" weight="0.4" />
+      <window_info anchor="right" id="Errors In Solution" order="0" />
+      <window_info anchor="right" id="Database" order="1" />
+      <window_info anchor="bottom" id="Terminal" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="0" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="2" />
+      <window_info anchor="bottom" id="Debug" order="11" weight="0.4" />
+      <window_info anchor="bottom" id="Build" order="6" />
+      <window_info anchor="bottom" id="Find" order="9" />
+      <window_info id="Structure" order="1" weight="0.25" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="UnityProjectConfiguration" isUnityUI="false" />
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Configuration/Builders/RuntimeBuilderContext.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1152">
+          <caret line="72" column="45" selection-start-line="72" selection-start-column="45" selection-end-line="72" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RuleCompiler/RuleParameter.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="33" column="29" lean-forward="true" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/IFactSink.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="464">
+          <caret line="29" column="39" selection-start-line="29" selection-start-column="39" selection-end-line="29" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Authority.Tests/RuntimeTests/TestFactSource.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="576">
+          <caret line="36" column="40" selection-start-line="36" selection-start-column="40" selection-end-line="36" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/BetaMemory.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1248">
+          <caret line="78" column="19" selection-start-line="78" selection-start-column="19" selection-end-line="78" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/IBetaMemory.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/DummyNode.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="23" column="23" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Authority.Tests/RuntimeTests/TestTupleSource.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Rules/Conditions/IRuleConditionFactory.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="22" column="26" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Rules/Conditions/DefaultRuleConditionFactory.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="33" column="31" selection-start-line="33" selection-start-column="31" selection-end-line="33" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Rules/Conditions/IRuleCondition.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="624">
+          <caret line="39" column="28" selection-start-line="39" selection-start-column="28" selection-end-line="39" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Util/OrderedHashSet.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="18" column="17" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/ITupleChain.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="27" column="30" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/AlphaContextCallback.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Rules/Facts/FactDeclaration.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="25" column="21" selection-start-line="25" selection-start-column="21" selection-end-line="25" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/Network.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="566">
+          <caret line="82" column="37" selection-start-line="82" selection-start-column="37" selection-end-line="82" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Configuration/Builders/BuilderDeclarationContext.cs" />
+    <entry file="file://$PROJECT_DIR$/Runtime/AlphaNode.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1103">
+          <caret line="87" column="39" selection-start-line="87" selection-start-column="39" selection-end-line="87" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/AlphaCondition.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/SelectNode.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="28" column="19" selection-start-line="28" selection-start-column="19" selection-end-line="28" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Rules/Conditions/AlphaConditionCollection.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1171">
+          <caret line="82" column="1" selection-start-line="82" selection-start-column="1" selection-end-line="82" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Configuration/Builders/DeclarationContext.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="5" column="25" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Configuration/Builders/RuntimeAlphaBuilderContext.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="640">
+          <caret line="40" column="26" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Rules/Facts/BuilderContextCollection.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="496">
+          <caret line="31" column="36" selection-start-line="31" selection-start-column="36" selection-end-line="31" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Rules/Facts/RuleDeclarationCollection.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2080">
+          <caret line="130" column="61" selection-start-line="130" selection-start-column="61" selection-end-line="130" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Configuration/Builders/AlphaBuilderContext.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="33" column="21" selection-start-line="33" selection-start-column="21" selection-end-line="33" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/IBetaMemoryNode.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="496">
+          <caret line="31" column="51" selection-start-line="31" selection-start-column="51" selection-end-line="31" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Rules/Facts/RuleFactDeclaration.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="624">
+          <caret line="39" column="38" selection-start-line="39" selection-start-column="38" selection-end-line="39" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/IBetaNode.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/TupleChain.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="496">
+          <caret line="31" column="15" selection-start-line="31" selection-start-column="15" selection-end-line="31" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/BetaMemoryNode.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="800">
+          <caret line="50" column="45" selection-start-line="50" selection-start-column="45" selection-end-line="50" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/BetaContext.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="19" column="21" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/ITupleSource.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="720">
+          <caret line="45" column="32" selection-start-line="45" selection-start-column="32" selection-end-line="45" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Configuration/Builders/RuntimeBetaBuilderContext.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="23" column="44" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Configuration/Builders/RuntimeBuilderContext.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1152">
+          <caret line="72" column="45" selection-start-line="72" selection-start-column="45" selection-end-line="72" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/BetaContextCallback.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Rules/Conditions/RuleCondition.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1472">
+          <caret line="92" column="28" selection-start-line="92" selection-start-column="28" selection-end-line="92" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Configuration/Builders/IRuntimeBuilder.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1248">
+          <caret line="78" column="50" selection-start-line="78" selection-start-column="50" selection-end-line="78" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/IBetaCondition.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="17" column="21" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/BetaNode.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="736">
+          <caret line="46" selection-start-line="46" selection-end-line="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/JoinNode.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="15" column="14" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Authority.Tests/Rule_Specs.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1280">
+          <caret line="80" column="18" selection-start-line="80" selection-start-column="18" selection-end-line="80" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Rules/Rule.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1424">
+          <caret line="89" column="9" selection-start-line="89" selection-start-column="9" selection-end-line="89" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Rules/Fact.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="26" column="1" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RuleCompiler/IRuleParameter.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="19" column="21" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RuleCompiler/RuleParameter.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="33" column="29" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Runtime/BetaCondition.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="496">
+          <caret line="31" column="15" selection-start-line="31" selection-start-column="15" selection-end-line="31" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Authority.Tests/RuntimeTests/BetaNode_Specs.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="681">
+          <caret line="80" column="105" selection-start-line="80" selection-start-column="105" selection-end-line="80" selection-end-column="105" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Configuration/Builders/BetaBuilderContext.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="548">
+          <caret line="36" column="21" selection-start-line="36" selection-start-column="21" selection-end-line="36" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Configuration/Builders/BuilderContext.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="672">
+          <caret line="42" column="17" selection-start-line="42" selection-start-column="17" selection-end-line="42" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Configuration/Builders/RuntimeBuilder.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="250" column="67" selection-start-line="250" selection-start-column="67" selection-end-line="250" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

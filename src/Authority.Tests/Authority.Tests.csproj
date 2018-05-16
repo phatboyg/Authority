@@ -11,6 +11,7 @@
     <AssemblyName>Authority.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -80,9 +81,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rule_Specs.cs" />
     <Compile Include="RuntimeTests\BetaNode_Specs.cs" />
-    <Compile Include="RuntimeTests\TestFactContext.cs" />
+    <Compile Include="RuntimeTests\TestAlphaContext.cs" />
     <Compile Include="RuntimeTests\TestFactSource.cs" />
-    <Compile Include="RuntimeTests\TestTupleContext.cs" />
+    <Compile Include="RuntimeTests\TestBetaContext.cs" />
     <Compile Include="RuntimeTests\TestTupleSink.cs" />
     <Compile Include="RuntimeTests\TestTupleSource.cs" />
     <Compile Include="RuntimeTests\TestSession.cs" />

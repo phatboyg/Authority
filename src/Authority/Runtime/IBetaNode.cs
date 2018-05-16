@@ -18,14 +18,21 @@ namespace Authority.Runtime
     }
 
 
+    public interface IBetaNode<TRight> :
+        IBetaNode,
+        IFactSink<TRight>,
+        ITupleSource<TRight>
+        where TRight : class
+    {
+        IBetaMemoryNode<TRight> MemoryNode { get; }
+    }
+
+
     public interface IBetaNode<in TLeft, TRight> :
         ITupleSink<TLeft>,
-        IFactSink<TRight>,
-        ITupleSource<TRight>,
-        IBetaNode
+        IBetaNode<TRight>
         where TRight : class
         where TLeft : class
     {
-        IBetaMemoryNode<TRight> MemoryNode { get; }
     }
 }

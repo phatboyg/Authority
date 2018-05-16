@@ -12,7 +12,6 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Tests.RuntimeTests
 {
-    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using GreenPipes;
@@ -25,11 +24,11 @@ namespace Authority.Tests.RuntimeTests
         where T : class
     {
         readonly ConnectableList<ITupleSink<T>> _sinks;
-        readonly ITuple<T>[] _tuples;
+        readonly ITupleChain<T>[] _tupleChains;
 
-        public TestTupleSource(params ITuple<T>[] tuples)
+        public TestTupleSource(params ITupleChain<T>[] tupleChains)
         {
-            _tuples = tuples;
+            _tupleChains = tupleChains;
             _sinks = new ConnectableList<ITupleSink<T>>();
         }
 
@@ -38,9 +37,9 @@ namespace Authority.Tests.RuntimeTests
             return _sinks.Connect(sink);
         }
 
-        public Task All(SessionContext context, Func<TupleContext<T>, Task> callback)
+        public Task All(SessionContext context, BetaContextCallback<T> callback)
         {
-            return Task.WhenAll(_tuples.Select(x => callback(new TestTupleContext<T>(context, x))));
+            return Task.WhenAll(_tupleChains.Select(x => callback(new TestBetaContext<T>(context, x))));
         }
     }
 }

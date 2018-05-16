@@ -37,7 +37,7 @@ namespace Authority.Runtime
             _observers = new FactObservable();
         }
 
-        Task IFactSink.Insert<T>(FactContext<T> context)
+        Task IFactSink.Insert<T>(AlphaContext<T> context)
         {
             if (!_typeNodes.ContainsKey(typeof(T)))
                 GetTypeNode<T>();

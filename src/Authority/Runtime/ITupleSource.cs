@@ -24,7 +24,7 @@ namespace Authority.Runtime
     public interface ITupleSource<out T>
         where T : class
     {
-        Task All(SessionContext context, Func<TupleContext<T>, Task> callback);
+        Task All(SessionContext context, BetaContextCallback<T> callback);
 
         /// <summary>
         /// Connect a sink to the fact source, so that subsequent activations automatically pass
@@ -33,5 +33,33 @@ namespace Authority.Runtime
         /// <param name="sink"></param>
         /// <returns></returns>
         ConnectHandle Connect(ITupleSink<T> sink);
+    }
+
+
+    public interface ITupleChainAccessor<out T>
+        where T : class
+    {
+        T GetFact(ITupleChain tupleChain);
+    }
+
+
+    public class IndexTupleChainAccessor<T> :
+        ITupleChainAccessor<T>
+        where T : class
+    {
+        readonly int _index;
+
+        public IndexTupleChainAccessor(int index)
+        {
+            _index = index;
+        }
+
+        public T GetFact(ITupleChain tupleChain)
+        {
+            if (tupleChain.TryGetFact(_index, out T fact))
+                return fact;
+
+            throw new InvalidOperationException($"The fact type was not found in the tuple chain");
+        }
     }
 }

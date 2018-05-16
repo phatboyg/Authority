@@ -16,6 +16,7 @@ namespace Authority.Rules.Conditions
     using System.Linq.Expressions;
     using Builders;
     using Facts;
+    using Runtime;
 
 
     public class RuleCondition<T> :
@@ -36,9 +37,7 @@ namespace Authority.Rules.Conditions
 
         public void Apply(IRuntimeBuilder builder, BuilderContext context)
         {
-//            context.AddParameter(_factDeclaration.);
-
-            builder.BuildSelectionNode(context, ConditionExpression);
+            builder.BuildSelectNode(context, FactDeclaration, ConditionExpression);
 
 //            protected override void VisitPattern(ReteBuilderContext context, PatternElement element)
 //        {
@@ -74,5 +73,30 @@ namespace Authority.Rules.Conditions
 //            }
 //        }
         }
+    }
+
+
+    public class RuleCondition<TLeft, TRight> :
+        IRuleCondition<TLeft, TRight>
+        where TLeft : class
+        where TRight : class
+    {
+        public RuleCondition(FactDeclaration<TLeft> leftFact, FactDeclaration<TRight> rightFact, Expression<Func<TLeft, TRight, bool>> conditionExpression)
+        {
+            LeftFact = leftFact;
+            RightFact = rightFact;
+            ConditionExpression = conditionExpression;
+        }
+
+        public void Apply(IRuntimeBuilder builder, BuilderContext context)
+        {
+            builder.BuildSelectNode(context, LeftFact, RightFact, ConditionExpression);
+        }
+
+        public FactDeclaration<TLeft> LeftFact { get; }
+
+        public FactDeclaration<TRight> RightFact { get; }
+
+        public Expression<Func<TLeft, TRight, bool>> ConditionExpression { get; }
     }
 }

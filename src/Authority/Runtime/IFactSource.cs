@@ -1,4 +1,4 @@
-﻿// Copyright 2012-2016 Chris Patterson
+﻿// Copyright 2012-2017 Chris Patterson
 //  
 // Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 // this file except in compliance with the License. You may obtain a copy of the 
@@ -12,7 +12,6 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Runtime
 {
-    using System;
     using System.Threading.Tasks;
     using GreenPipes;
 
@@ -20,11 +19,11 @@ namespace Authority.Runtime
     /// <summary>
     /// A source of facts, such as an alpha node
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IFactSource<out T>
-        where T : class
+    /// <typeparam name="TFact"></typeparam>
+    public interface IFactSource<out TFact>
+        where TFact : class
     {
-        Task All(SessionContext context, Func<FactContext<T>, Task> callback);
+        Task All(SessionContext context, AlphaContextCallback<TFact> callback);
 
         /// <summary>
         /// Connect a sink to the fact source, so that subsequent activations automatically pass
@@ -32,6 +31,6 @@ namespace Authority.Runtime
         /// </summary>
         /// <param name="sink"></param>
         /// <returns></returns>
-        ConnectHandle Connect(IFactSink<T> sink);
+        ConnectHandle Connect(IFactSink<TFact> sink);
     }
 }

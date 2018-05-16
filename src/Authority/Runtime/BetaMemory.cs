@@ -26,14 +26,14 @@ namespace Authority.Runtime
         where TRight : class
     {
         static readonly TRight NullFact = null;
-        readonly Dictionary<ITuple, Dictionary<TRight, ITuple>> _parentToChildMap = new Dictionary<ITuple, Dictionary<TRight, ITuple>>();
+        readonly Dictionary<ITupleChain, Dictionary<TRight, ITupleChain>> _parentToChildMap = new Dictionary<ITupleChain, Dictionary<TRight, ITupleChain>>();
         readonly LimitedConcurrencyLevelTaskScheduler _scheduler;
 
-        readonly OrderedHashSet<ITuple> _tuples;
+        readonly OrderedHashSet<ITupleChain> _tuples;
 
         public BetaMemory()
         {
-            _tuples = new OrderedHashSet<ITuple>();
+            _tuples = new OrderedHashSet<ITupleChain>();
             _scheduler = new LimitedConcurrencyLevelTaskScheduler(1);
         }
 
@@ -46,66 +46,66 @@ namespace Authority.Runtime
             return Task.Factory.StartNew(() => memoryAccess(this), CancellationToken.None, TaskCreationOptions.None, _scheduler);
         }
 
-        void IBetaMemory<TRight>.Add(ITuple<TRight> tuple)
+        void IBetaMemory<TRight>.Add(ITupleChain<TRight> tupleChain)
         {
-            _tuples.Add(tuple);
+            _tuples.Add(tupleChain);
 
-            AddMapping(tuple);
+            AddMapping(tupleChain);
         }
 
-        void IBetaMemory<TRight>.Remove(ITuple<TRight> tuple)
+        void IBetaMemory<TRight>.Remove(ITupleChain<TRight> tupleChain)
         {
-            _tuples.Remove(tuple);
+            _tuples.Remove(tupleChain);
 
-            RemoveMapping(tuple);
+            RemoveMapping(tupleChain);
         }
 
-        bool IBetaMemory<TRight>.TryGetTuple(ITuple<TRight> leftTuple, TRight rightFact, out ITuple tuple)
+        bool IBetaMemory<TRight>.TryGetTuple(ITupleChain<TRight> leftTupleChain, TRight rightFact, out ITupleChain tupleChain)
         {
-            Dictionary<TRight, ITuple> subMap;
-            if (_parentToChildMap.TryGetValue(leftTuple, out subMap))
+            Dictionary<TRight, ITupleChain> subMap;
+            if (_parentToChildMap.TryGetValue(leftTupleChain, out subMap))
             {
-                ITuple childTuple;
-                subMap.TryGetValue(rightFact ?? NullFact, out childTuple);
+                ITupleChain childTupleChain;
+                subMap.TryGetValue(rightFact ?? NullFact, out childTupleChain);
 
-                tuple = childTuple;
-                return tuple != null;
+                tupleChain = childTupleChain;
+                return tupleChain != null;
             }
 
-            tuple = null;
+            tupleChain = null;
             return false;
         }
 
-        Task IBetaMemory<TRight>.ForEach<T>(SessionContext context, Func<TupleContext<T>, Task> callback)
+        Task IBetaMemory<TRight>.ForEach<T>(SessionContext context, BetaContextCallback<T> callback)
         {
             return Task.WhenAll(_tuples.Select(x => x.ForEach(context, callback)));
         }
 
-        void AddMapping(ITuple<TRight> tuple)
+        void AddMapping(ITupleChain<TRight> tupleChain)
         {
-            if (tuple.Left == null)
+            if (tupleChain.Left == null)
                 return;
 
-            Dictionary<TRight, ITuple> subMap;
-            if (!_parentToChildMap.TryGetValue(tuple.Left, out subMap))
+            Dictionary<TRight, ITupleChain> subMap;
+            if (!_parentToChildMap.TryGetValue(tupleChain.Left, out subMap))
             {
-                subMap = new Dictionary<TRight, ITuple>();
-                _parentToChildMap[tuple.Left] = subMap;
+                subMap = new Dictionary<TRight, ITupleChain>();
+                _parentToChildMap[tupleChain.Left] = subMap;
             }
-            subMap[tuple.Right ?? NullFact] = tuple;
+            subMap[tupleChain.Right ?? NullFact] = tupleChain;
         }
 
-        void RemoveMapping(ITuple<TRight> tuple)
+        void RemoveMapping(ITupleChain<TRight> tupleChain)
         {
-            if (tuple.Left == null)
+            if (tupleChain.Left == null)
                 return;
 
-            Dictionary<TRight, ITuple> subMap;
-            if (_parentToChildMap.TryGetValue(tuple.Left, out subMap))
+            Dictionary<TRight, ITupleChain> subMap;
+            if (_parentToChildMap.TryGetValue(tupleChain.Left, out subMap))
             {
-                subMap.Remove(tuple.Right ?? NullFact);
+                subMap.Remove(tupleChain.Right ?? NullFact);
                 if (subMap.Count == 0)
-                    _parentToChildMap.Remove(tuple.Left);
+                    _parentToChildMap.Remove(tupleChain.Left);
             }
         }
     }

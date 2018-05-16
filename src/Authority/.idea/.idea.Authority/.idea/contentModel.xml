@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$PROJECT_DIR$" t="IncludeRecursive">
+      <e p="Authority.cs" t="Include" />
+      <e p="Authority.csproj" t="IncludeRecursive" />
+      <e p="Authority.sln" t="IncludeFlat" />
+      <e p="AuthorityContext.cs" t="Include" />
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="Configuration" t="Include">
+        <e p="Builders" t="Include">
+          <e p="AlphaBuilderContext.cs" t="Include" />
+          <e p="BetaBuilderContext.cs" t="Include" />
+          <e p="BuilderContext.cs" t="Include" />
+          <e p="DeclarationContext.cs" t="Include" />
+          <e p="IRuntimeBuilder.cs" t="Include" />
+          <e p="ReteBuilderContext.cs" t="Include" />
+          <e p="RuntimeAlphaBuilderContext.cs" t="Include" />
+          <e p="RuntimeBetaBuilderContext.cs" t="Include" />
+          <e p="RuntimeBuilder.cs" t="Include" />
+          <e p="RuntimeBuilderContext.cs" t="Include" />
+        </e>
+        <e p="Configurators" t="Include">
+          <e p="IBuildSupremeAuthority.cs" t="Include" />
+          <e p="SupremeAuthorityConfigurator.cs" t="Include" />
+        </e>
+        <e p="EngineConfigurationExtensions.cs" t="Include" />
+        <e p="IAuthorityConfigurator.cs" t="Include" />
+      </e>
+      <e p="Engine" t="Include" />
+      <e p="Exceptions" t="Include">
+        <e p="DeclarationNotFoundException.cs" t="Include" />
+        <e p="RuntimeBuilderException.cs" t="Include" />
+      </e>
+      <e p="FactHandle.cs" t="Include" />
+      <e p="GraphRuntimeVisitor.cs" t="Include" />
+      <e p="IAuthority.cs" t="Include" />
+      <e p="IAuthorityFactory.cs" t="Include" />
+      <e p="IFactObserver.cs" t="Include" />
+      <e p="Internals" t="Include">
+        <e p="ExpressionCompiler.cs" t="Include" />
+      </e>
+      <e p="IObserverConnector.cs" t="Include" />
+      <e p="ISession.cs" t="Include" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="ObserverHandle.cs" t="Include" />
+      <e p="Observers" t="Include">
+        <e p="FactObservable.cs" t="Include" />
+        <e p="FactObservableAdapter.cs" t="Include" />
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="packages.config" t="Include" />
+      <e p="Properties" t="Include">
+        <e p="AssemblyInfo.cs" t="Include" />
+      </e>
+      <e p="RuleCompiler" t="Include">
+        <e p="ExpressionConverter.cs" t="Include" />
+        <e p="IRuleParameter.cs" t="Include" />
+        <e p="RuleParameter.cs" t="Include" />
+      </e>
+      <e p="RuleModels" t="Include">
+        <e p="ActionElement.cs" t="Include" />
+        <e p="ActionGroupElement.cs" t="Include" />
+        <e p="AggregateElement.cs" t="Include" />
+        <e p="AggregationAction.cs" t="Include" />
+        <e p="AggregationResult.cs" t="Include" />
+        <e p="AndElement.cs" t="Include" />
+        <e p="ConditionElement.cs" t="Include" />
+        <e p="Declaration.cs" t="Include" />
+        <e p="DependencyElement.cs" t="Include" />
+        <e p="DependencyGroupElement.cs" t="Include" />
+        <e p="ExistsElement.cs" t="Include" />
+        <e p="ExpressionMap.cs" t="Include" />
+        <e p="ForAllElement.cs" t="Include" />
+        <e p="GroupElement.cs" t="Include" />
+        <e p="IAggregator.cs" t="Include" />
+        <e p="IAggregatorFactory.cs" t="Include" />
+        <e p="IRuleDefinition.cs" t="Include" />
+        <e p="NamedExpression.cs" t="Include" />
+        <e p="NotElement.cs" t="Include" />
+        <e p="OrElement.cs" t="Include" />
+        <e p="PatternElement.cs" t="Include" />
+        <e p="RuleDefinition.cs" t="Include" />
+        <e p="RuleElement.cs" t="Include" />
+        <e p="RuleElementExtensions.cs" t="Include" />
+        <e p="RuleElementVisitor.cs" t="Include" />
+        <e p="RuleLeftElement.cs" t="Include" />
+        <e p="RuleRepeatability.cs" t="Include" />
+        <e p="RuleRightElement.cs" t="Include" />
+        <e p="SymbolTable.cs" t="Include" />
+      </e>
+      <e p="Rules" t="Include">
+        <e p="Actions" t="Include">
+          <e p="IRuleAction.cs" t="Include" />
+          <e p="RuleAction.cs" t="Include" />
+        </e>
+        <e p="Conditions" t="Include">
+          <e p="AlphaConditionCollection.cs" t="Include" />
+          <e p="DefaultRuleConditionFactory.cs" t="Include" />
+          <e p="IRuleCondition.cs" t="Include" />
+          <e p="IRuleConditionFactory.cs" t="Include" />
+          <e p="RuleCondition.cs" t="Include" />
+        </e>
+        <e p="Fact.cs" t="Include" />
+        <e p="Facts" t="Include">
+          <e p="BuilderContextCollection.cs" t="Include" />
+          <e p="FactDeclaration.cs" t="Include" />
+          <e p="IFact.cs" t="Include" />
+          <e p="RuleDeclarationCollection.cs" t="Include" />
+          <e p="RuleFactDeclaration.cs" t="Include" />
+        </e>
+        <e p="IRule.cs" t="Include" />
+        <e p="Rule.cs" t="Include" />
+      </e>
+      <e p="Runtime" t="Include">
+        <e p="AlphaCondition.cs" t="Include" />
+        <e p="AlphaContext.cs" t="Include" />
+        <e p="AlphaContextCallback.cs" t="Include" />
+        <e p="AlphaMemory.cs" t="Include" />
+        <e p="AlphaMemoryMap.cs" t="Include" />
+        <e p="AlphaMemoryNode.cs" t="Include" />
+        <e p="AlphaNode.cs" t="Include" />
+        <e p="BetaCondition.cs" t="Include" />
+        <e p="BetaContext.cs" t="Include" />
+        <e p="BetaContextCallback.cs" t="Include" />
+        <e p="BetaMemory.cs" t="Include" />
+        <e p="BetaMemoryMap.cs" t="Include" />
+        <e p="BetaMemoryNode.cs" t="Include" />
+        <e p="BetaNode.cs" t="Include" />
+        <e p="ConditionNode.cs" t="Include" />
+        <e p="DummyNode.cs" t="Include" />
+        <e p="ExpressionComparer.cs" t="Include" />
+        <e p="FactIndex.cs" t="Include" />
+        <e p="IAcceptVisitor.cs" t="Include" />
+        <e p="IAlphaCondition.cs" t="Include" />
+        <e p="IAlphaMemory.cs" t="Include" />
+        <e p="IAlphaMemoryMap.cs" t="Include" />
+        <e p="IAlphaMemoryNode.cs" t="Include" />
+        <e p="IAlphaNode.cs" t="Include" />
+        <e p="IBetaCondition.cs" t="Include" />
+        <e p="IBetaMemory.cs" t="Include" />
+        <e p="IBetaMemoryMap.cs" t="Include" />
+        <e p="IBetaMemoryNode.cs" t="Include" />
+        <e p="IBetaNode.cs" t="Include" />
+        <e p="IFactSink.cs" t="Include" />
+        <e p="IFactSource.cs" t="Include" />
+        <e p="IndexMap.cs" t="Include" />
+        <e p="INetwork.cs" t="Include" />
+        <e p="INode.cs" t="Include" />
+        <e p="INodeMemory.cs" t="Include" />
+        <e p="IRuleNode.cs" t="Include" />
+        <e p="ISelectionNode.cs" t="Include" />
+        <e p="ITerminalNode.cs" t="Include" />
+        <e p="ITupleChain.cs" t="Include" />
+        <e p="ITupleSink.cs" t="Include" />
+        <e p="ITupleSource.cs" t="Include" />
+        <e p="ITypeNode.cs" t="Include" />
+        <e p="IWorkingMemory.cs" t="Include" />
+        <e p="JoinNode.cs" t="Include" />
+        <e p="LoggerExtensions.cs" t="Include" />
+        <e p="LogRuntimeVisitor.cs" t="Include" />
+        <e p="Network.cs" t="Include" />
+        <e p="NodeMemoryAccessor.cs" t="Include" />
+        <e p="RuleNode.cs" t="Include" />
+        <e p="RuntimeFactHandle.cs" t="Include" />
+        <e p="RuntimeVisitor.cs" t="Include" />
+        <e p="SelectNode.cs" t="Include" />
+        <e p="SessionAlphaContext.cs" t="Include" />
+        <e p="SessionBetaContext.cs" t="Include" />
+        <e p="TerminalNode.cs" t="Include" />
+        <e p="TupleChain.cs" t="Include" />
+        <e p="TypeNode.cs" t="Include" />
+        <e p="WorkingMemory.cs" t="Include" />
+      </e>
+      <e p="SemanticModel" t="Include">
+        <e p="Declaration.cs" t="Include" />
+        <e p="IDeclaration.cs" t="Include" />
+        <e p="ISymbolTable.cs" t="Include" />
+        <e p="SymbolTable.cs" t="Include" />
+      </e>
+      <e p="Session.cs" t="Include" />
+      <e p="SessionContext.cs" t="Include" />
+      <e p="SupremeAuthority.cs" t="Include" />
+      <e p="Util" t="Include">
+        <e p="ConnectableList.cs" t="Include" />
+        <e p="LimitedConcurrencyLevelTaskScheduler.cs" t="Include" />
+        <e p="OrderedHashSet.cs" t="Include" />
+      </e>
+    </e>
+    <e p="$PROJECT_DIR$/../Authority.Tests" t="IncludeRecursive">
+      <e p="Authority.Tests.csproj" t="IncludeRecursive" />
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="Configuration_Specs.cs" t="Include" />
+      <e p="ContextSetup.cs" t="Include" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages.config" t="Include" />
+      <e p="Properties" t="Include">
+        <e p="AssemblyInfo.cs" t="Include" />
+      </e>
+      <e p="Rule_Specs.cs" t="Include" />
+      <e p="RuntimeTests" t="Include">
+        <e p="BetaNode_Specs.cs" t="Include" />
+        <e p="TestAlphaContext.cs" t="Include" />
+        <e p="TestBetaContext.cs" t="Include" />
+        <e p="TestFactSource.cs" t="Include" />
+        <e p="TestSession.cs" t="Include" />
+        <e p="TestTupleSink.cs" t="Include" />
+        <e p="TestTupleSource.cs" t="Include" />
+      </e>
+      <e p="Visitation" t="Include">
+        <e p="VisitAlphaNode_Specs.cs" t="Include" />
+      </e>
+    </e>
+    <e p="$USER_HOME$/Library/Caches/Rider2018.1/resharper-host/local/Transient/ReSharperHost/v12/SolutionCaches/_Authority.1099750592.00" t="ExcludeRecursive" />
+  </component>
+  <component name="RiderRiderContentModelStore">
+    <excludedPaths />
+  </component>
+</project>

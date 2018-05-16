@@ -15,14 +15,18 @@ namespace Authority.Runtime
     using Microsoft.Extensions.Logging;
 
 
-    public class SelectionNode<T> :
+    /// <summary>
+    /// Selects a single fact property and evaluates that property against a single condition.
+    /// </summary>
+    /// <typeparam name="T">The fact type</typeparam>
+    public class SelectNode<T> :
         AlphaNode<T>,
         ISelectionNode<T>
         where T : class
     {
         readonly IAlphaCondition<T> _condition;
 
-        public SelectionNode(ILoggerFactory loggerFactory, IAlphaCondition<T> condition)
+        public SelectNode(ILoggerFactory loggerFactory, IAlphaCondition<T> condition)
             : base(loggerFactory)
         {
             _condition = condition;
@@ -30,7 +34,7 @@ namespace Authority.Runtime
 
         public IAlphaCondition<T> Condition => _condition;
 
-        protected override bool Evaluate(FactContext<T> context)
+        protected override bool Evaluate(AlphaContext<T> context)
         {
             return _condition.Evaluate(context);
         }

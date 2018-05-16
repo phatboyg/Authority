@@ -28,17 +28,17 @@ namespace Authority
             _observer = observer;
         }
 
-        public Task PreInsert(FactContext<TFact> context)
+        public Task PreInsert(AlphaContext<TFact> context)
         {
             return _observer.PreInsert(context);
         }
 
-        public Task PostInsert(FactContext<TFact> context)
+        public Task PostInsert(AlphaContext<TFact> context)
         {
             return _observer.PostInsert(context);
         }
 
-        public Task InsertFault(FactContext<TFact> context, Exception exception)
+        public Task InsertFault(AlphaContext<TFact> context, Exception exception)
         {
             return _observer.InsertFault(context, exception);
         }

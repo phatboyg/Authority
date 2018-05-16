@@ -134,9 +134,14 @@ namespace Authority.Rules
             where T1 : class
             where T2 : class
         {
+            var fact1Declaration = _declarations.Get<T1>(fact1.Name);
+            var fact2Declaration = _declarations.Get<T2>(fact2.Name);
+
+
+
         }
 
-        protected void Then<T>(Fact<T> fact, Func<FactContext<T>, T, Task> action)
+        protected void Then<T>(Fact<T> fact, Func<AlphaContext<T>, T, Task> action)
             where T : class
         {
             var factDeclaration = _declarations.Get<T>(fact.Name);
@@ -146,7 +151,7 @@ namespace Authority.Rules
             _actions.Add(ruleAction);
         }
 
-        protected void Then<T>(Fact<T> fact, Func<FactContext<T>, Task> action)
+        protected void Then<T>(Fact<T> fact, Func<AlphaContext<T>, Task> action)
             where T : class
         {
             var factDeclaration = _declarations.Get<T>(fact.Name);
@@ -156,7 +161,7 @@ namespace Authority.Rules
             _actions.Add(ruleAction);
         }
 
-        protected void Then<T1, T2>(Fact<T1> fact1, Fact<T2> fact2, Func<FactContext<Tuple<T1, T2>>, T1, T2, Task> action)
+        protected void Then<T1, T2>(Fact<T1> fact1, Fact<T2> fact2, Func<AlphaContext<Tuple<T1, T2>>, T1, T2, Task> action)
             where T1 : class
             where T2 : class
         {

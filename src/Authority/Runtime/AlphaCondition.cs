@@ -14,6 +14,7 @@ namespace Authority.Runtime
 {
     using System;
     using System.Linq.Expressions;
+    using Internals;
 
 
     public class AlphaCondition<T> :
@@ -27,10 +28,10 @@ namespace Authority.Runtime
         public AlphaCondition(Expression<Func<T, bool>> conditionExpression)
         {
             _conditionExpression = conditionExpression;
-            _condition = conditionExpression.Compile();
+            _condition = ExpressionCompiler.Compile<Func<T, bool>>(conditionExpression);
         }
 
-        public bool Evaluate(FactContext<T> context)
+        public bool Evaluate(AlphaContext<T> context)
         {
             return _condition(context.Fact);
         }

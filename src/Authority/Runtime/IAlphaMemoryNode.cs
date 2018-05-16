@@ -27,7 +27,7 @@ namespace Authority.Runtime
         IFactSource<T>
         where T : class
     {
-        Task Insert(FactContext<T> context);
+        Task Insert(AlphaContext<T> context);
 
         IEnumerable<IFactSink<T>> GetSinks();
     }

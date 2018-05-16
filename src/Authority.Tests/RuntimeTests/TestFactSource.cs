@@ -1,4 +1,4 @@
-﻿// Copyright 2012-2016 Chris Patterson
+﻿// Copyright 2012-2017 Chris Patterson
 //  
 // Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 // this file except in compliance with the License. You may obtain a copy of the 
@@ -12,7 +12,6 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Tests.RuntimeTests
 {
-    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using GreenPipes;
@@ -38,18 +37,18 @@ namespace Authority.Tests.RuntimeTests
             return _sinks.Connect(sink);
         }
 
-        public Task All(SessionContext context, Func<FactContext<T>, Task> callback)
+        public Task All(SessionContext context, AlphaContextCallback<T> callback)
         {
-            return Task.WhenAll(_facts.Select(x => callback(new TestFactContext(context, x))));
+            return Task.WhenAll(_facts.Select(x => callback(new TestAlphaContext(context, x))));
         }
 
 
-        class TestFactContext :
-            FactContext<T>
+        class TestAlphaContext :
+            AlphaContext<T>
         {
             readonly SessionContext _context;
 
-            public TestFactContext(SessionContext context, T fact)
+            public TestAlphaContext(SessionContext context, T fact)
             {
                 _context = context;
                 Fact = fact;

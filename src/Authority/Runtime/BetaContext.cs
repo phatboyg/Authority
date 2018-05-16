@@ -10,25 +10,20 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace Authority.Tests.RuntimeTests
+namespace Authority.Runtime
 {
-    using Runtime;
-
-
-    class TestFactContext<T> :
-        FactContext<T>
+    /// <summary>
+    /// Used to carry context between beta nodes, and includes the FactPath through the beta
+    /// network.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public interface BetaContext<out T> :
+        SessionContext
         where T : class
     {
-        readonly SessionContext _sessionContext;
-
-        public TestFactContext(SessionContext sessionContext, T fact)
-        {
-            _sessionContext = sessionContext;
-            Fact = fact;
-        }
-
-        public IWorkingMemory WorkingMemory => _sessionContext.WorkingMemory;
-
-        public T Fact { get; }
+        /// <summary>
+        /// The full tuple contained in the context
+        /// </summary>
+        ITupleChain<T> TupleChain { get; }
     }
 }

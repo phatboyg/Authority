@@ -38,7 +38,7 @@ namespace Authority.Tests.RuntimeTests
             betaNode.Connect(testSink);
 
             var sessionContext = new TestSession();
-            var tupleContext = new TestTupleContext<Member>(sessionContext, new Member {MemberId = 27, Name = "Frank"});
+            var tupleContext = new TestBetaContext<Member>(sessionContext, new Member {MemberId = 27, Name = "Frank"});
 
             await betaNode.Insert(tupleContext);
 
@@ -48,18 +48,19 @@ namespace Authority.Tests.RuntimeTests
         [Test]
         public async Task Should_properly_handle_activation()
         {
-            ITupleSource<Member> leftSource = new TestTupleSource<Member>(new Tuple<Member>(new Member() {MemberId = 27, Name = "Frank"}));
+            ITupleSource<Member> leftSource = new TestTupleSource<Member>(new TupleChain<Member>(new Member() {MemberId = 27, Name = "Frank"}));
 
             IFactSource<Address> rightSource = new TestFactSource<Address>();
 
             var testSink = new TestTupleSink<Address>();
 
-            IBetaNode<Member, Address> betaNode = new JoinNode<Member, Address>(leftSource, rightSource,
-                new BetaCondition<Member, Address>((m, a) => true));
+            bool True(ITupleChain<Member> m, Address a) => true;
+
+            IBetaNode<Member, Address> betaNode = new JoinNode<Member, Address>(leftSource, rightSource, new BetaCondition<Member, Address>(True));
             betaNode.Connect(testSink);
 
             var sessionContext = new TestSession();
-            var factContext = new TestFactContext<Address>(sessionContext, new Address() {MemberId = 42, PostalCode = "68106"});
+            var factContext = new TestAlphaContext<Address>(sessionContext, new Address() {MemberId = 42, PostalCode = "68106"});
 
             await betaNode.Insert(factContext);
 
@@ -69,22 +70,23 @@ namespace Authority.Tests.RuntimeTests
         [Test]
         public async Task Should_properly_handle_activation_multiple()
         {
-            ITupleSource<Member> leftSource = new TestTupleSource<Member>(new Tuple<Member>(new Member() {MemberId = 27, Name = "Frank"}));
+            ITupleSource<Member> leftSource = new TestTupleSource<Member>(new TupleChain<Member>(new Member() {MemberId = 27, Name = "Frank"}));
 
             IFactSource<Address> rightSource = new TestFactSource<Address>();
 
             var testSink = new TestTupleSink<Address>();
 
-            IBetaNode<Member, Address> betaNode = new JoinNode<Member, Address>(leftSource, rightSource,
-                new BetaCondition<Member, Address>((m, a) => true));
+            bool True(ITupleChain<Member> m, Address a) => true;
+
+            IBetaNode<Member, Address> betaNode = new JoinNode<Member, Address>(leftSource, rightSource, new BetaCondition<Member, Address>(True));
             betaNode.Connect(testSink);
 
             var sessionContext = new TestSession();
-            var factContext = new TestFactContext<Address>(sessionContext, new Address() {MemberId = 42, PostalCode = "68106"});
+            var factContext = new TestAlphaContext<Address>(sessionContext, new Address() {MemberId = 42, PostalCode = "68106"});
 
             await betaNode.Insert(factContext);
 
-            factContext = new TestFactContext<Address>(sessionContext, new Address() {MemberId = 69, PostalCode = "74011"});
+            factContext = new TestAlphaContext<Address>(sessionContext, new Address() {MemberId = 69, PostalCode = "74011"});
 
             await betaNode.Insert(factContext);
 
@@ -94,7 +96,7 @@ namespace Authority.Tests.RuntimeTests
         [Test]
         public async Task Should_properly_ignore_join_by_condition()
         {
-            ITupleSource<Member> leftSource = new TestTupleSource<Member>(new Tuple<Member>(new Member() {MemberId = 27, Name = "Frank"}));
+            ITupleSource<Member> leftSource = new TestTupleSource<Member>(new TupleChain<Member>(new Member() {MemberId = 27, Name = "Frank"}));
 
             IFactSource<Address> rightSource = new TestFactSource<Address>();
 
@@ -105,7 +107,7 @@ namespace Authority.Tests.RuntimeTests
             betaNode.Connect(testSink);
 
             var sessionContext = new TestSession();
-            var factContext = new TestFactContext<Address>(sessionContext, new Address() {MemberId = 42, PostalCode = "68106"});
+            var factContext = new TestAlphaContext<Address>(sessionContext, new Address() {MemberId = 42, PostalCode = "68106"});
 
             await betaNode.Insert(factContext);
 
@@ -115,7 +117,7 @@ namespace Authority.Tests.RuntimeTests
         [Test]
         public async Task Should_properly_join_by_condition()
         {
-            ITupleSource<Member> leftSource = new TestTupleSource<Member>(new Tuple<Member>(new Member() {MemberId = 27, Name = "Frank"}));
+            ITupleSource<Member> leftSource = new TestTupleSource<Member>(new TupleChain<Member>(new Member() {MemberId = 27, Name = "Frank"}));
 
             IFactSource<Address> rightSource = new TestFactSource<Address>();
 
@@ -126,7 +128,7 @@ namespace Authority.Tests.RuntimeTests
             betaNode.Connect(testSink);
 
             var sessionContext = new TestSession();
-            var factContext = new TestFactContext<Address>(sessionContext, new Address() {MemberId = 27, PostalCode = "68106"});
+            var factContext = new TestAlphaContext<Address>(sessionContext, new Address() {MemberId = 27, PostalCode = "68106"});
 
             await betaNode.Insert(factContext);
 
@@ -136,7 +138,7 @@ namespace Authority.Tests.RuntimeTests
         [Test]
         public async Task Should_properly_join_by_condition_multiple()
         {
-            ITupleSource<Member> leftSource = new TestTupleSource<Member>(new Tuple<Member>(new Member() {MemberId = 27, Name = "Frank"}));
+            ITupleSource<Member> leftSource = new TestTupleSource<Member>(new TupleChain<Member>(new Member() {MemberId = 27, Name = "Frank"}));
 
             IFactSource<Address> rightSource = new TestFactSource<Address>();
 
@@ -147,15 +149,15 @@ namespace Authority.Tests.RuntimeTests
             betaNode.Connect(testSink);
 
             var sessionContext = new TestSession();
-            var factContext = new TestFactContext<Address>(sessionContext, new Address() {MemberId = 27, PostalCode = "68106"});
+            var factContext = new TestAlphaContext<Address>(sessionContext, new Address() {MemberId = 27, PostalCode = "68106"});
 
             await betaNode.Insert(factContext);
 
-            factContext = new TestFactContext<Address>(sessionContext, new Address() {MemberId = 27, PostalCode = "74011"});
+            factContext = new TestAlphaContext<Address>(sessionContext, new Address() {MemberId = 27, PostalCode = "74011"});
 
             await betaNode.Insert(factContext);
 
-            factContext = new TestFactContext<Address>(sessionContext, new Address() {MemberId = 42, PostalCode = "74011"});
+            factContext = new TestAlphaContext<Address>(sessionContext, new Address() {MemberId = 42, PostalCode = "74011"});
 
             await betaNode.Insert(factContext);
 

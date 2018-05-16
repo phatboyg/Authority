@@ -28,7 +28,7 @@ namespace Authority.Runtime
             _matches = matches;
         }
 
-        protected override bool Evaluate(FactContext<T> context)
+        protected override bool Evaluate(AlphaContext<T> context)
         {
             return _matches(context.Fact);
         }

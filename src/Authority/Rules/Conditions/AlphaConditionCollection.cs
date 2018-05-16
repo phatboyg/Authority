@@ -39,7 +39,7 @@ namespace Authority.Rules.Conditions
         {
             foreach (var condition in _conditions)
             {
-                context = builder.BuildSelectionNode(context, condition.ConditionExpression);
+                context = builder.BuildSelectNode(context, condition.ConditionExpression);
             }
 
             return context;

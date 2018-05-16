@@ -19,6 +19,6 @@ namespace Authority.Runtime
         where TRight : class
         where TLeft : class
     {
-        Task<bool> Evaluate(SessionContext context, ITuple<TLeft> tuple, TRight fact);
+        Task<bool> Evaluate(SessionContext context, ITupleChain<TLeft> tupleChain, TRight fact);
     }
 }

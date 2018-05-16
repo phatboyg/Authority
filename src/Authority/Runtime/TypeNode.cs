@@ -35,23 +35,26 @@ namespace Authority.Runtime
             return _observers.Connect(observer).ToObserverHandle();
         }
 
-        async Task IFactSink.Insert<T>(FactContext<T> factContext)
+        async Task IFactSink.Insert<T>(AlphaContext<T> alphaContext)
         {
-            var typeContext = factContext as FactContext<TFact>;
+            var typeContext = alphaContext as AlphaContext<TFact>;
             if (typeContext == null)
                 return;
 
             try
             {
-                await _observers.PreInsert(typeContext).ConfigureAwait(false);
+                if (_observers.Count > 0)
+                    await _observers.PreInsert(typeContext).ConfigureAwait(false);
 
                 await Insert(typeContext).ConfigureAwait(false);
 
-                await _observers.PostInsert(typeContext).ConfigureAwait(false);
+                if (_observers.Count > 0)
+                    await _observers.PostInsert(typeContext).ConfigureAwait(false);
             }
             catch (Exception exception)
             {
-                await _observers.InsertFault(typeContext, exception).ConfigureAwait(false);
+                if (_observers.Count > 0)
+                    await _observers.InsertFault(typeContext, exception).ConfigureAwait(false);
 
                 throw;
             }

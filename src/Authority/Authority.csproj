@@ -11,6 +11,7 @@
     <AssemblyName>Authority</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,6 +50,7 @@
     <Compile Include="Configuration\Builders\AlphaBuilderContext.cs" />
     <Compile Include="Configuration\Builders\BetaBuilderContext.cs" />
     <Compile Include="Configuration\Builders\BuilderContext.cs" />
+    <Compile Include="Configuration\Builders\DeclarationContext.cs" />
     <Compile Include="Configuration\Builders\IRuntimeBuilder.cs" />
     <Compile Include="Configuration\Builders\ReteBuilderContext.cs" />
     <Compile Include="Configuration\Builders\RuntimeAlphaBuilderContext.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="Exceptions\DeclarationNotFoundException.cs" />
     <Compile Include="Exceptions\RuntimeBuilderException.cs" />
     <Compile Include="GraphRuntimeVisitor.cs" />
+    <Compile Include="Internals\ExpressionCompiler.cs" />
     <Compile Include="ObserverHandle.cs" />
     <Compile Include="RuleCompiler\ExpressionConverter.cs" />
     <Compile Include="RuleCompiler\IRuleParameter.cs" />
@@ -84,7 +87,10 @@
     <Compile Include="Rules\Conditions\IRuleConditionFactory.cs" />
     <Compile Include="Rules\Fact.cs" />
     <Compile Include="Rules\Conditions\AlphaConditionCollection.cs" />
+    <Compile Include="Rules\Facts\BuilderContextCollection.cs" />
     <Compile Include="Rules\Facts\RuleDeclarationCollection.cs" />
+    <Compile Include="Runtime\AlphaContextCallback.cs" />
+    <Compile Include="Runtime\BetaContextCallback.cs" />
     <Compile Include="Runtime\RuleNode.cs" />
     <Compile Include="SemanticModel\IDeclaration.cs" />
     <Compile Include="RuleModels\IRuleDefinition.cs" />
@@ -155,7 +161,7 @@
     <Compile Include="Rules\Facts\IFact.cs" />
     <Compile Include="Rules\Rule.cs" />
     <Compile Include="Rules\Facts\RuleFactDeclaration.cs" />
-    <Compile Include="Runtime\FactContext.cs" />
+    <Compile Include="Runtime\AlphaContext.cs" />
     <Compile Include="Runtime\BetaMemoryNode.cs" />
     <Compile Include="Runtime\BetaNode.cs" />
     <Compile Include="Runtime\ConditionNode.cs" />
@@ -165,20 +171,20 @@
     <Compile Include="Runtime\IFactSink.cs" />
     <Compile Include="Runtime\IFactSource.cs" />
     <Compile Include="Runtime\ITupleSink.cs" />
-    <Compile Include="Runtime\ITuple.cs" />
+    <Compile Include="Runtime\ITupleChain.cs" />
     <Compile Include="Runtime\ITupleSource.cs" />
     <Compile Include="Runtime\RuntimeFactHandle.cs" />
     <Compile Include="Runtime\RuntimeVisitor.cs" />
-    <Compile Include="Runtime\SelectionNode.cs" />
-    <Compile Include="Runtime\SessionFactContext.cs" />
-    <Compile Include="Runtime\SessionTupleContext.cs" />
+    <Compile Include="Runtime\SelectNode.cs" />
+    <Compile Include="Runtime\SessionAlphaContext.cs" />
+    <Compile Include="Runtime\SessionBetaContext.cs" />
     <Compile Include="Runtime\TerminalNode.cs" />
-    <Compile Include="Runtime\TupleContext.cs" />
+    <Compile Include="Runtime\BetaContext.cs" />
     <Compile Include="SemanticModel\Declaration.cs" />
     <Compile Include="SemanticModel\ISymbolTable.cs" />
     <Compile Include="SemanticModel\SymbolTable.cs" />
     <Compile Include="SessionContext.cs" />
-    <Compile Include="Runtime\Tuple.cs" />
+    <Compile Include="Runtime\TupleChain.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="SupremeAuthority.cs" />
     <Compile Include="Runtime\TypeNode.cs" />

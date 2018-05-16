@@ -48,7 +48,7 @@ namespace Authority.Runtime
 
         public override void VisitSelectionNode<T>(LogContext context, ISelectionNode<T> node)
         {
-            using (_log.BeginScope<SelectionNode<T>>())
+            using (_log.BeginScope<SelectNode<T>>())
             {
                 _log.LogDebug("Condition: {0}", node.Condition);
 

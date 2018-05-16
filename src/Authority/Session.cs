@@ -46,7 +46,7 @@ namespace Authority
         {
             FactHandle<T> factHandle = _factIndex.Add(fact);
 
-            var activationContext = new SessionFactContext<T>(this, factHandle.Fact);
+            var activationContext = new SessionAlphaContext<T>(this, factHandle.Fact);
 
             await _network.Insert(activationContext).ConfigureAwait(false);
 

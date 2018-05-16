@@ -42,29 +42,32 @@ namespace Authority.Runtime
             _rightHandle = rightSource.Connect(this);
         }
 
+        public ITupleSource<TLeft> LeftSource => _leftSource;
+        public IFactSource<TRight> RightSource => _rightSource;
+
         public IBetaMemoryNode<TRight> MemoryNode => _memoryNode.Value;
 
-        public virtual Task Insert(FactContext<TRight> context)
+        public virtual Task Insert(AlphaContext<TRight> context)
         {
             return _leftSource.All(context, async tupleContext =>
             {
-                var match = await Evaluate(context, tupleContext.Tuple, context.Fact).ConfigureAwait(false);
+                var match = await Evaluate(context, tupleContext.TupleChain, context.Fact).ConfigureAwait(false);
                 if (match)
-                    await MemoryNode.Insert(context, tupleContext.Tuple, context.Fact).ConfigureAwait(false);
+                    await MemoryNode.Insert(context, tupleContext.TupleChain, context.Fact).ConfigureAwait(false);
             });
         }
 
-        public virtual Task Insert(TupleContext<TLeft> context)
+        public virtual Task Insert(BetaContext<TLeft> context)
         {
             return _rightSource.All(context, async factContext =>
             {
-                var match = await Evaluate(context, context.Tuple, factContext.Fact).ConfigureAwait(false);
+                var match = await Evaluate(context, context.TupleChain, factContext.Fact).ConfigureAwait(false);
                 if (match)
-                    await MemoryNode.Insert(context, context.Tuple, factContext.Fact).ConfigureAwait(false);
+                    await MemoryNode.Insert(context, context.TupleChain, factContext.Fact).ConfigureAwait(false);
             });
         }
 
-        public virtual Task All(SessionContext context, Func<TupleContext<TRight>, Task> callback)
+        public virtual Task All(SessionContext context, BetaContextCallback<TRight> callback)
         {
             return MemoryNode.All(context, callback);
         }
@@ -74,27 +77,27 @@ namespace Authority.Runtime
             return MemoryNode.Connect(sink);
         }
 
-        protected Task Matching(TupleContext<TLeft> context, Func<FactContext<TRight>, Task> callback)
+        protected Task Matching(BetaContext<TLeft> context, Func<AlphaContext<TRight>, Task> callback)
         {
             return _rightSource.All(context, async factContext =>
             {
-                var match = await Evaluate(context, context.Tuple, factContext.Fact).ConfigureAwait(false);
+                var match = await Evaluate(context, context.TupleChain, factContext.Fact).ConfigureAwait(false);
                 if (match)
-                    await callback(new SessionFactContext<TRight>(context, factContext.Fact)).ConfigureAwait(false);
+                    await callback(new SessionAlphaContext<TRight>(context, factContext.Fact)).ConfigureAwait(false);
             });
         }
 
-        protected Task Matching(FactContext<TRight> context, Func<TupleContext<TLeft>, Task> callback)
+        protected Task Matching(AlphaContext<TRight> context, BetaContextCallback<TLeft> callback)
         {
             return _leftSource.All(context, async tupleContext =>
             {
-                var match = await Evaluate(context, tupleContext.Tuple, context.Fact).ConfigureAwait(false);
+                var match = await Evaluate(context, tupleContext.TupleChain, context.Fact).ConfigureAwait(false);
                 if (match)
-                    await callback(new SessionTupleContext<TLeft>(context, tupleContext.Tuple)).ConfigureAwait(false);
+                    await callback(new SessionBetaContext<TLeft>(context, tupleContext.TupleChain)).ConfigureAwait(false);
             });
         }
 
-        protected virtual Task<bool> Evaluate(SessionContext context, ITuple<TLeft> left, TRight right)
+        protected virtual Task<bool> Evaluate(SessionContext context, ITupleChain<TLeft> left, TRight right)
         {
             return _condition.Evaluate(context, left, right);
 //            return true; //Conditions.All(joinCondition => joinCondition.IsSatisfiedBy(context, left, right));

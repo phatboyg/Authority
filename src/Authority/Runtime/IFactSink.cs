@@ -18,7 +18,7 @@ namespace Authority.Runtime
     public interface IFactSink :
         IAcceptVisitor
     {
-        Task Insert<T>(FactContext<T> context)
+        Task Insert<T>(AlphaContext<T> context)
             where T : class;
     }
 
@@ -26,16 +26,16 @@ namespace Authority.Runtime
     /// <summary>
     /// A target for facts that are being propogated forward
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IFactSink<in T> :
+    /// <typeparam name="TFact"></typeparam>
+    public interface IFactSink<in TFact> :
         IAcceptVisitor
-        where T : class
+        where TFact : class
     {
         /// <summary>
         /// Insert a fact into the sink
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        Task Insert(FactContext<T> context);
+        Task Insert(AlphaContext<TFact> context);
     }
 }

@@ -12,13 +12,21 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Runtime
 {
-    public interface FactContext<out T> :
-        SessionContext
+    public struct SessionAlphaContext<T> :
+        AlphaContext<T>
         where T : class
     {
-        /// <summary>
-        /// The fact contained in the context
-        /// </summary>
-        T Fact { get; }
+        readonly SessionContext _sessionContext;
+
+        public SessionAlphaContext(SessionContext sessionContext, T fact)
+        {
+            _sessionContext = sessionContext;
+
+            Fact = fact;
+        }
+
+        public IWorkingMemory WorkingMemory => _sessionContext.WorkingMemory;
+
+        public T Fact { get; }
     }
 }

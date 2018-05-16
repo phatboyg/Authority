@@ -12,7 +12,6 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Builders
 {
-    using System;
     using Rules.Facts;
     using Runtime;
 
@@ -22,21 +21,42 @@ namespace Authority.Builders
         where TLeft : class
         where TRight : class
     {
-        public RuntimeBetaBuilderContext(FactDeclaration<TRight> declaration, IBetaNode<TLeft, TRight> currentNode)
+        readonly BetaBuilderContext<TLeft> _previous;
+
+        public RuntimeBetaBuilderContext(FactDeclaration<TRight> declaration, IBetaNode<TLeft, TRight> currentNode, BetaBuilderContext<TLeft> previous)
         {
             Declaration = declaration;
             CurrentNode = currentNode;
-            CurrentSource = currentNode.MemoryNode;
+            _previous = previous;
         }
 
-        public Type FactType => typeof(TRight);
         public FactDeclaration<TRight> Declaration { get; }
         public IBetaNode<TLeft, TRight> CurrentNode { get; }
-        public IBetaMemoryNode<TRight> CurrentSource { get; }
+
+        public IBetaMemoryNode<TRight> CurrentTupleSource => CurrentNode.MemoryNode;
 
         public IndexMap CreateIndexMap(params FactDeclaration[] declarations)
         {
             return IndexMap.CreateMap(declarations, new[] {Declaration});
+        }
+
+        public bool TryGetTupleIndex<T>(FactDeclaration<T> fact, out int index)
+            where T : class
+        {
+            if (Declaration is FactDeclaration<T> right && right.Equals(fact) && CurrentNode is IBetaNode<T> node)
+            {
+                index = 0;
+                return true;
+            }
+
+            if (_previous != null && _previous.TryGetTupleIndex(fact, out var previousIndex))
+            {
+                index = previousIndex + 1;
+                return true;
+            }
+
+            index = default;
+            return false;
         }
     }
 }

@@ -33,12 +33,17 @@ namespace Authority.Builders
         /// <summary>
         /// The current alpha node that is represented by this context
         /// </summary>
-        IAlphaNode<TFact> CurrentNode { get; }
+        IAlphaNode<TFact> CurrentNode { get; set; }
 
         /// <summary>
         /// The current memoryNode which sources the facts from the alpha network
         /// </summary>
-        IAlphaMemoryNode<TFact> CurrentSource { get; }
+        IAlphaMemoryNode<TFact> CurrentFactSource { get; }
+
+        /// <summary>
+        /// Indicates whether the fact has already been added to the beta network
+        /// </summary>
+        bool InBeta { get; set; }
     }
 
 

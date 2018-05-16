@@ -27,7 +27,8 @@ namespace Authority.Runtime
         ITupleSource<TRight>
         where TRight : class
     {
-        Task Insert(SessionContext context, ITuple tuple, TRight fact);
+        Task Insert(SessionContext context, ITupleChain tupleChain, TRight fact);
+
         IEnumerable<ITupleSink<TRight>> GetSinks();
     }
 }

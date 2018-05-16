@@ -13,7 +13,10 @@
 namespace Authority.Runtime
 {
     using System;
+    using System.Linq.Expressions;
     using System.Threading.Tasks;
+    using GreenPipes.Util;
+    using Internals;
 
 
     public class BetaCondition<TLeft, TRight> :
@@ -21,16 +24,67 @@ namespace Authority.Runtime
         where TLeft : class
         where TRight : class
     {
-        readonly Func<ITuple<TLeft>, TRight, bool> _compare;
+        readonly Expression<Func<TLeft, TRight, bool>> _compareExpression;
+        readonly Func<ITupleChain<TLeft>, TRight, bool> _compare;
 
-        public BetaCondition(Func<ITuple<TLeft>, TRight, bool> compare)
+        public static readonly IBetaCondition<TLeft, TRight> True = new TrueBetaCondition();
+
+        public BetaCondition(Func<ITupleChain<TLeft>, TRight, bool> compare)
         {
             _compare = compare;
         }
 
-        public Task<bool> Evaluate(SessionContext context, ITuple<TLeft> tuple, TRight fact)
+        public BetaCondition(Expression<Func<TLeft, TRight, bool>> compareExpression)
         {
-            return Task.FromResult(_compare(tuple, fact));
+            _compareExpression = compareExpression;
+
+            var compare = ExpressionCompiler.Compile<Func<TLeft, TRight, bool>>(compareExpression);
+
+            bool Comparator(ITupleChain<TLeft> chain, TRight right) => compare(chain.Right, right);
+
+            _compare = Comparator;
+        }
+
+        public Task<bool> Evaluate(SessionContext context, ITupleChain<TLeft> tupleChain, TRight fact)
+        {
+            return Task.FromResult(_compare(tupleChain, fact));
+        }
+
+
+        class TrueBetaCondition :
+            IBetaCondition<TLeft, TRight>
+        {
+            public Task<bool> Evaluate(SessionContext context, ITupleChain<TLeft> tupleChain, TRight fact)
+            {
+                return TaskUtil.True;
+            }
+        }
+    }
+
+
+    public class BetaConditionAdapter<T, TLeft, TRight> :
+        IBetaCondition<T, TRight>
+        where T : class
+        where TLeft : class
+        where TRight : class
+    {
+        readonly Func<ITupleChain<TLeft>, TRight, bool> _compare;
+        readonly int _index;
+
+        public BetaConditionAdapter(Func<ITupleChain<TLeft>, TRight, bool> compare, int index)
+        {
+            _compare = compare;
+            _index = index;
+        }
+
+        public Task<bool> Evaluate(SessionContext context, ITupleChain<T> tupleChain, TRight fact)
+        {
+            if (tupleChain.TryGetFact(_index, out ITupleChain<TLeft> value))
+            {
+                return Task.FromResult(_compare(value, fact));
+            }
+
+            throw new InvalidOperationException($"The tuple chain did not contain the specified fact type at index");
         }
     }
 }

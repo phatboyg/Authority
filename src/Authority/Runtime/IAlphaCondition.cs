@@ -12,9 +12,13 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Runtime
 {
+    /// <summary>
+    /// A condition evaluated in the alpha network
+    /// </summary>
+    /// <typeparam name="T">The fact type</typeparam>
     public interface IAlphaCondition<in T>
         where T : class
     {
-        bool Evaluate(FactContext<T> context);
+        bool Evaluate(AlphaContext<T> context);
     }
 }

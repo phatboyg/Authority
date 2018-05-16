@@ -19,43 +19,6 @@ namespace Authority.Rules.Facts
     using GreenPipes.Internals.Extensions;
 
 
-    public class BuilderContextCollection
-    {
-        readonly Dictionary<FactDeclaration, Value> _values;
-
-        public BuilderContextCollection()
-        {
-            _values = new Dictionary<FactDeclaration, Value>();
-        }
-
-        public void Add<T>(AlphaBuilderContext<T> alphaContext, BetaBuilderContext<T> betaContext)
-            where T : class
-        {
-            _values.Add(alphaContext.Declaration, new ContextValue<T>(alphaContext, betaContext));
-        }
-
-
-        interface Value
-        {
-        }
-
-
-        class ContextValue<T> :
-            Value
-            where T : class
-        {
-            readonly AlphaBuilderContext<T> _alphaContext;
-            readonly BetaBuilderContext<T> _betaContext;
-
-            public ContextValue(AlphaBuilderContext<T> alphaContext, BetaBuilderContext<T> betaContext)
-            {
-                _alphaContext = alphaContext;
-                _betaContext = betaContext;
-            }
-        }
-    }
-
-
     /// <summary>
     /// Contains the facts that were declared by a rule
     /// </summary>
@@ -91,8 +54,7 @@ namespace Authority.Rules.Facts
 
         Declaration GetDeclaration(string name)
         {
-            Declaration declaration;
-            if (!_declarations.TryGetValue(name, out declaration))
+            if (!_declarations.TryGetValue(name, out var declaration))
                 throw new DeclarationNotFoundException($"The declaration is unknown or has not been declared: {name}");
 
             return declaration;

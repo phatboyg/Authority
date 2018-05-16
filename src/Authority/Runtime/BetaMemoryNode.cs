@@ -34,7 +34,7 @@ namespace Authority.Runtime
             _sinks = new ConnectableList<ITupleSink<T>>();
         }
 
-        public Task All(SessionContext context, Func<TupleContext<T>, Task> callback)
+        public Task All(SessionContext context, BetaContextCallback<T> callback)
         {
             return context.WorkingMemory.Access(this, x => x.ForEach(context, callback));
         }
@@ -44,17 +44,17 @@ namespace Authority.Runtime
             return _sinks.Connect(sink);
         }
 
-        public Task Insert(SessionContext context, ITuple tuple, T fact)
+        public Task Insert(SessionContext context, ITupleChain tupleChain, T fact)
         {
             return context.WorkingMemory.Access(this, x =>
             {
-                var childTuple = new Tuple<T>(tuple, fact);
+                var childTuple = new TupleChain<T>(tupleChain, fact);
 
                 x.Add(childTuple);
 
-                TupleContext<T> tupleContext = new SessionTupleContext<T>(context, childTuple);
+                BetaContext<T> betaContext = new SessionBetaContext<T>(context, childTuple);
 
-                return _sinks.All(sink => sink.Insert(tupleContext));
+                return _sinks.All(sink => sink.Insert(betaContext));
             });
         }
 

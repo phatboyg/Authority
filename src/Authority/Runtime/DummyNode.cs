@@ -1,4 +1,4 @@
-﻿// Copyright 2012-2016 Chris Patterson
+﻿// Copyright 2012-2017 Chris Patterson
 //  
 // Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 // this file except in compliance with the License. You may obtain a copy of the 
@@ -12,7 +12,6 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Runtime
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using GreenPipes;
@@ -31,7 +30,7 @@ namespace Authority.Runtime
             _sinks = new ConnectableList<ITupleSink<T>>();
         }
 
-        public Task All(SessionContext context, Func<TupleContext<T>, Task> callback)
+        public Task All(SessionContext context, BetaContextCallback<T> callback)
         {
             return context.WorkingMemory.Access(this, x => x.ForEach(context, callback));
         }
@@ -41,7 +40,7 @@ namespace Authority.Runtime
             return _sinks.Connect(sink);
         }
 
-        public Task Insert(SessionContext context, ITuple tuple, T fact)
+        public Task Insert(SessionContext context, ITupleChain tupleChain, T fact)
         {
             return TaskUtil.Completed;
         }
@@ -71,13 +70,13 @@ namespace Authority.Runtime
         {
             return context.WorkingMemory.Access(this, x =>
             {
-                var childTuple = new Tuple<T>();
+                var childTuple = new TupleChain<T>();
 
                 x.Add(childTuple);
 
-                TupleContext<T> tupleContext = new SessionTupleContext<T>(context, childTuple);
+                BetaContext<T> betaContext = new SessionBetaContext<T>(context, childTuple);
 
-                return _sinks.All(sink => sink.Insert(tupleContext));
+                return _sinks.All(sink => sink.Insert(betaContext));
             });
         }
     }

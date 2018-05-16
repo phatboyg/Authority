@@ -21,16 +21,25 @@ namespace Authority.Builders
         AlphaBuilderContext<T>
         where T : class
     {
+        IAlphaNode<T> _currentNode;
+
         public RuntimeAlphaBuilderContext(FactDeclaration<T> declaration, IAlphaNode<T> currentNode)
         {
             Declaration = declaration;
-            CurrentNode = currentNode;
-            CurrentSource = currentNode.MemoryNode;
+            _currentNode = currentNode;
         }
 
         public Type FactType => typeof(T);
         public FactDeclaration<T> Declaration { get; }
-        public IAlphaNode<T> CurrentNode { get; }
-        public IAlphaMemoryNode<T> CurrentSource { get; }
+
+        public IAlphaNode<T> CurrentNode
+        {
+            get => _currentNode;
+            set => _currentNode = value;
+        }
+
+        public IAlphaMemoryNode<T> CurrentFactSource => _currentNode.MemoryNode;
+
+        public bool InBeta { get; set; }
     }
 }

@@ -28,6 +28,6 @@ namespace Authority.Runtime
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        Task Insert(TupleContext<T> context);
+        Task Insert(BetaContext<T> context);
     }
 }

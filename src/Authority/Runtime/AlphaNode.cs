@@ -1,4 +1,4 @@
-﻿// Copyright 2012-2016 Chris Patterson
+﻿// Copyright 2012-2017 Chris Patterson
 //  
 // Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 // this file except in compliance with the License. You may obtain a copy of the 
@@ -14,7 +14,6 @@ namespace Authority.Runtime
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using GreenPipes;
     using Microsoft.Extensions.Logging;
@@ -37,12 +36,14 @@ namespace Authority.Runtime
             _log = loggerFactory.CreateLogger<AlphaNode<TFact>>();
         }
 
-        public virtual async Task Insert(FactContext<TFact> context)
+        public virtual async Task Insert(AlphaContext<TFact> context)
         {
             using (_log.BeginTypeScope(GetType()))
             {
                 if (Evaluate(context))
                 {
+                    // TODO should this node add, before adding to children? might be an ordering concern
+
                     await _childNodes.All(node => node.Insert(context)).ConfigureAwait(false);
 
                     await _memoryNode.Value.Insert(context).ConfigureAwait(false);
@@ -50,7 +51,7 @@ namespace Authority.Runtime
             }
         }
 
-        public Task All(SessionContext context, Func<FactContext<TFact>, Task> callback)
+        public Task All(SessionContext context, AlphaContextCallback<TFact> callback)
         {
             return _memoryNode.Value.All(context, callback);
         }
@@ -63,16 +64,17 @@ namespace Authority.Runtime
         public IEnumerable<T> GetChildNodes<T>()
             where T : class
         {
-            return _childNodes.Where(x => x is T).Cast<T>();
+            foreach (IAlphaNode<TFact> node in _childNodes)
+                if (node is T result)
+                    yield return result;
         }
 
         ConnectHandle IAlphaNode.AddChild<T>(IAlphaNode<T> node)
         {
-            var alphaNode = node as IAlphaNode<TFact>;
-            if (alphaNode == null)
-                throw new ArgumentException($"The node must match the fact type: {typeof(TFact).Name}", nameof(node));
+            if (node is IAlphaNode<TFact> alphaNode)
+                return _childNodes.Connect(alphaNode);
 
-            return _childNodes.Connect(alphaNode);
+            throw new ArgumentException($"The node must match the fact type: {typeof(TFact).Name}", nameof(node));
         }
 
         public virtual void Accept<TContext>(RuntimeVisitor<TContext> visitor, TContext context)
@@ -85,7 +87,7 @@ namespace Authority.Runtime
 
         public IAlphaMemoryNode<TFact> MemoryNode => _memoryNode.Value;
 
-        protected virtual bool Evaluate(FactContext<TFact> context)
+        protected virtual bool Evaluate(AlphaContext<TFact> context)
         {
             return true;
         }

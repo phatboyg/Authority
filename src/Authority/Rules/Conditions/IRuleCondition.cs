@@ -32,4 +32,16 @@ namespace Authority.Rules.Conditions
 
         Expression<Func<T, bool>> ConditionExpression { get; }
     }
+
+
+    public interface IRuleCondition<TLeft, TRight> :
+        IRuleCondition
+        where TLeft : class
+        where TRight : class
+    {
+        FactDeclaration<TLeft> LeftFact { get; }
+        FactDeclaration<TRight> RightFact { get; }
+
+        Expression<Func<TLeft, TRight, bool>> ConditionExpression { get; }
+    }
 }

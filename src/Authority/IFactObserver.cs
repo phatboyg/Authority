@@ -25,7 +25,7 @@ namespace Authority
         /// </summary>
         /// <param name="context">The consume context</param>
         /// <returns></returns>
-        Task PreInsert(FactContext<TFact> context);
+        Task PreInsert(AlphaContext<TFact> context);
 
         /// <summary>
         /// Called after the message has been dispatched to all consumers - note that in the case of an exception
@@ -33,7 +33,7 @@ namespace Authority
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        Task PostInsert(FactContext<TFact> context);
+        Task PostInsert(AlphaContext<TFact> context);
 
         /// <summary>
         /// Called after the message has been dispatched to all consumers when one or more exceptions have occurred
@@ -41,7 +41,7 @@ namespace Authority
         /// <param name="context"></param>
         /// <param name="exception"></param>
         /// <returns></returns>
-        Task InsertFault(FactContext<TFact> context, Exception exception);
+        Task InsertFault(AlphaContext<TFact> context, Exception exception);
     }
 
 
@@ -52,7 +52,7 @@ namespace Authority
         /// </summary>
         /// <param name="fact">The consume context</param>
         /// <returns></returns>
-        Task PreInsert<T>(FactContext<T> fact)
+        Task PreInsert<T>(AlphaContext<T> fact)
             where T : class;
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Authority
         /// </summary>
         /// <param name="fact"></param>
         /// <returns></returns>
-        Task PostInsert<T>(FactContext<T> fact)
+        Task PostInsert<T>(AlphaContext<T> fact)
             where T : class;
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Authority
         /// <param name="fact"></param>
         /// <param name="exception"></param>
         /// <returns></returns>
-        Task InsertFault<T>(FactContext<T> fact, Exception exception)
+        Task InsertFault<T>(AlphaContext<T> fact, Exception exception)
             where T : class;
     }
 }
