@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>7.2</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="5.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Internals" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="5.1.0" />
+    <PackageReference Include="MassTransit.Log4Net" Version="5.1.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
+    <PackageReference Include="NUnit" Version="3.10.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MassTransit.Authority\MassTransit.Authority.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="tests.log4net.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+</Project>

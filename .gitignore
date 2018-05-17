@@ -12,6 +12,7 @@ bin
 obj
 _ReSharper*
 *.dotCover
+.idea
 
 *.csproj.user
 *.resharper.user

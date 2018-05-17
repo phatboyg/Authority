@@ -246,21 +246,22 @@ namespace Authority.Builders
         public IBetaNode<T, T> BuildJoinNode<T>(BuilderContext context)
             where T : class
         {
-            using (_logger.BeginScope($"{nameof(BuildJoinNode)}<{typeof(T).Name}>"))
-            {
-                var betaSource = (context.GetBetaBuilderContext<T>() ?? new DummyNode<T>()) as ITupleSource<T>;
-                var alphaSource = context.AlphaSource as IFactSource<T>;
-
-                _logger.LogDebug($"Creating join node: {typeof(T).Name}");
-
-                var node = new JoinNode<T, T>(betaSource, alphaSource, BetaCondition<T, T>.True);
-
-                context.BetaSource = node.MemoryNode;
-
-                context.ClearAlphaSource();
-
-                return node;
-            }
+//            using (_logger.BeginScope($"{nameof(BuildJoinNode)}<{typeof(T).Name}>"))
+//            {
+//                var betaSource = (context.GetBetaBuilderContext<T>() ?? new DummyNode<T>()) as ITupleSource<T>;
+//                var alphaSource = context.AlphaSource as IFactSource<T>;
+//
+//                _logger.LogDebug($"Creating join node: {typeof(T).Name}");
+//
+//                var node = new JoinNode<T, T>(betaSource, alphaSource, BetaCondition<T, T>.True);
+//
+//                context.BetaSource = node.MemoryNode;
+//
+//                context.ClearAlphaSource();
+//
+//                return node;
+//            }
+            throw new NotImplementedException();
         }
 
         public BetaBuilderContext<T> BuildJoinNode<T>(BetaBuilderContext betaContext, AlphaBuilderContext<T> alphaContext) where T : class
@@ -273,20 +274,21 @@ namespace Authority.Builders
             where TLeft : class
             where TRight : class
         {
-            using (_logger.BeginScope($"{nameof(BuildJoinNode)}<{typeof(TLeft).Name},{typeof(TRight).Name}>"))
-            {
-                var betaSource = context.GetBetaBuilderContext<TLeft>(leftFact);
-                if (betaSource == null)
-                    throw new ArgumentException($"The current betaSource is not valid.");
-
-                var alphaSource = context.GetAlphaBuilderContext(rightFact).CurrentFactSource;
-
-                _logger.LogDebug($"Creating join node: {typeof(TLeft).Name},{typeof(TRight).Name}");
-
-                var node = new JoinNode<TLeft, TRight>(betaSource, alphaSource, BetaCondition<TLeft, TRight>.True);
-
-                return new RuntimeBetaBuilderContext<TLeft, TRight>(rightFact, node);
-            }
+//            using (_logger.BeginScope($"{nameof(BuildJoinNode)}<{typeof(TLeft).Name},{typeof(TRight).Name}>"))
+//            {
+//                var betaSource = context.GetBetaBuilderContext<TLeft>(leftFact);
+//                if (betaSource == null)
+//                    throw new ArgumentException($"The current betaSource is not valid.");
+//
+//                var alphaSource = context.GetAlphaBuilderContext(rightFact).CurrentFactSource;
+//
+//                _logger.LogDebug($"Creating join node: {typeof(TLeft).Name},{typeof(TRight).Name}");
+//
+//                var node = new JoinNode<TLeft, TRight>(betaSource, alphaSource, BetaCondition<TLeft, TRight>.True);
+//
+//                return new RuntimeBetaBuilderContext<TLeft, TRight>(rightFact, node);
+//            }
+            throw new NotImplementedException();
         }
 
 
@@ -294,24 +296,25 @@ namespace Authority.Builders
             where TLeft : class
             where TRight : class
         {
-            using (_logger.BeginScope($"{nameof(BuildJoinNode)}<{typeof(TLeft).Name},{typeof(TRight).Name}>"))
-            {
-                var betaSource = context.BetaSource as ITupleSource<TLeft>;
-                if (betaSource == null)
-                    throw new ArgumentException($"The current betaSource is not valid.");
-
-                var alphaSource = context.AlphaSource as IFactSource<TRight>;
-
-                _logger.LogDebug($"Creating join node: {typeof(TLeft).Name},{typeof(TRight).Name}");
-
-                var node = new JoinNode<TLeft, TRight>(betaSource, alphaSource, BetaCondition<TLeft, TRight>.True);
-
-                context.BetaSource = node.MemoryNode;
-
-                context.ClearAlphaSource();
-
-                return node;
-            }
+//            using (_logger.BeginScope($"{nameof(BuildJoinNode)}<{typeof(TLeft).Name},{typeof(TRight).Name}>"))
+//            {
+//                var betaSource = context.BetaSource as ITupleSource<TLeft>;
+//                if (betaSource == null)
+//                    throw new ArgumentException($"The current betaSource is not valid.");
+//
+//                var alphaSource = context.AlphaSource as IFactSource<TRight>;
+//
+//                _logger.LogDebug($"Creating join node: {typeof(TLeft).Name},{typeof(TRight).Name}");
+//
+//                var node = new JoinNode<TLeft, TRight>(betaSource, alphaSource, BetaCondition<TLeft, TRight>.True);
+//
+//                context.BetaSource = node.MemoryNode;
+//
+//                context.ClearAlphaSource();
+//
+//                return node;
+//            }
+            throw new NotImplementedException();
         }
 
         public IBetaNode<TLeft, TRight> BuildSelectNode<TLeft, TRight>(BuilderContext context, Expression<Func<TLeft, TRight, bool>> conditionExpression)
@@ -324,19 +327,20 @@ namespace Authority.Builders
         public ITerminalNode<T> BuildTerminalNode<T>(BuilderContext context, FactDeclaration<T> factDeclaration)
             where T : class
         {
-            using (_logger.BeginScope($"{nameof(BuildTerminalNode)}<{typeof(T).Name}>"))
-            {
-                if (context.AlphaSource != null)
-                    BuildJoinNode<T>(context);
-
-                var factIndexMap = context.CreateIndexMap(factDeclaration);
-
-                var betaSource = context.BetaSource as ITupleSource<T>;
-
-                _logger.LogDebug($"Creating terminal node: {typeof(T).Name}");
-
-                return new TerminalNode<T>(betaSource, factIndexMap);
-            }
+//            using (_logger.BeginScope($"{nameof(BuildTerminalNode)}<{typeof(T).Name}>"))
+//            {
+//                if (context.AlphaSource != null)
+//                    BuildJoinNode<T>(context);
+//
+//                var factIndexMap = context.CreateIndexMap(factDeclaration);
+//
+//                var betaSource = context.BetaSource as ITupleSource<T>;
+//
+//                _logger.LogDebug($"Creating terminal node: {typeof(T).Name}");
+//
+//                return new TerminalNode<T>(betaSource, factIndexMap);
+//            }
+            throw new NotImplementedException();
         }
 
         public AlphaBuilderContext<T> CreateContext<T>(FactDeclaration<T> declaration)
@@ -404,33 +408,34 @@ namespace Authority.Builders
             where TLeft : class
             where TRight : class
         {
-            using (_logger.BeginScope($"{nameof(BuildSelectNode)}<{typeof(TLeft).Name},{typeof(TRight).Name}>"))
-            {
-                var betaCondition = new BetaCondition<TLeft, TRight>(conditionExpression);
-
-                _logger.LogDebug($"Condition: {betaCondition}");
-
-                var leftBetaContext = context.GetBetaBuilderContext(leftFact);
-                var rightBetaContext = leftBetaContext.GetBetaBuilderContext(rightFact);
-
-
-
-                SelectNode<T> selectNode = rightBetaContext.Node.GetChildNodes<JoinNode<TLeft,TRight>>()
-                    .FirstOrDefault(x => x.LeftSource == rightBetaContext.Node.
-                        x.Condition.Equals(betaCondition));
-                if (selectNode == null)
-                    using (_logger.BeginScope("Create"))
-                    {
-                        _logger.LogDebug($"Creating selection node: {typeof(T).Name}");
-
-                        leftBetaContext = new SelectNode<T>(_loggerFactory, betaCondition);
-                        context.CurrentNode.AddChild(leftBetaContext);
-                    }
-
-                context.CurrentNode = leftBetaContext;
-
-                return context;
-            }
+//            using (_logger.BeginScope($"{nameof(BuildSelectNode)}<{typeof(TLeft).Name},{typeof(TRight).Name}>"))
+//            {
+//                var betaCondition = new BetaCondition<TLeft, TRight>(conditionExpression);
+//
+//                _logger.LogDebug($"Condition: {betaCondition}");
+//
+//                var leftBetaContext = context.GetBetaBuilderContext(leftFact);
+//                var rightBetaContext = leftBetaContext.GetBetaBuilderContext(rightFact);
+//
+//
+//
+//                SelectNode<T> selectNode = rightBetaContext.Node.GetChildNodes<JoinNode<TLeft,TRight>>()
+//                    .FirstOrDefault(x => x.LeftSource == rightBetaContext.Node.
+//                        x.Condition.Equals(betaCondition));
+//                if (selectNode == null)
+//                    using (_logger.BeginScope("Create"))
+//                    {
+//                        _logger.LogDebug($"Creating selection node: {typeof(T).Name}");
+//
+//                        leftBetaContext = new SelectNode<T>(_loggerFactory, betaCondition);
+//                        context.CurrentNode.AddChild(leftBetaContext);
+//                    }
+//
+//                context.CurrentNode = leftBetaContext;
+//
+//                return context;
+//            }
+            throw new NotImplementedException();
 
         }
 
@@ -457,18 +462,19 @@ namespace Authority.Builders
         public BetaBuilderContext<T> BuildJoinNode<T>(BuilderContext builderContext, AlphaBuilderContext<T> alphaContext)
             where T : class
         {
-            using (_logger.BeginScope($"{nameof(BuildJoinNode)}<{typeof(T).Name}>"))
-            {
-                var betaSource = builderContext.TryGetTupleIndex(alphaContext.Declaration, out TODO);
-                //.CurrentSource as ITupleSource<TLeft>;
-                var alphaSource = context.CurrentFactSource as IFactSource<T>;
-
-                _logger.LogDebug($"Creating join node: {typeof(T).Name}");
-
-                var node = new JoinNode<TLeft, T>(betaSource, alphaSource, BetaCondition<TLeft, T>.True);
-
-                return new RuntimeBetaBuilderContext<TLeft, T>(context.Declaration, node);
-            }
+//            using (_logger.BeginScope($"{nameof(BuildJoinNode)}<{typeof(T).Name}>"))
+//            {
+//                var betaSource = builderContext.TryGetTupleIndex(alphaContext.Declaration, out TODO);
+//                //.CurrentSource as ITupleSource<TLeft>;
+//                var alphaSource = context.CurrentFactSource as IFactSource<T>;
+//
+//                _logger.LogDebug($"Creating join node: {typeof(T).Name}");
+//
+//                var node = new JoinNode<TLeft, T>(betaSource, alphaSource, BetaCondition<TLeft, T>.True);
+//
+//                return new RuntimeBetaBuilderContext<TLeft, T>(context.Declaration, node);
+//            }
+            throw new NotImplementedException();
         }
 
         public ITerminalNode<T> BuildTerminalNode<T>(AlphaBuilderContext<T> context)

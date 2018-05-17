@@ -12,6 +12,7 @@
 // specific language governing permissions and limitations under the License.
 namespace Authority.Configurators
 {
+    using System;
     using System.Collections.Generic;
     using Builders;
     using Microsoft.Extensions.Logging;
@@ -43,12 +44,13 @@ namespace Authority.Configurators
 
         public IAuthority Build()
         {
-            var builder = new RuntimeBuilder(_loggerFactory);
-
-            foreach (var rule in _rules)
-                rule.Apply(builder);
-
-            return new SupremeAuthority(builder.Build(), _loggerFactory);
+//            var builder = new RuntimeBuilder(_loggerFactory);
+//
+//            foreach (var rule in _rules)
+//                rule.Apply(builder);
+//
+//            return new SupremeAuthority(builder.Build(), _loggerFactory);
+            throw new NotImplementedException();
         }
     }
 }
